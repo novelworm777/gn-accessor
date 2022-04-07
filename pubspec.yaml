@@ -24,6 +24,7 @@ flutter:
   assets:
     - assets/general/
     - assets/home/
+    - assets/error/
 
   fonts:
     - family: PoorStory
