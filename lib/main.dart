@@ -11,7 +11,7 @@ void main() async {
 
   // disable status bar and navigation bar
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
   // run app
   runApp(const GNAccessor());
