@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "35013003803",
+    "project_id": "gn-accessor",
+    "storage_bucket": "gn-accessor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35013003803:android:00dd731d65ac5250c006be",
+        "android_client_info": {
+          "package_name": "guardian.network.seventhfamiliar.gn_accessor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35013003803-d577gbedj6jairi4ur3343m7ko1ob5gu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpWyrmacHBL5s6iRo7JoghVH6M8U_EKog"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35013003803-d577gbedj6jairi4ur3343m7ko1ob5gu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
