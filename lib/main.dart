@@ -1,8 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gn_accessor/screens/home_screen.dart';
 import 'package:gn_accessor/screens/login_screen.dart';
 
-void main() {
+void main() async {
+  // initialize firebase
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   // disable status bar and navigation bar
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual);
@@ -22,9 +28,10 @@ class GNAccessor extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'PoorStory',
       ),
-      initialRoute: '/',
+      initialRoute: LoginScreen.id,
       routes: {
-        '/': (context) => LoginScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+        HomeScreen.id: (context) => HomeScreen(),
       },
     );
   }

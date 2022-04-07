@@ -22,7 +22,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/general/bg-login-screen.png
+    - assets/general/
+    - assets/home/
 
   fonts:
     - family: PoorStory

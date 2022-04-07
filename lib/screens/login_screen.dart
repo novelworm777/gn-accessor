@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gn_accessor/screens/home_screen.dart';
+import 'package:gn_accessor/services/auth.dart';
+
+import '../components/atoms/mobile_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
+
+  static const String id = '/login';
+  final Auth _auth = Auth();
 
   @override
   Widget build(BuildContext context) {
@@ -10,13 +17,8 @@ class LoginScreen extends StatelessWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/general/bg-login-screen.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
+        body: MobileScreen(
+          backgroundImage: 'assets/general/bg-login-screen.png',
           child: Center(
             child: SizedBox(
               height: 55.0,
@@ -58,8 +60,10 @@ class LoginScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 13.0),
                       child: Center(
                         child: TextField(
-                          decoration:
-                              const InputDecoration(border: InputBorder.none),
+                          decoration: const InputDecoration(
+                            counterText: '',
+                            border: InputBorder.none,
+                          ),
                           keyboardType: TextInputType.number,
                           style: const TextStyle(
                             letterSpacing: 13.0,
@@ -67,9 +71,15 @@ class LoginScreen extends StatelessWidget {
                             fontSize: 21.0,
                             color: Color(0xFFFFFFFF),
                           ),
+                          maxLength: 3,
                           cursorColor: const Color(0xFFFFFFFF),
-                          onChanged: (value) {
-                            if (value.length == 3) print(value);
+                          onChanged: (value) async {
+                            if (value.length == 3) {
+                              final user = await _auth.login(uid: value);
+                              if (user != null) {
+                                Navigator.pushNamed(context, HomeScreen.id);
+                              }
+                            }
                           },
                         ),
                       ),
