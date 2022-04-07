@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:gn_accessor/handlers/error_handler.dart';
 import 'package:gn_accessor/screens/home_screen.dart';
 import 'package:gn_accessor/services/auth.dart';
 
@@ -8,6 +10,7 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
   static const String id = '/login';
+  final _formKey = GlobalKey<FormBuilderState>();
   final Auth _auth = Auth();
 
   @override
@@ -59,28 +62,40 @@ class LoginScreen extends StatelessWidget {
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 13.0),
                       child: Center(
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            counterText: '',
-                            border: InputBorder.none,
-                          ),
-                          keyboardType: TextInputType.number,
-                          style: const TextStyle(
-                            letterSpacing: 13.0,
-                            fontFamily: 'PoorStory',
-                            fontSize: 21.0,
-                            color: Color(0xFFFFFFFF),
-                          ),
-                          maxLength: 3,
-                          cursorColor: const Color(0xFFFFFFFF),
-                          onChanged: (value) async {
-                            if (value.length == 3) {
-                              final user = await _auth.login(uid: value);
-                              if (user != null) {
-                                Navigator.pushNamed(context, HomeScreen.id);
+                        child: FormBuilder(
+                          key: _formKey,
+                          child: FormBuilderTextField(
+                            name: 'uid',
+                            decoration: const InputDecoration(
+                              counterText: '',
+                              border: InputBorder.none,
+                            ),
+                            keyboardType: TextInputType.number,
+                            style: const TextStyle(
+                              letterSpacing: 13.0,
+                              fontFamily: 'PoorStory',
+                              fontSize: 21.0,
+                              color: Color(0xFFFFFFFF),
+                            ),
+                            maxLength: 3,
+                            cursorColor: const Color(0xFFFFFFFF),
+                            onChanged: (value) async {
+                              if (value != null && value.length == 3) {
+                                try {
+                                  final user = await _auth.login(uid: value);
+                                  if (user != null) {
+                                    Navigator.pushNamed(context, HomeScreen.id);
+                                  } else {
+                                    ErrorHandler.redirect(context,
+                                        "I'm sorry there's no such UID registered.");
+                                  }
+                                } catch (e) {
+                                  print(e);
+                                }
+                                _formKey.currentState?.reset();
                               }
-                            }
-                          },
+                            },
+                          ),
                         ),
                       ),
                     ),

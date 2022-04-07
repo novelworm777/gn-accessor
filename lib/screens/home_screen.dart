@@ -8,41 +8,47 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   static const String id = '/home';
-  final String _time = DateFormat('kk:mm').format(DateTime.now());
-  final String _dateMonth = DateFormat('d/m').format(DateTime.now());
+  final String _time = DateFormat('HH:mm').format(DateTime.now());
+  final String _dateMonth = DateFormat('d/M').format(DateTime.now());
   final String _day = DateFormat('EEE').format(DateTime.now()).toUpperCase();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: MobileScreen(
+        padding: const EdgeInsets.only(
+            left: 21.0, right: 21.0, top: 120.0, bottom: 45.0),
         backgroundImage: 'assets/home/bg-home-screen.png',
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(height: 100.0),
-            Text(
-              _time,
-              style: const TextStyle(
-                color: Color(0xFF3B3B3B),
-                fontSize: 70.0,
-                fontFamily: 'PoorStory',
-                fontWeight: FontWeight.bold,
+            Center(
+              child: Column(
+                children: [
+                  Text(
+                    _time,
+                    style: const TextStyle(
+                      color: Color(0xFF3B3B3B),
+                      fontSize: 70.0,
+                      fontFamily: 'PoorStory',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '$_dateMonth $_day',
+                    style: const TextStyle(
+                      color: Color(0xFF3B3B3B),
+                      fontSize: 21.0,
+                      fontFamily: 'PoorStory',
+                    ),
+                  ),
+                ],
               ),
             ),
-            Text(
-              '$_dateMonth $_day',
-              style: const TextStyle(
-                color: Color(0xFF3B3B3B),
-                fontSize: 21.0,
-                fontFamily: 'PoorStory',
-              ),
-            ),
-            const SizedBox(height: 100.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 21.0),
-              child: Row(
+            SizedBox(
+              child: Flex(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                direction: Axis.horizontal,
                 children: const [
                   HomeApp(
                     appName: 'Task Board',
@@ -55,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 207.0),
+            const SizedBox(),
             Container(
               width: 55.0,
               height: 55.0,
