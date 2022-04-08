@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gn_accessor/screens/task_board_screen.dart';
+import 'package:gn_accessor/utils/constants.dart';
 import 'package:intl/intl.dart';
 
 import '../components/atoms/home_app.dart';
@@ -77,13 +78,7 @@ class HomeScreen extends StatelessWidget {
                 decoration: const BoxDecoration(
                     color: Color(0x5EFFFFFF),
                     shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x27818181),
-                        blurRadius: 4.0,
-                        offset: Offset(0.0, 7.0),
-                      )
-                    ]),
+                    boxShadow: [kDarkShadow]),
                 child: const Icon(
                   Icons.power_settings_new,
                   size: 50.0,
