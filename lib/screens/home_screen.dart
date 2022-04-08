@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gn_accessor/screens/task_board_screen.dart';
 import 'package:intl/intl.dart';
 
 import '../components/atoms/home_app.dart';
@@ -50,14 +51,18 @@ class HomeScreen extends StatelessWidget {
               child: Flex(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 direction: Axis.horizontal,
-                children: const [
+                children: [
                   HomeApp(
                     appName: 'Task Board',
                     appIcon: 'assets/home/icon-task-board.png',
+                    onPress: () {
+                      Navigator.pushNamed(context, TaskBoardScreen.id);
+                    },
                   ),
                   HomeApp(
                     appName: 'Market',
                     appIcon: 'assets/home/icon-market.png',
+                    onPress: () {},
                   ),
                 ],
               ),
