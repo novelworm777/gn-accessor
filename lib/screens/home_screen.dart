@@ -69,9 +69,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(),
             MaterialButton(
-              onPressed: () {
-                SystemNavigator.pop();
-              },
+              onPressed: () => SystemNavigator.pop(),
               child: Container(
                 width: 55.0,
                 height: 55.0,
