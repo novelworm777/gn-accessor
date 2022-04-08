@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
       body: MobileScreen(
         padding: const EdgeInsets.only(
             left: 21.0, right: 21.0, top: 120.0, bottom: 45.0),
-        backgroundImage: 'assets/home/bg-home-screen.png',
+        backgroundImage: 'assets/general/bg-home-screen.png',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
