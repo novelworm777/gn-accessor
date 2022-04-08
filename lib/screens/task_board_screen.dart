@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../components/atoms/chip_button.dart';
 import '../components/atoms/mobile_screen.dart';
+import '../components/molecules/app_footer.dart';
 import '../components/molecules/app_header.dart';
 import '../components/molecules/price_list_tile.dart';
 
@@ -20,6 +22,7 @@ class TaskBoardScreen extends StatelessWidget {
             const AppHeader(title: 'Task Board'),
             Expanded(
               child: ListView(
+                scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 children: const [
                   PriceListTile(
@@ -29,7 +32,13 @@ class TaskBoardScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
+            AppFooter(
+              rightItem: ChipButton(
+                title: 'Create Task',
+                onPress: () {},
+              ),
+            ),
           ],
         ),
       ),
