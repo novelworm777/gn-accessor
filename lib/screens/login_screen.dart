@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:gn_accessor/handlers/error_handler.dart';
 import 'package:gn_accessor/screens/home_screen.dart';
 import 'package:gn_accessor/services/auth.dart';
+import 'package:gn_accessor/utils/handlers/error_handler.dart';
 
 import '../components/atoms/mobile_screen.dart';
 

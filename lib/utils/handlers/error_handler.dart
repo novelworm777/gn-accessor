@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components/molecules/error_screen.dart';
+import '../../components/molecules/error_screen.dart';
 
 class ErrorHandler {
   static void notify(String message) {
