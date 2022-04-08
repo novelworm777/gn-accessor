@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../atoms/mobile_screen.dart';
+import '../components/atoms/mobile_screen.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({
