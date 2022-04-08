@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../components/atoms/home_app.dart';
@@ -62,24 +63,29 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(),
-            Container(
-              width: 55.0,
-              height: 55.0,
-              alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                  color: Color(0x5EFFFFFF),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x27818181),
-                      blurRadius: 4.0,
-                      offset: Offset(0.0, 7.0),
-                    )
-                  ]),
-              child: const Icon(
-                Icons.power_settings_new,
-                size: 50.0,
-                color: Color(0xFFFFFFFF),
+            MaterialButton(
+              onPressed: () {
+                SystemNavigator.pop();
+              },
+              child: Container(
+                width: 55.0,
+                height: 55.0,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                    color: Color(0x5EFFFFFF),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x27818181),
+                        blurRadius: 4.0,
+                        offset: Offset(0.0, 7.0),
+                      )
+                    ]),
+                child: const Icon(
+                  Icons.power_settings_new,
+                  size: 50.0,
+                  color: Color(0xFFFFFFFF),
+                ),
               ),
             ),
           ],
