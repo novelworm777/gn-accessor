@@ -20,7 +20,7 @@ class AppFooter extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 21.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               leftItem ?? Container(),
               rightItem ?? Container(),

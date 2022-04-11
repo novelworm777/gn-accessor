@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gn_accessor/screens/home_screen.dart';
 import 'package:gn_accessor/screens/login_screen.dart';
+import 'package:gn_accessor/screens/market_screen.dart';
 import 'package:gn_accessor/screens/task_board_screen.dart';
 
 void main() async {
@@ -34,6 +35,7 @@ class GNAccessor extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         TaskBoardScreen.id: (context) => TaskBoardScreen(),
+        MarketScreen.id: (context) => MarketScreen(),
       },
     );
   }

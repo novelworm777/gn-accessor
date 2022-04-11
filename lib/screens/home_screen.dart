@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gn_accessor/screens/market_screen.dart';
 import 'package:gn_accessor/screens/task_board_screen.dart';
 import 'package:gn_accessor/utils/constants.dart';
 import 'package:intl/intl.dart';
@@ -56,14 +57,14 @@ class HomeScreen extends StatelessWidget {
                   HomeApp(
                     appName: 'Task Board',
                     appIcon: 'assets/home/icon-task-board.png',
-                    onPress: () {
-                      Navigator.pushNamed(context, TaskBoardScreen.id);
-                    },
+                    onPress: () =>
+                        Navigator.pushNamed(context, TaskBoardScreen.id),
                   ),
                   HomeApp(
                     appName: 'Market',
                     appIcon: 'assets/home/icon-market.png',
-                    onPress: () {},
+                    onPress: () =>
+                        Navigator.pushNamed(context, MarketScreen.id),
                   ),
                 ],
               ),

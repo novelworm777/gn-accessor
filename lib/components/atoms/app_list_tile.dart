@@ -28,12 +28,15 @@ class AppListTile extends StatelessWidget {
                   bottomLeft: kSmallRadius,
                 ),
               ),
-              child: Text(
-                title,
-                style: const TextStyle(
-                  color: Color(0xFF3B3B3B),
-                  fontSize: 15.0,
-                  fontFamily: 'PoorStory',
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    color: Color(0xFF3B3B3B),
+                    fontSize: 15.0,
+                    fontFamily: 'PoorStory',
+                  ),
                 ),
               ),
             ),
