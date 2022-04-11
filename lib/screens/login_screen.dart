@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gn_accessor/screens/home_screen.dart';
 import 'package:gn_accessor/services/auth.dart';
+import 'package:gn_accessor/services/user.dart';
 import 'package:gn_accessor/utils/handlers/error_handler.dart';
+import 'package:provider/provider.dart';
 
 import '../components/atoms/mobile_screen.dart';
 
@@ -84,6 +86,8 @@ class LoginScreen extends StatelessWidget {
                                 try {
                                   final user = await _auth.login(uid: value);
                                   if (user != null) {
+                                    user['uid'] = value;
+                                    context.read<User>().userData = user;
                                     Navigator.pushNamed(context, HomeScreen.id);
                                   } else {
                                     ErrorHandler.redirect(context,

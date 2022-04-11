@@ -5,6 +5,8 @@ import 'package:gn_accessor/screens/home_screen.dart';
 import 'package:gn_accessor/screens/login_screen.dart';
 import 'package:gn_accessor/screens/market_screen.dart';
 import 'package:gn_accessor/screens/task_board_screen.dart';
+import 'package:gn_accessor/services/user.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   // initialize firebase
@@ -24,19 +26,22 @@ class GNAccessor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'GN Accessor',
-      theme: ThemeData(
-        fontFamily: 'PoorStory',
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => User(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'GN Accessor',
+        theme: ThemeData(
+          fontFamily: 'PoorStory',
+        ),
+        initialRoute: LoginScreen.id,
+        routes: {
+          LoginScreen.id: (context) => LoginScreen(),
+          HomeScreen.id: (context) => HomeScreen(),
+          TaskBoardScreen.id: (context) => TaskBoardScreen(),
+          MarketScreen.id: (context) => MarketScreen(),
+        },
       ),
-      initialRoute: LoginScreen.id,
-      routes: {
-        LoginScreen.id: (context) => LoginScreen(),
-        HomeScreen.id: (context) => HomeScreen(),
-        TaskBoardScreen.id: (context) => TaskBoardScreen(),
-        MarketScreen.id: (context) => MarketScreen(),
-      },
     );
   }
 }
