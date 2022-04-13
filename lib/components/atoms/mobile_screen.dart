@@ -7,12 +7,14 @@ class MobileScreen extends StatelessWidget {
     this.backgroundImage,
     this.colour,
     this.padding,
+    this.popUp,
   }) : super(key: key);
 
   final Widget child;
   final Color? colour;
   final String? backgroundImage;
   final EdgeInsetsGeometry? padding;
+  final Widget? popUp;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,12 @@ class MobileScreen extends StatelessWidget {
               )
             : null,
       ),
-      child: child,
+      child: Stack(
+        children: [
+          child,
+          popUp ?? Container(),
+        ],
+      ),
     );
   }
 }
