@@ -93,9 +93,7 @@ class LoginScreen extends StatelessWidget {
                                     ErrorHandler.redirect(context,
                                         "I'm sorry there's no such UID registered.");
                                   }
-                                } catch (e) {
-                                  print(e);
-                                }
+                                } catch (e) {}
                                 _formKey.currentState?.reset();
                               }
                             },
