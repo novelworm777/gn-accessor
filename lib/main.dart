@@ -5,6 +5,7 @@ import 'package:gn_accessor/screens/home_screen.dart';
 import 'package:gn_accessor/screens/login_screen.dart';
 import 'package:gn_accessor/screens/market_screen.dart';
 import 'package:gn_accessor/screens/task_board_screen.dart';
+import 'package:gn_accessor/screens/task_form_screen.dart';
 import 'package:gn_accessor/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +40,7 @@ class GNAccessor extends StatelessWidget {
           LoginScreen.id: (context) => LoginScreen(),
           HomeScreen.id: (context) => HomeScreen(),
           TaskBoardScreen.id: (context) => TaskBoardScreen(),
+          TaskFormScreen.id: (context) => TaskFormScreen(),
           MarketScreen.id: (context) => MarketScreen(),
         },
       ),
