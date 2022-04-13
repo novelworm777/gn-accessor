@@ -7,11 +7,13 @@ class ChipButton extends StatelessWidget {
     required this.title,
     required this.onPress,
     this.dropShadow = true,
+    this.colour,
   }) : super(key: key);
 
   final String title;
   final VoidCallback onPress;
   final bool dropShadow;
+  final Color? colour;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ChipButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 17.0),
         decoration: BoxDecoration(
-          color: const Color(0xFF2E2E2E),
+          color: colour ?? const Color(0xFF2E2E2E),
           borderRadius: const BorderRadius.all(kBigRadius),
           boxShadow: dropShadow ? [kDarkShadow] : null,
         ),
