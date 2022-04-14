@@ -32,7 +32,8 @@ class TaskBoard {
     if (raw['avail'] != 3) task['completed'] = 0;
     task['reward'] = raw['reward'] != '' ? int.parse(raw['reward']) : 0;
     task['created_at'] = DateTime.now();
-    print(task);
+
+    // add to database
     return await _db.doc(uid).collection(_collectionName).add(task);
   }
 }
