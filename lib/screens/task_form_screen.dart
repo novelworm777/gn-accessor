@@ -208,7 +208,10 @@ class _DueDateTimeFormState extends State<_DueDateTimeForm> {
 
   void _dueDateTimeOnChange(int? value) {
     setState(() {
-      if (value == null || value == 1) {
+      if (value == null) {
+        dueChoice = 0;
+        pickTime = false;
+      } else if (value == 1) {
         dueChoice = 1;
         pickTime = false;
       } else {
@@ -291,11 +294,11 @@ class _AvailableFormState extends State<_AvailableForm> {
 
   void _availableOnChange(int? value) {
     setState(() {
-      if (value == null || value == 1) {
-        availableChoice = 1;
+      if (value == null) {
+        availableChoice = 0;
         pickNumber = false;
-      } else if (value == 3) {
-        availableChoice = 3;
+      } else if (value == 1 || value == 3) {
+        availableChoice = value;
         pickNumber = false;
       } else {
         availableChoice = value;
