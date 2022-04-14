@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
@@ -7,49 +8,70 @@ class AppTextField extends StatelessWidget {
   const AppTextField({
     Key? key,
     required this.name,
+    this.initialValue,
     this.inputStyle,
+    this.textAlign = TextAlign.start,
     this.hint,
     this.hintStyle,
     this.validators,
+    this.width,
+    this.height,
     this.padding,
-    this.textAlign = TextAlign.start,
+    this.enabledBorder,
+    this.focusedBorder,
     this.keyboardType,
+    this.autoFocus = false,
+    this.inputFormatters,
+    this.onChange,
   }) : super(key: key);
 
   final String name;
+  final String? initialValue;
   final TextStyle? inputStyle;
   final TextAlign textAlign;
   final String? hint;
   final TextStyle? hintStyle;
   final List<String? Function(String?)>? validators;
+  final double? width;
+  final double? height;
   final EdgeInsetsGeometry? padding;
+  final InputBorder? enabledBorder;
+  final InputBorder? focusedBorder;
   final TextInputType? keyboardType;
+  final bool autoFocus;
+  final List<TextInputFormatter>? inputFormatters;
+  final void Function(String?)? onChange;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding,
+      width: width,
+      height: height,
+      padding: padding ?? EdgeInsets.zero,
       child: FormBuilderTextField(
         name: name,
-        initialValue: '',
+        inputFormatters: inputFormatters,
+        initialValue: initialValue ?? '',
         style: inputStyle,
         textAlign: textAlign,
         cursorColor: const Color(0xFF89CA00),
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: hintStyle,
-          enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Color(0xFF818181),
-              width: 2.0,
-            ),
-          ),
-          focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Color(0xFF89CA00),
-              width: 2.0,
-            ),
-          ),
+          enabledBorder: enabledBorder ??
+              const UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color(0xFF818181),
+                  width: 2.0,
+                ),
+              ),
+          focusedBorder: focusedBorder ??
+              const UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color(0xFF89CA00),
+                  width: 2.0,
+                ),
+              ),
         ),
         minLines: 1,
         maxLines: 10,
@@ -58,6 +80,8 @@ class AppTextField extends StatelessWidget {
             : FormBuilderValidators.compose([]),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         keyboardType: keyboardType,
+        autofocus: autoFocus,
+        onChanged: onChange,
       ),
     );
   }

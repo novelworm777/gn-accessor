@@ -27,6 +27,7 @@ flutter:
     - assets/general/
     - assets/home/
     - assets/error/
+    - assets/form/
 
   fonts:
     - family: PoorStory
