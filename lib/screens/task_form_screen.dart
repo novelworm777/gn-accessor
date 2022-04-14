@@ -29,6 +29,7 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
       // un-focus input keyboard on blur
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: MobileScreen(
           colour: const Color(0xFF2E2E2E),
           child: FormBuilder(
@@ -42,6 +43,7 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
                 const _NotesForm(),
                 const SizedBox(height: 24.0),
                 const _DueDateTimeForm(),
+                const SizedBox(height: 24.0),
               ],
             ),
           ),
@@ -128,6 +130,7 @@ class _NotesForm extends StatelessWidget {
         fontFamily: 'PoorStory',
         fontSize: 19.0,
         color: Color(0xFFFFFFFF),
+        // overflow: TextOverflow.clip,
       ),
       hint: 'Anything to note?',
       hintStyle: TextStyle(

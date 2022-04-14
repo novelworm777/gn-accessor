@@ -25,6 +25,7 @@ class AppTextField extends StatelessWidget {
       name: name,
       initialValue: '',
       style: inputStyle,
+      cursorColor: const Color(0xFF89CA00),
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: hintStyle,
@@ -41,6 +42,8 @@ class AppTextField extends StatelessWidget {
           ),
         ),
       ),
+      minLines: 1,
+      maxLines: 10,
       validator: validators != null
           ? FormBuilderValidators.compose(validators!)
           : FormBuilderValidators.compose([]),

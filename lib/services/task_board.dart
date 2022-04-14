@@ -20,6 +20,7 @@ class TaskBoard {
     final task = MapUtils.clean(raw, remove: ['due']);
     task['reward'] = 1;
     task['created_at'] = DateTime.now();
+    print(task);
     return await _db.doc(uid).collection(_collectionName).add(task);
   }
 }
