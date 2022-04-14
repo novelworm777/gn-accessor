@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../components/atoms/app_back_button.dart';
 import '../components/atoms/app_input_form.dart';
 import '../components/atoms/chip_button.dart';
+import '../components/atoms/mask_image_button.dart';
 import '../components/atoms/mobile_screen.dart';
 
 class TaskFormScreen extends StatefulWidget {
@@ -66,158 +67,6 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
 
   void rewardCallback() {
     setState(() => _selected = !_selected);
-  }
-}
-
-class _RewardForm extends StatefulWidget {
-  const _RewardForm({
-    Key? key,
-    required this.selected,
-    required this.callback,
-  }) : super(key: key);
-
-  final bool selected;
-  final VoidCallback callback;
-
-  @override
-  State<_RewardForm> createState() => _RewardFormState();
-}
-
-class _RewardFormState extends State<_RewardForm> {
-  int _value = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    bool _selected = widget.selected;
-
-    return Row(
-      children: [
-        const Expanded(
-          child: Text(
-            'Reward Coins',
-            style: TextStyle(
-              fontFamily: 'PoorStory',
-              fontSize: 19.0,
-              color: Color(0xFFFFFFFF),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 2,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              MaskImageButton(
-                onPressed: _subOneValue,
-                imagePath: 'assets/form/icon-arrow-down.png',
-                isDisabled: true,
-              ),
-              const SizedBox(width: 3.0),
-              _selected
-                  ? AppTextField(
-                      name: 'reward',
-                      initialValue: '$_value',
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      inputStyle: const TextStyle(
-                        fontFamily: 'PoorStory',
-                        fontSize: 19.0,
-                        color: Color(0xFFFFFFFF),
-                      ),
-                      textAlign: TextAlign.center,
-                      width: 33,
-                      // enabledBorder: InputBorder.none,
-                      // focusedBorder: InputBorder.none,
-                      keyboardType: TextInputType.number,
-                      autoFocus: true,
-                      onChange: (value) {
-                        setState(() {
-                          if (value != null) {
-                            _value = int.parse(value);
-                          }
-                        });
-                      },
-                    )
-                  : ActionChip(
-                      onPressed: () {
-                        setState(() {
-                          widget.callback();
-                        });
-                      },
-                      label: Text(
-                        '$_value',
-                        style: const TextStyle(
-                          fontFamily: 'PoorStory',
-                          fontSize: 19.0,
-                          color: Color(0xFFFFFFFF),
-                        ),
-                      ),
-                      backgroundColor: const Color(0xFF3B3B3B),
-                      shape: const RoundedRectangleBorder(
-                        side: BorderSide(width: 0.0, color: Color(0xFF3B3B3B)),
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                      ),
-                    ),
-              const SizedBox(width: 3.0),
-              MaskImageButton(
-                onPressed: _addOneValue,
-                imagePath: 'assets/form/icon-arrow-up.png',
-                isDisabled: true,
-              ),
-              const SizedBox(width: 13.0),
-              Image.asset(
-                'assets/general/icon-coin.png',
-                height: 33,
-                width: 33,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _addOneValue() {
-    setState(() {
-      _value += 1;
-    });
-  }
-
-  void _subOneValue() {
-    setState(() {
-      _value -= 1;
-      if (_value < 0) _value = 0;
-    });
-  }
-}
-
-class MaskImageButton extends StatelessWidget {
-  const MaskImageButton({
-    Key? key,
-    required this.onPressed,
-    required this.imagePath,
-    this.isDisabled = false,
-  }) : super(key: key);
-
-  final VoidCallback onPressed;
-  final String imagePath;
-  final bool isDisabled;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: !isDisabled ? onPressed : null,
-      child: ColorFiltered(
-        colorFilter: ColorFilter.mode(
-          !isDisabled ? const Color(0xFF89CA00) : const Color(0xFF969696),
-          BlendMode.srcIn,
-        ),
-        child: Image.asset(
-          imagePath,
-          height: 33.0,
-          width: 33.0,
-        ),
-      ),
-    );
   }
 }
 
@@ -470,6 +319,127 @@ class _AvailableFormState extends State<_AvailableForm> {
         availableChoice = value;
         pickNumber = true;
       }
+    });
+  }
+}
+
+class _RewardForm extends StatefulWidget {
+  const _RewardForm({
+    Key? key,
+    required this.selected,
+    required this.callback,
+  }) : super(key: key);
+
+  final bool selected;
+  final VoidCallback callback;
+
+  @override
+  State<_RewardForm> createState() => _RewardFormState();
+}
+
+class _RewardFormState extends State<_RewardForm> {
+  int _value = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    bool _selected = widget.selected;
+
+    return Row(
+      children: [
+        const Expanded(
+          child: Text(
+            'Reward Coins',
+            style: TextStyle(
+              fontFamily: 'PoorStory',
+              fontSize: 19.0,
+              color: Color(0xFFFFFFFF),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              MaskImageButton(
+                onPressed: _subOneValue,
+                imagePath: 'assets/form/icon-arrow-down.png',
+                isDisabled: true,
+              ),
+              const SizedBox(width: 3.0),
+              _selected
+                  ? AppTextField(
+                      name: 'reward',
+                      initialValue: '$_value',
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      inputStyle: const TextStyle(
+                        fontFamily: 'PoorStory',
+                        fontSize: 19.0,
+                        color: Color(0xFFFFFFFF),
+                      ),
+                      textAlign: TextAlign.center,
+                      width: 33,
+                      // enabledBorder: InputBorder.none,
+                      // focusedBorder: InputBorder.none,
+                      keyboardType: TextInputType.number,
+                      autoFocus: true,
+                      onChange: (value) {
+                        setState(() {
+                          if (value != null) {
+                            _value = int.parse(value);
+                          }
+                        });
+                      },
+                    )
+                  : ActionChip(
+                      onPressed: () {
+                        setState(() {
+                          widget.callback();
+                        });
+                      },
+                      label: Text(
+                        '$_value',
+                        style: const TextStyle(
+                          fontFamily: 'PoorStory',
+                          fontSize: 19.0,
+                          color: Color(0xFFFFFFFF),
+                        ),
+                      ),
+                      backgroundColor: const Color(0xFF3B3B3B),
+                      shape: const RoundedRectangleBorder(
+                        side: BorderSide(width: 0.0, color: Color(0xFF3B3B3B)),
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                      ),
+                    ),
+              const SizedBox(width: 3.0),
+              MaskImageButton(
+                onPressed: _addOneValue,
+                imagePath: 'assets/form/icon-arrow-up.png',
+                isDisabled: true,
+              ),
+              const SizedBox(width: 13.0),
+              Image.asset(
+                'assets/general/icon-coin.png',
+                height: 33,
+                width: 33,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _addOneValue() {
+    setState(() {
+      _value += 1;
+    });
+  }
+
+  void _subOneValue() {
+    setState(() {
+      _value -= 1;
+      if (_value < 0) _value = 0;
     });
   }
 }
