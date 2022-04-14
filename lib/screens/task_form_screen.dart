@@ -129,7 +129,10 @@ class _TitleForm extends StatelessWidget {
         fontWeight: FontWeight.bold,
         color: Color(0xFF818181),
       ),
-      validators: [FormBuilderValidators.required(errorText: '')],
+      validators: [
+        FormBuilderValidators.required(
+            errorText: 'You have to input task title')
+      ],
     );
   }
 }
