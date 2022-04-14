@@ -11,43 +11,54 @@ class AppTextField extends StatelessWidget {
     this.hint,
     this.hintStyle,
     this.validators,
+    this.padding,
+    this.textAlign = TextAlign.start,
+    this.keyboardType,
   }) : super(key: key);
 
   final String name;
   final TextStyle? inputStyle;
+  final TextAlign textAlign;
   final String? hint;
   final TextStyle? hintStyle;
   final List<String? Function(String?)>? validators;
+  final EdgeInsetsGeometry? padding;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderTextField(
-      name: name,
-      initialValue: '',
-      style: inputStyle,
-      cursorColor: const Color(0xFF89CA00),
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: hintStyle,
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Color(0xFF818181),
-            width: 2.0,
+    return Container(
+      padding: padding,
+      child: FormBuilderTextField(
+        name: name,
+        initialValue: '',
+        style: inputStyle,
+        textAlign: textAlign,
+        cursorColor: const Color(0xFF89CA00),
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: hintStyle,
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Color(0xFF818181),
+              width: 2.0,
+            ),
+          ),
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Color(0xFF89CA00),
+              width: 2.0,
+            ),
           ),
         ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Color(0xFF89CA00),
-            width: 2.0,
-          ),
-        ),
+        minLines: 1,
+        maxLines: 10,
+        validator: validators != null
+            ? FormBuilderValidators.compose(validators!)
+            : FormBuilderValidators.compose([]),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        keyboardType: keyboardType,
       ),
-      minLines: 1,
-      maxLines: 10,
-      validator: validators != null
-          ? FormBuilderValidators.compose(validators!)
-          : FormBuilderValidators.compose([]),
-      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 }

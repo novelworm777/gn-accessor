@@ -29,22 +29,25 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
       // un-focus input keyboard on blur
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: MobileScreen(
-          colour: const Color(0xFF2E2E2E),
-          child: FormBuilder(
-            key: _formKey,
-            child: Column(
-              children: [
-                _TaskFormHeader(formKey: _formKey),
-                const SizedBox(height: 30.0),
-                const _TitleForm(),
-                const SizedBox(height: 24.0),
-                const _NotesForm(),
-                const SizedBox(height: 24.0),
-                const _DueDateTimeForm(),
-                const SizedBox(height: 24.0),
-              ],
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: MobileScreen(
+            colour: const Color(0xFF2E2E2E),
+            child: FormBuilder(
+              key: _formKey,
+              child: Column(
+                children: [
+                  _TaskFormHeader(formKey: _formKey),
+                  const SizedBox(height: 30.0),
+                  const _TitleForm(),
+                  const SizedBox(height: 24.0),
+                  const _NotesForm(),
+                  const SizedBox(height: 24.0),
+                  const _DueDateTimeForm(),
+                  const SizedBox(height: 24.0),
+                  _AvailableForm(),
+                ],
+              ),
             ),
           ),
         ),
@@ -79,6 +82,7 @@ class _TaskFormHeader extends StatelessWidget {
             if (validationSuccess) {
               _formKey.currentState!.save();
               final formData = _formKey.currentState!.value;
+              print(formData);
               await _taskBoard.addTask(context.read<User>().uid!, formData);
               Navigator.pushNamed(context, TaskBoardScreen.id,
                   arguments: 'Task has been successfully created.');
@@ -210,6 +214,92 @@ class _DueDateTimeFormState extends State<_DueDateTimeForm> {
       } else {
         dueChoice = value;
         pickTime = true;
+      }
+    });
+  }
+}
+
+class _AvailableForm extends StatefulWidget {
+  @override
+  State<_AvailableForm> createState() => _AvailableFormState();
+}
+
+class _AvailableFormState extends State<_AvailableForm> {
+  var availableChoice = 1;
+  bool pickNumber = false;
+
+  List<Map> availableOptions = [
+    {'value': 1, 'text': 'Once'},
+    {'value': 2, 'text': 'Pick a Number'},
+    {'value': 3, 'text': 'Infinite'},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Expanded(
+          child: Text(
+            'Available',
+            style: TextStyle(
+              fontFamily: 'PoorStory',
+              fontSize: 19.0,
+              color: Color(0xFFFFFFFF),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: Column(
+            children: [
+              AppChoiceChip(
+                name: 'avail',
+                optionMapper: availableOptions,
+                chipColourCallback: _availableColourChoice,
+                onChangeCallback: (value) {
+                  _availableOnChange(value);
+                },
+              ),
+              pickNumber
+                  ? const AppTextField(
+                      name: 'available',
+                      padding: EdgeInsets.only(left: 170.0),
+                      inputStyle: TextStyle(
+                        fontFamily: 'PoorStory',
+                        fontSize: 19.0,
+                        color: Color(0xFFFFFFFF),
+                        // overflow: TextOverflow.clip,
+                      ),
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                    )
+                  : Container(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Color _availableColourChoice(var value) {
+    if (availableChoice == value) {
+      return const Color(0xFFFFFFFF);
+    }
+    return const Color(0xFF818181);
+  }
+
+  void _availableOnChange(int? value) {
+    setState(() {
+      if (value == null || value == 1) {
+        availableChoice = 1;
+        pickNumber = false;
+      } else if (value == 3) {
+        availableChoice = 3;
+        pickNumber = false;
+      } else {
+        availableChoice = value;
+        pickNumber = true;
       }
     });
   }

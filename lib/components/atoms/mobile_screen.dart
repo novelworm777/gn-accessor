@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gn_accessor/utils/screen_utils.dart';
 
 class MobileScreen extends StatelessWidget {
   const MobileScreen({
@@ -19,6 +20,8 @@ class MobileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: ScreenUtils.width(context),
+      height: ScreenUtils.height(context),
       padding: padding ??
           const EdgeInsets.symmetric(vertical: 24.0, horizontal: 21.0),
       decoration: BoxDecoration(
