@@ -8,10 +8,12 @@ class PriceListTile extends StatelessWidget {
     Key? key,
     required this.title,
     required this.price,
+    required this.onPressed,
   }) : super(key: key);
 
   final String title;
   final int price;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class PriceListTile extends StatelessWidget {
           ],
         ),
       ),
+      onPressed: onPressed,
     );
   }
 }

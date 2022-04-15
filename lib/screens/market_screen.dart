@@ -24,10 +24,11 @@ class MarketScreen extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                children: const [
+                children: [
                   PriceListTile(
                     title: 'Medium sized cake from Harvest',
                     price: 50,
+                    onPressed: () {},
                   ),
                 ],
               ),

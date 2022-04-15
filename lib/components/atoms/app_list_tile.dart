@@ -6,43 +6,48 @@ class AppListTile extends StatelessWidget {
     Key? key,
     required this.title,
     this.trailing,
+    this.onPressed,
   }) : super(key: key);
 
   final String title;
   final Widget? trailing;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(left: 21.0),
-              padding: const EdgeInsets.all(13.0),
-              decoration: const BoxDecoration(
-                color: Color(0x5EFFFFFF),
-                borderRadius: BorderRadius.only(
-                  topLeft: kSmallRadius,
-                  bottomLeft: kSmallRadius,
+    return GestureDetector(
+      onTap: onPressed,
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.only(left: 21.0),
+                padding: const EdgeInsets.all(13.0),
+                decoration: const BoxDecoration(
+                  color: Color(0x5EFFFFFF),
+                  borderRadius: BorderRadius.only(
+                    topLeft: kSmallRadius,
+                    bottomLeft: kSmallRadius,
+                  ),
                 ),
-              ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    color: Color(0xFF3B3B3B),
-                    fontSize: 15.0,
-                    fontFamily: 'PoorStory',
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      color: Color(0xFF3B3B3B),
+                      fontSize: 15.0,
+                      fontFamily: 'PoorStory',
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          trailing ?? Container(),
-        ],
+            trailing ?? Container(),
+          ],
+        ),
       ),
     );
   }
