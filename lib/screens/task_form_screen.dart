@@ -85,7 +85,9 @@ class _TaskFormHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const AppBackButton(),
+        AppBackButton(
+          onPressed: () => Navigator.pop(context),
+        ),
         ChipButton(
           title: 'Create',
           colour: const Color(0xFF3B3B3B),

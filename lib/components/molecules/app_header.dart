@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gn_accessor/screens/home_screen.dart';
 import 'package:gn_accessor/utils/constants.dart';
 
 import '../atoms/app_back_button.dart';
@@ -24,7 +25,9 @@ class AppHeader extends StatelessWidget {
               Center(
                 child: title != null ? Text(title!, style: kTitleStyle) : null,
               ),
-              const AppBackButton(),
+              AppBackButton(
+                onPressed: () => Navigator.pushNamed(context, HomeScreen.id),
+              ),
             ],
           ),
         ),
