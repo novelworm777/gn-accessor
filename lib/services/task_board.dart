@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gn_accessor/models/task.dart';
 import 'package:gn_accessor/utils/map_utils.dart';
 
 class TaskBoard {
@@ -15,6 +16,7 @@ class TaskBoard {
         .snapshots();
   }
 
+  /// Create a new task.
   Future<DocumentReference<Map<String, dynamic>>> addTask(
       String uid, Map<String, dynamic> raw) async {
     // entries to be removed from raw data
@@ -28,18 +30,33 @@ class TaskBoard {
     final task = MapUtils.clean(raw, remove: remove);
 
     // add new entries according to raw data
-    if (raw['avail'] == null || raw['avail'] == 1) task['available'] = 1;
+    if (raw['avail'] == null || raw['avail'] == 1) {
+      task['available'] = 1;
+    } else {
+      task['available'] = int.parse(task['available']);
+    }
     task['completed'] = 0;
     task['reward'] = raw['reward'] != null && raw['reward'] != ''
         ? int.parse(raw['reward'])
         : 0;
     task['created_at'] = DateTime.now();
 
-    // add to database
+    // create new document
     return await _db.doc(uid).collection(_collectionName).add(task);
   }
 
+  /// Completes a task.
+  void completeTask(String uid, String id, Task task) {
+    // delete task if it is no longer available
+    if (task.completed! + 1 == task.available) deleteTask(uid, id);
+
+    // update only completed field
+    Map<String, dynamic> update = {'completed': task.completed! + 1};
+    _db.doc(uid).collection(_collectionName).doc(id).update(update);
+  }
+
+  /// Delete a task by ID.
   void deleteTask(String uid, String id) {
-    _db.doc(uid).collection(_collectionName).doc('id').delete();
+    _db.doc(uid).collection(_collectionName).doc(id).delete();
   }
 }

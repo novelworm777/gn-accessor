@@ -207,7 +207,13 @@ class _TaskDetailsDialog extends StatelessWidget {
                     },
                   ),
                   _CompleteTaskButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _taskBoard.completeTask(
+                          context.read<User>().uid!, task.id, task);
+                      Navigator.pushNamed(context, TaskBoardScreen.id,
+                          arguments:
+                              'Task has been completed, you gain ${task.reward ?? '-'} coins.');
+                    },
                   ),
                 ],
               ),
