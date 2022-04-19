@@ -29,7 +29,7 @@ class TaskBoard {
 
     // add new entries according to raw data
     if (raw['avail'] == null || raw['avail'] == 1) task['available'] = 1;
-    if (raw['avail'] != 3) task['completed'] = 0;
+    task['completed'] = 0;
     task['reward'] = raw['reward'] != '' ? int.parse(raw['reward']) : 0;
     task['created_at'] = DateTime.now();
 
