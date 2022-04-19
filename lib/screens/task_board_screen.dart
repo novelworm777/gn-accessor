@@ -110,7 +110,7 @@ class _TaskBoardContent extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7.0),
                 child: PriceListTile(
-                  title: task.title ?? '<< No Title >>',
+                  title: task.title,
                   price: task.reward ?? -1,
                   onPressed: () {
                     _viewTaskDetails(context, task);
@@ -134,12 +134,13 @@ class _TaskBoardContent extends StatelessWidget {
 }
 
 class _TaskDetailsDialog extends StatelessWidget {
-  const _TaskDetailsDialog({
+  _TaskDetailsDialog({
     Key? key,
     required this.task,
   }) : super(key: key);
 
   final Task task;
+  final _taskBoard = TaskBoard();
 
   @override
   Widget build(BuildContext context) {
@@ -156,20 +157,20 @@ class _TaskDetailsDialog extends StatelessWidget {
           children: [
             Expanded(
               flex: 6,
-              child: SingleChildScrollView(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 28.0),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF3B3B3B),
-                    borderRadius: BorderRadius.only(
-                      topLeft: kSmallRadius,
-                      topRight: kSmallRadius,
-                    ),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 28.0),
+                decoration: const BoxDecoration(
+                  color: Color(0xFF3B3B3B),
+                  borderRadius: BorderRadius.only(
+                    topLeft: kSmallRadius,
+                    topRight: kSmallRadius,
                   ),
+                ),
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
                       _TaskDetail(
-                        text: task.title ?? '<< No Title >>',
+                        text: task.title,
                         fontSize: 21.0,
                         fontWeight: FontWeight.bold,
                         textAlign: TextAlign.center,
@@ -197,9 +198,17 @@ class _TaskDetailsDialog extends StatelessWidget {
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: const [
-                  _DeleteTaskButton(),
-                  _CompleteTaskButton(),
+                children: [
+                  _DeleteTaskButton(
+                    onPressed: () {
+                      _taskBoard.deleteTask(context.read<User>().uid!, task.id);
+                      Navigator.pushNamed(context, TaskBoardScreen.id,
+                          arguments: 'Task has been successfully deleted.');
+                    },
+                  ),
+                  _CompleteTaskButton(
+                    onPressed: () {},
+                  ),
                 ],
               ),
             )
@@ -227,7 +236,7 @@ class _TaskDetailsDialog extends StatelessWidget {
 
   String _taskRewardFormat() {
     String coins = task.reward != null && task.reward! > 1 ? 'coins' : 'coin';
-    return 'A reward of ${task.reward ?? '-'} $coins will be given after each time completing the task.';
+    return 'A reward of ${task.reward ?? '-1'} $coins will be given after each time completing the task.';
   }
 }
 
@@ -271,7 +280,10 @@ class _TaskDetail extends StatelessWidget {
 class _DeleteTaskButton extends StatelessWidget {
   const _DeleteTaskButton({
     Key? key,
+    required this.onPressed,
   }) : super(key: key);
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -288,7 +300,7 @@ class _DeleteTaskButton extends StatelessWidget {
             size: 40.0,
           ),
           padding: EdgeInsets.zero,
-          onPressed: () {},
+          onPressed: onPressed,
         ),
       ),
     );
@@ -298,7 +310,10 @@ class _DeleteTaskButton extends StatelessWidget {
 class _CompleteTaskButton extends StatelessWidget {
   const _CompleteTaskButton({
     Key? key,
+    required this.onPressed,
   }) : super(key: key);
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -318,7 +333,7 @@ class _CompleteTaskButton extends StatelessWidget {
               fontFamily: 'PoorStory',
             ),
           ),
-          onPressed: () {},
+          onPressed: onPressed,
         ),
       ),
     );

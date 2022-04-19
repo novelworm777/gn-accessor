@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Task {
-  String? _id;
-  String? _title;
+  String _id = '';
+  String _title = '';
   String? _notes;
   DateTime? _dueDateTime;
   int? _available;
@@ -12,7 +12,7 @@ class Task {
   Task.create(QueryDocumentSnapshot doc) {
     Map<dynamic, dynamic> data = doc.data() as Map;
     _id = doc.id;
-    _title = data['title'];
+    _title = data['title'] ?? '<< No Title >>';
     _notes = data['notes'];
     _dueDateTime = _timestampToDateTime(data['due_date_time']);
     _available = data['available'];
@@ -22,9 +22,9 @@ class Task {
 
   DateTime? _timestampToDateTime(Timestamp? time) => time?.toDate();
 
-  String? get id => _id;
+  String get id => _id;
 
-  String? get title => _title;
+  String get title => _title;
 
   String? get notes => _notes;
 
