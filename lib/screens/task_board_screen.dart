@@ -156,39 +156,41 @@ class _TaskDetailsDialog extends StatelessWidget {
           children: [
             Expanded(
               flex: 6,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 28.0),
-                decoration: const BoxDecoration(
-                  color: Color(0xFF3B3B3B),
-                  borderRadius: BorderRadius.only(
-                    topLeft: kSmallRadius,
-                    topRight: kSmallRadius,
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 28.0),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF3B3B3B),
+                    borderRadius: BorderRadius.only(
+                      topLeft: kSmallRadius,
+                      topRight: kSmallRadius,
+                    ),
                   ),
-                ),
-                child: Column(
-                  children: [
-                    _TaskDetail(
-                      text: task.title ?? '<< No Title >>',
-                      fontSize: 21.0,
-                      fontWeight: FontWeight.bold,
-                      textAlign: TextAlign.center,
-                      padding: const EdgeInsets.symmetric(horizontal: 42.0),
-                    ),
-                    const SizedBox(height: 42),
-                    task.notes != null
-                        ? _TaskDetail(text: task.notes!)
-                        : Container(),
-                    const SizedBox(height: 13),
-                    _TaskDetail(
-                      text: _taskDueDateTimeFormat(),
-                    ),
-                    const SizedBox(height: 13),
-                    _TaskDetail(text: _taskAvailableFormat()),
-                    const SizedBox(height: 13),
-                    _TaskDetail(text: _taskRewardFormat()),
-                    const SizedBox(height: 42),
-                    const _TaskDetail(text: 'Good luck, Tasker!'),
-                  ],
+                  child: Column(
+                    children: [
+                      _TaskDetail(
+                        text: task.title ?? '<< No Title >>',
+                        fontSize: 21.0,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center,
+                        padding: const EdgeInsets.symmetric(horizontal: 42.0),
+                      ),
+                      const SizedBox(height: 42),
+                      task.notes != null
+                          ? _TaskDetail(text: task.notes!)
+                          : Container(),
+                      const SizedBox(height: 13),
+                      _TaskDetail(
+                        text: _taskDueDateTimeFormat(),
+                      ),
+                      const SizedBox(height: 13),
+                      _TaskDetail(text: _taskAvailableFormat()),
+                      const SizedBox(height: 13),
+                      _TaskDetail(text: _taskRewardFormat()),
+                      const SizedBox(height: 42),
+                      const _TaskDetail(text: 'Good luck, Tasker!'),
+                    ],
+                  ),
                 ),
               ),
             ),
