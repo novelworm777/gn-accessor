@@ -8,6 +8,7 @@ import 'package:gn_accessor/utils/constants.dart';
 import 'package:gn_accessor/utils/handlers/notification_handler.dart';
 import 'package:gn_accessor/utils/screen_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import '../components/atoms/chip_button.dart';
 import '../components/atoms/mobile_screen.dart';
@@ -112,7 +113,7 @@ class _TaskBoardContent extends StatelessWidget {
                   title: task.title ?? '<< No Title >>',
                   price: task.reward ?? -1,
                   onPressed: () {
-                    _viewTaskDetails(context, doc);
+                    _viewTaskDetails(context, task);
                   },
                 ),
               );
@@ -123,12 +124,11 @@ class _TaskBoardContent extends StatelessWidget {
     );
   }
 
-  Future<dynamic> _viewTaskDetails(
-      BuildContext context, QueryDocumentSnapshot task) {
+  Future<dynamic> _viewTaskDetails(BuildContext context, Task task) {
     return showDialog(
         context: context,
         builder: (context) {
-          return _TaskDetailsDialog();
+          return _TaskDetailsDialog(task: task);
         });
   }
 }
@@ -136,12 +136,14 @@ class _TaskBoardContent extends StatelessWidget {
 class _TaskDetailsDialog extends StatelessWidget {
   const _TaskDetailsDialog({
     Key? key,
+    required this.task,
   }) : super(key: key);
+
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      // backgroundColor: const Color(0xFF3B3B3B),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(13.0)),
       ),
@@ -164,27 +166,28 @@ class _TaskDetailsDialog extends StatelessWidget {
                   ),
                 ),
                 child: Column(
-                  children: const [
+                  children: [
                     _TaskDetail(
-                      text: 'Complete new Genshin Impact event',
+                      text: task.title ?? '<< No Title >>',
                       fontSize: 21.0,
                       fontWeight: FontWeight.bold,
-                      padding: EdgeInsets.symmetric(horizontal: 42.0),
+                      textAlign: TextAlign.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 42.0),
                     ),
-                    SizedBox(height: 42),
+                    const SizedBox(height: 42),
+                    task.notes != null
+                        ? _TaskDetail(text: task.notes!)
+                        : Container(),
+                    const SizedBox(height: 13),
                     _TaskDetail(
-                        text:
-                            'A new version has come and there’s lots of new events going on. Do your best to complete them!'),
-                    SizedBox(height: 13),
-                    _TaskDetail(text: 'Due by [date] [time].'),
-                    SizedBox(height: 13),
-                    _TaskDetail(text: 'Due by 1 Jan 22 7:45 PM.'),
-                    SizedBox(height: 13),
-                    _TaskDetail(
-                        text:
-                            'A reward of 1 coin will be given after each time completing the task.'),
-                    SizedBox(height: 42),
-                    _TaskDetail(text: 'Good luck, Tasker!'),
+                      text: _taskDueDateTimeFormat(),
+                    ),
+                    const SizedBox(height: 13),
+                    _TaskDetail(text: _taskAvailableFormat()),
+                    const SizedBox(height: 13),
+                    _TaskDetail(text: _taskRewardFormat()),
+                    const SizedBox(height: 42),
+                    const _TaskDetail(text: 'Good luck, Tasker!'),
                   ],
                 ),
               ),
@@ -203,6 +206,27 @@ class _TaskDetailsDialog extends StatelessWidget {
       ),
     );
   }
+
+  String _taskDueDateTimeFormat() {
+    if (task.dueDateTime != null) {
+      String dateTime =
+          DateFormat('d MMM yy hh:mm a').format(task.dueDateTime!);
+      return 'Due by $dateTime.';
+    }
+    return 'There is no due date.';
+  }
+
+  String _taskAvailableFormat() {
+    if (task.available != null) {
+      return 'Has been completed ${task.completed ?? '-'}/${task.available}.';
+    }
+    return 'Has been completed ${task.completed ?? '-'} times.';
+  }
+
+  String _taskRewardFormat() {
+    String coins = task.reward != null && task.reward! > 1 ? 'coins' : 'coin';
+    return 'A reward of ${task.reward ?? '-'} $coins will be given after each time completing the task.';
+  }
 }
 
 class _TaskDetail extends StatelessWidget {
@@ -211,12 +235,14 @@ class _TaskDetail extends StatelessWidget {
     required this.text,
     this.fontSize,
     this.fontWeight,
+    this.textAlign,
     this.padding,
   }) : super(key: key);
 
   final String text;
   final double? fontSize;
   final FontWeight? fontWeight;
+  final TextAlign? textAlign;
   final EdgeInsetsGeometry? padding;
 
   @override
@@ -233,7 +259,7 @@ class _TaskDetail extends StatelessWidget {
             fontFamily: 'PoorStory',
             fontWeight: fontWeight,
           ),
-          textAlign: TextAlign.start,
+          textAlign: textAlign ?? TextAlign.start,
         ),
       ),
     );
