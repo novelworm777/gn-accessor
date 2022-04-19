@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gn_accessor/models/task.dart';
 import 'package:gn_accessor/screens/task_form_screen.dart';
 import 'package:gn_accessor/services/task_board.dart';
 import 'package:gn_accessor/services/user.dart';
@@ -103,14 +104,15 @@ class _TaskBoardContent extends StatelessWidget {
             return const Text('Task Board is empty!');
           }
           return ListView(
-            children: snapshot.data!.docs.map((task) {
+            children: snapshot.data!.docs.map((doc) {
+              final task = Task.create(doc);
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7.0),
                 child: PriceListTile(
-                  title: task['title'],
-                  price: task['reward'],
+                  title: task.title ?? '<< No Title >>',
+                  price: task.reward ?? -1,
                   onPressed: () {
-                    _viewTaskDetails(context, task);
+                    _viewTaskDetails(context, doc);
                   },
                 ),
               );
