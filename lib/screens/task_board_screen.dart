@@ -93,7 +93,7 @@ class _TaskBoardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: StreamBuilder<QuerySnapshot>(
-        stream: _taskBoard.getTasks(context.watch<User>().uid!),
+        stream: _taskBoard.getTasks(context.watch<User>().uid),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Text('Something went wrong');
@@ -201,7 +201,7 @@ class _TaskDetailsDialog extends StatelessWidget {
                 children: [
                   _DeleteTaskButton(
                     onPressed: () {
-                      _taskBoard.deleteTask(context.read<User>().uid!, task.id);
+                      _taskBoard.deleteTask(context.read<User>().uid, task.id);
                       Navigator.pushNamed(context, TaskBoardScreen.id,
                           arguments: 'Task has been successfully deleted.');
                     },
@@ -209,7 +209,8 @@ class _TaskDetailsDialog extends StatelessWidget {
                   _CompleteTaskButton(
                     onPressed: () {
                       _taskBoard.completeTask(
-                          context.read<User>().uid!, task.id, task);
+                          context.read<User>().uid, task.id, task);
+                      context.read<User>().increaseCryois(task.reward!);
                       Navigator.pushNamed(context, TaskBoardScreen.id,
                           arguments:
                               'Task has been completed, you gain ${task.reward ?? '-'} coins.');

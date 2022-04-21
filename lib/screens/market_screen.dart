@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gn_accessor/services/user.dart';
+import 'package:provider/provider.dart';
 
 import '../components/atoms/chip_button.dart';
 import '../components/atoms/mobile_screen.dart';
@@ -43,9 +45,9 @@ class MarketScreen extends StatelessWidget {
                     width: 30,
                   ),
                   const SizedBox(width: 5),
-                  const Text(
-                    '9999',
-                    style: TextStyle(
+                  Text(
+                    '${context.watch<User>().cryois}',
+                    style: const TextStyle(
                       color: Color(0xFF3B3B3B),
                       fontSize: 15.0,
                       fontFamily: 'PoorStory',

@@ -2,15 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class User extends ChangeNotifier {
-  String _uid = '';
-  int? _coin;
+  static const String _collectionName = 'users';
 
-  String? get uid => _uid;
+  String _uid = '';
+  int _cryois = 0;
+
+  String get uid => _uid;
+  int get cryois => _cryois;
+
+  final CollectionReference<Map<String, dynamic>> _db =
+      FirebaseFirestore.instance.collection(_collectionName);
 
   set userData(DocumentSnapshot doc) {
     Map<dynamic, dynamic> data = doc.data() as Map;
     _uid = doc.id;
-    _coin = data['coin'];
+    _cryois = data['cryois'];
+    notifyListeners();
+  }
+
+  /// Increase the amount of cryois.
+  void increaseCryois(int added) {
+    _cryois = _cryois + added;
+    _db.doc(_uid).update({'coin': _cryois + added});
     notifyListeners();
   }
 }

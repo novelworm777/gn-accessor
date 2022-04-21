@@ -98,7 +98,7 @@ class _TaskFormHeader extends StatelessWidget {
             if (validationSuccess) {
               _formKey.currentState!.save();
               final formData = _formKey.currentState!.value;
-              await _taskBoard.addTask(context.read<User>().uid!, formData);
+              await _taskBoard.addTask(context.read<User>().uid, formData);
               Navigator.pushNamed(context, TaskBoardScreen.id,
                   arguments: 'Task has been successfully created.');
             }

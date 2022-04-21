@@ -85,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                               if (value != null && value.length == 3) {
                                 try {
                                   final user = await _auth.login(uid: value);
-                                  if (user != null) {
+                                  if (user.data() != null) {
                                     context.read<User>().userData = user;
                                     Navigator.pushNamed(context, HomeScreen.id);
                                   } else {
