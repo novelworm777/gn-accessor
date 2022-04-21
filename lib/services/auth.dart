@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Auth {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<dynamic> login({required String uid}) async {
+  Future<DocumentSnapshot> login({required String uid}) async {
     final doc = _db.collection("users").doc(uid).get();
-    return doc.then((value) => value.data());
+    return doc;
   }
 }
