@@ -48,7 +48,10 @@ class TaskBoard {
   /// Completes a task.
   void completeTask(String uid, String id, Task task) {
     // delete task if it is no longer available
-    if (task.completed! + 1 == task.available) deleteTask(uid, id);
+    if (task.completed! + 1 == task.available) {
+      deleteTask(uid, id);
+      return;
+    }
 
     // update only completed field
     Map<String, dynamic> update = {'completed': task.completed! + 1};
