@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class User extends ChangeNotifier {
-  static const String _collectionName = 'users';
+  static const String collectionName = 'users';
 
   String _uid = '';
   int _cryois = 0;
@@ -11,7 +11,7 @@ class User extends ChangeNotifier {
   int get cryois => _cryois;
 
   final CollectionReference<Map<String, dynamic>> _db =
-      FirebaseFirestore.instance.collection(_collectionName);
+      FirebaseFirestore.instance.collection(collectionName);
 
   set userData(DocumentSnapshot doc) {
     Map<dynamic, dynamic> data = doc.data() as Map;
