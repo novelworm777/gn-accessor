@@ -23,9 +23,9 @@ class Market {
     final product = MapUtils.clean(raw);
 
     // add new entries according to raw data
-    // product['price'] = raw['price'] != null && raw['price'] != ''
-    //     ? int.parse(raw['price'])
-    //     : 0;
+    product['price'] = raw['price'] != null && raw['price'] != ''
+        ? int.parse(raw['price'])
+        : 0;
 
     // create new document
     _db.doc(uid).collection(collectionName).add(product);

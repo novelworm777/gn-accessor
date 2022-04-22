@@ -7,6 +7,7 @@ import 'package:gn_accessor/models/product.dart';
 import 'package:gn_accessor/services/market.dart';
 import 'package:gn_accessor/services/user.dart';
 import 'package:gn_accessor/utils/constants.dart';
+import 'package:gn_accessor/utils/handlers/notification_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../components/atoms/app_input_form.dart';
@@ -282,6 +283,10 @@ class _MarketFooterState extends State<_MarketFooter> {
 
                               // close modal
                               Navigator.pop(context);
+
+                              // notify success
+                              NotificationHandler.notify2(context,
+                                  'Item has been successfully created.');
                             }
                           },
                           child: Container(
@@ -309,5 +314,14 @@ class _MarketFooterState extends State<_MarketFooter> {
         },
       ),
     );
+  }
+
+  void rebuildAllChildren(BuildContext context) {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+
+    (context as Element).visitChildren(rebuild);
   }
 }

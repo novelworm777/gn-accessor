@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:gn_accessor/screens/home_screen.dart';
 import 'package:gn_accessor/screens/login_screen.dart';
 import 'package:gn_accessor/screens/market_screen.dart';
@@ -43,6 +44,8 @@ class GNAccessor extends StatelessWidget {
           TaskFormScreen.id: (context) => TaskFormScreen(),
           MarketScreen.id: (context) => MarketScreen(),
         },
+        navigatorObservers: [FlutterSmartDialog.observer],
+        builder: FlutterSmartDialog.init(),
       ),
     );
   }
