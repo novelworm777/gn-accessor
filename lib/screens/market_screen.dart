@@ -286,7 +286,7 @@ class _MarketFooterState extends State<_MarketFooter> {
 
                               // notify success
                               NotificationHandler.notify2(context,
-                                  'Item has been successfully created.');
+                                  'Product has been successfully created.');
                             }
                           },
                           child: Container(
