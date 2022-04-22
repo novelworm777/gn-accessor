@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gn_accessor/models/task.dart';
+import 'package:gn_accessor/services/user.dart';
 import 'package:gn_accessor/utils/map_utils.dart';
 
 class TaskBoard {
-  static const String _collectionName = 'tasks';
+  static const String collectionName = 'tasks';
 
   final CollectionReference<Map<String, dynamic>> _db =
-      FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection(User.collectionName);
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getTasks(String uid) {
     return _db
         .doc(uid)
-        .collection(_collectionName)
+        .collection(collectionName)
         .orderBy('created_at', descending: false)
         .snapshots();
   }
@@ -42,7 +43,7 @@ class TaskBoard {
     task['created_at'] = DateTime.now();
 
     // create new document
-    return await _db.doc(uid).collection(_collectionName).add(task);
+    return await _db.doc(uid).collection(collectionName).add(task);
   }
 
   /// Completes a task.
@@ -55,11 +56,11 @@ class TaskBoard {
 
     // update only completed field
     Map<String, dynamic> update = {'completed': task.completed! + 1};
-    _db.doc(uid).collection(_collectionName).doc(id).update(update);
+    _db.doc(uid).collection(collectionName).doc(id).update(update);
   }
 
   /// Delete a task by ID.
   void deleteTask(String uid, String id) {
-    _db.doc(uid).collection(_collectionName).doc(id).delete();
+    _db.doc(uid).collection(collectionName).doc(id).delete();
   }
 }
