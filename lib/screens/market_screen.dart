@@ -231,7 +231,7 @@ class _MarketFooterState extends State<_MarketFooter> {
                                       : ActionChip(
                                           onPressed: () {
                                             setState(() {
-                                              // widget.callback();
+                                              _selected = true;
                                             });
                                           },
                                           label: Text(
