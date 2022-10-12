@@ -1,4 +1,4 @@
-package guardian.network.seventhfamiliar.gn_accessor
+package guardian.network.gn_accessor.gn_accessor
 
 import io.flutter.embedding.android.FlutterActivity
 
