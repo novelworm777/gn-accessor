@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gn_accessor/research_screen.dart';
 
 void main() {
   // disable status bar and navigation bar on mobile phone
@@ -18,7 +19,7 @@ class GNAccessor extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GN Accessor',
-      home: Container(),
+      home: ResearchScreen(),
     );
   }
 }
