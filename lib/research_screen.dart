@@ -1,13 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:gn_accessor/constants.dart';
 import 'package:gn_accessor/textFields/text_field_screen.dart';
-
-const _kFontStyle = TextStyle(
-  fontSize: 21,
-  fontWeight: FontWeight.bold,
-  color: Colors.white,
-);
 
 class ResearchScreen extends StatelessWidget {
   ResearchScreen({Key? key}) : super(key: key);
@@ -61,7 +56,7 @@ class _Label extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: _kFontStyle),
+        Text(title, style: kFontStyle),
         TextButton(
             onPressed: () => Navigator.push(
                 context, MaterialPageRoute(builder: (context) => detailScreen)),

@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gn_accessor/constants.dart';
 import 'package:gn_accessor/textFields/text_field_keyboard_screen.dart';
-
-const _kFontStyle = TextStyle(
-  fontSize: 21,
-  fontWeight: FontWeight.bold,
-  color: Colors.white,
-);
 
 class TextFieldScreen extends StatelessWidget {
   const TextFieldScreen({Key? key}) : super(key: key);
@@ -52,6 +47,6 @@ class _Button extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => nextScreen),
             ),
-        child: Text(text, style: _kFontStyle));
+        child: Text(text, style: kFontStyle));
   }
 }
