@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gn_accessor/constants.dart';
 import 'package:gn_accessor/textFields/text_field_keyboard_screen.dart';
 import 'package:gn_accessor/textFields/text_field_label_alignment_screen.dart';
+import 'package:gn_accessor/textFields/text_field_underline_input_screen.dart';
 
 class TextFieldScreen extends StatelessWidget {
   const TextFieldScreen({Key? key}) : super(key: key);
@@ -18,6 +19,10 @@ class TextFieldScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                _Button(
+                  text: 'Underline Input',
+                  nextScreen: TextFieldUnderlineInputScreen(),
+                ),
                 _Button(
                   text: 'Keyboard',
                   nextScreen: TextFieldKeyboardScreen(),
