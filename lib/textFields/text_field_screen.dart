@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gn_accessor/constants.dart';
+import 'package:gn_accessor/textFields/text_field_cursor_screen.dart';
 import 'package:gn_accessor/textFields/text_field_keyboard_screen.dart';
 import 'package:gn_accessor/textFields/text_field_label_alignment_screen.dart';
 import 'package:gn_accessor/textFields/text_field_obscure_text_screen.dart';
@@ -35,6 +36,10 @@ class TextFieldScreen extends StatelessWidget {
                 _Button(
                   text: 'Label Alignment',
                   nextScreen: TextFieldLabelAlignmentScreen(),
+                ),
+                _Button(
+                  text: 'Cursor',
+                  nextScreen: TextFieldCursorScreen(),
                 ),
               ],
             ),

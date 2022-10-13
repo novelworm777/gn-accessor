@@ -26,7 +26,7 @@ class TextFieldObscureTextScreen extends StatelessWidget {
                     FormBuilderTextField(
                       name: 'obscureText',
                       obscureText: true,
-                      initialValue: 'something',
+                      initialValue: 'something', // complementary
                     ),
                   ],
                 ),

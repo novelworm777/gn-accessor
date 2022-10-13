@@ -26,36 +26,42 @@ class TextFieldLabelAlignmentScreen extends StatelessWidget {
                     FormBuilderTextField(
                       name: 'labelAlignmentLeft',
                       textAlign: TextAlign.left,
+                      initialValue: "something", // complementary
                     ),
                     const SizedBox(height: 37),
                     const Text('Label Alignment: Center', style: kFontStyle),
                     FormBuilderTextField(
                       name: 'labelAlignmentCenter',
                       textAlign: TextAlign.center,
+                      initialValue: "something", // complementary
                     ),
                     const SizedBox(height: 37),
                     const Text('Label Alignment: Right', style: kFontStyle),
                     FormBuilderTextField(
                       name: 'labelAlignmentRight',
                       textAlign: TextAlign.right,
+                      initialValue: "something", // complementary
                     ),
                     const SizedBox(height: 37),
                     const Text('Label Alignment: Start', style: kFontStyle),
                     FormBuilderTextField(
                       name: 'labelAlignmentStart',
                       textAlign: TextAlign.start,
+                      initialValue: "something", // complementary
                     ),
                     const SizedBox(height: 37),
                     const Text('Label Alignment: End', style: kFontStyle),
                     FormBuilderTextField(
                       name: 'labelAlignmentEnd',
                       textAlign: TextAlign.end,
+                      initialValue: "something", // complementary
                     ),
                     const SizedBox(height: 37),
                     const Text('Label Alignment: Justify', style: kFontStyle),
                     FormBuilderTextField(
                       name: 'labelAlignmentJustify',
                       textAlign: TextAlign.justify,
+                      initialValue: "something", // complementary
                     ),
                   ],
                 ),

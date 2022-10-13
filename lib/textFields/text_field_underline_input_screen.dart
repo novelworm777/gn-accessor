@@ -43,7 +43,7 @@ class TextFieldUnderlineInputScreen extends StatelessWidget {
                     const Text('White Line (Disabled)', style: kFontStyle),
                     FormBuilderTextField(
                       name: 'whiteLineDisabled',
-                      enabled: false,
+                      enabled: false, // complementary
                       decoration: const InputDecoration(
                         disabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white)),
@@ -71,7 +71,7 @@ class TextFieldUnderlineInputScreen extends StatelessWidget {
                     const Text('Thicker Line (Disabled)', style: kFontStyle),
                     FormBuilderTextField(
                       name: 'thickerLineDisabled',
-                      enabled: false,
+                      enabled: false, // complementary
                       decoration: const InputDecoration(
                         disabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(width: 3.7)),
