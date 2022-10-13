@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:gn_accessor/text_field_screen.dart';
+import 'package:gn_accessor/textFields/text_field_screen.dart';
 
 const _kFontStyle = TextStyle(
   fontSize: 21,
@@ -30,7 +30,7 @@ class ResearchScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _Label(
+                    const _Label(
                       title: 'Text Field',
                       detailScreen: TextFieldScreen(),
                     ),
