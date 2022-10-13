@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gn_accessor/constants.dart';
 
-class TextFieldLetterSpacingScreen extends StatelessWidget {
-  TextFieldLetterSpacingScreen({Key? key}) : super(key: key);
+class TextFieldInputColourScreen extends StatelessWidget {
+  TextFieldInputColourScreen({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormBuilderState>();
 
@@ -22,10 +22,10 @@ class TextFieldLetterSpacingScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Letter Spacing', style: kFontStyle),
+                    const Text('Colour', style: kFontStyle),
                     FormBuilderTextField(
-                      name: 'letterSpacing',
-                      style: const TextStyle(letterSpacing: 13.0),
+                      name: 'obscureText',
+                      style: const TextStyle(color: Colors.white),
                       initialValue: 'something', // complementary
                     ),
                   ],

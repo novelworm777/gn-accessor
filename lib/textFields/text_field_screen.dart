@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gn_accessor/constants.dart';
+import 'package:gn_accessor/textFields/text_field_input_colour_screen.dart';
 import 'package:gn_accessor/textFields/text_field_cursor_screen.dart';
 import 'package:gn_accessor/textFields/text_field_keyboard_screen.dart';
 import 'package:gn_accessor/textFields/text_field_input_alignment_screen.dart';
@@ -41,6 +42,10 @@ class TextFieldScreen extends StatelessWidget {
                 _Button(
                   text: 'Input Alignment',
                   nextScreen: TextFieldInputAlignmentScreen(),
+                ),
+                _Button(
+                  text: 'Input Colour',
+                  nextScreen: TextFieldInputColourScreen(),
                 ),
                 _Button(
                   text: 'Cursor',
