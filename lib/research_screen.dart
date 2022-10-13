@@ -14,15 +14,14 @@ class ResearchScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        backgroundColor: Colors.red.shade200,
         body: Container(
-          color: Colors.red.shade200,
           padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 33),
           child: Center(
             child: FormBuilder(
               key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const _Label(
