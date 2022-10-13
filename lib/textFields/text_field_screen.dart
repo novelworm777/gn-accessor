@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gn_accessor/constants.dart';
+import 'package:gn_accessor/textFields/text_field_action_screen.dart';
 import 'package:gn_accessor/textFields/text_field_input_colour_screen.dart';
 import 'package:gn_accessor/textFields/text_field_cursor_screen.dart';
 import 'package:gn_accessor/textFields/text_field_keyboard_screen.dart';
@@ -23,6 +24,10 @@ class TextFieldScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                _Button(
+                  text: 'Action',
+                  nextScreen: TextFieldActionScreen(),
+                ),
                 _Button(
                   text: 'Underline Input',
                   nextScreen: TextFieldUnderlineInputScreen(),

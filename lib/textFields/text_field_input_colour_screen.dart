@@ -22,9 +22,9 @@ class TextFieldInputColourScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Colour', style: kFontStyle),
+                    const Text('Input Colour', style: kFontStyle),
                     FormBuilderTextField(
-                      name: 'obscureText',
+                      name: 'inputColour',
                       style: const TextStyle(color: Colors.white),
                       initialValue: 'something', // complementary
                     ),

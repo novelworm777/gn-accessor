@@ -22,44 +22,44 @@ class TextFieldInputAlignmentScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Label Alignment: Left', style: kFontStyle),
+                    const Text('Input Alignment: Left', style: kFontStyle),
                     FormBuilderTextField(
-                      name: 'labelAlignmentLeft',
+                      name: 'inputAlignmentLeft',
                       textAlign: TextAlign.left,
                       initialValue: "something", // complementary
                     ),
                     const SizedBox(height: 37),
-                    const Text('Label Alignment: Center', style: kFontStyle),
+                    const Text('Input Alignment: Center', style: kFontStyle),
                     FormBuilderTextField(
-                      name: 'labelAlignmentCenter',
+                      name: 'inputAlignmentCenter',
                       textAlign: TextAlign.center,
                       initialValue: "something", // complementary
                     ),
                     const SizedBox(height: 37),
-                    const Text('Label Alignment: Right', style: kFontStyle),
+                    const Text('Input Alignment: Right', style: kFontStyle),
                     FormBuilderTextField(
-                      name: 'labelAlignmentRight',
+                      name: 'inputAlignmentRight',
                       textAlign: TextAlign.right,
                       initialValue: "something", // complementary
                     ),
                     const SizedBox(height: 37),
-                    const Text('Label Alignment: Start', style: kFontStyle),
+                    const Text('Input Alignment: Start', style: kFontStyle),
                     FormBuilderTextField(
-                      name: 'labelAlignmentStart',
+                      name: 'inputAlignmentStart',
                       textAlign: TextAlign.start,
                       initialValue: "something", // complementary
                     ),
                     const SizedBox(height: 37),
-                    const Text('Label Alignment: End', style: kFontStyle),
+                    const Text('Input Alignment: End', style: kFontStyle),
                     FormBuilderTextField(
-                      name: 'labelAlignmentEnd',
+                      name: 'inputAlignmentEnd',
                       textAlign: TextAlign.end,
                       initialValue: "something", // complementary
                     ),
                     const SizedBox(height: 37),
-                    const Text('Label Alignment: Justify', style: kFontStyle),
+                    const Text('Input Alignment: Justify', style: kFontStyle),
                     FormBuilderTextField(
-                      name: 'labelAlignmentJustify',
+                      name: 'inputAlignmentJustify',
                       textAlign: TextAlign.justify,
                       initialValue: "something", // complementary
                     ),
