@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gn_accessor/constants.dart';
 
-class TextFieldLabelAlignmentScreen extends StatelessWidget {
-  TextFieldLabelAlignmentScreen({Key? key}) : super(key: key);
+class TextFieldInputAlignmentScreen extends StatelessWidget {
+  TextFieldInputAlignmentScreen({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormBuilderState>();
 

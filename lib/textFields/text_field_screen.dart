@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gn_accessor/constants.dart';
 import 'package:gn_accessor/textFields/text_field_cursor_screen.dart';
 import 'package:gn_accessor/textFields/text_field_keyboard_screen.dart';
-import 'package:gn_accessor/textFields/text_field_label_alignment_screen.dart';
+import 'package:gn_accessor/textFields/text_field_input_alignment_screen.dart';
 import 'package:gn_accessor/textFields/text_field_obscure_text_screen.dart';
+import 'package:gn_accessor/textFields/text_field_letter_spacing_screen.dart';
 import 'package:gn_accessor/textFields/text_field_underline_input_screen.dart';
 
 class TextFieldScreen extends StatelessWidget {
@@ -34,8 +35,12 @@ class TextFieldScreen extends StatelessWidget {
                   nextScreen: TextFieldObscureTextScreen(),
                 ),
                 _Button(
-                  text: 'Label Alignment',
-                  nextScreen: TextFieldLabelAlignmentScreen(),
+                  text: 'Letter Spacing',
+                  nextScreen: TextFieldLetterSpacingScreen(),
+                ),
+                _Button(
+                  text: 'Input Alignment',
+                  nextScreen: TextFieldInputAlignmentScreen(),
                 ),
                 _Button(
                   text: 'Cursor',
