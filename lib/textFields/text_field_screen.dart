@@ -14,8 +14,8 @@ class TextFieldScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        backgroundColor: Colors.blue.shade200,
         body: Container(
-          color: Colors.blue.shade200,
           padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 33),
           child: Center(
             child: Column(
