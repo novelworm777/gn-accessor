@@ -6,8 +6,8 @@
 
 The technologies in this application are as the following.
 
-| Tech Stack |  |
-| :---: | :---: |
-| Framework | Flutter 2.5.2 |
-| Programming Language | Dart 2.14.3 |
-| Database | Firestore |
+| Tech Stack |                        |
+| :---: |:----------------------:|
+| Framework | Flutter 3.3.4 (stable) |
+| Programming Language |      Dart 2.18.2       |
+| Database |       Firestore        |
