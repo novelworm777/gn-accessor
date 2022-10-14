@@ -1,4 +1,5 @@
 /// Route path of screens.
 class Routes {
-  static const initial = null;
+  static const initial = loginScreen;
+  static const loginScreen = '/login';
 }
