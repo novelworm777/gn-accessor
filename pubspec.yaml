@@ -12,6 +12,7 @@ dependencies:
   google_fonts: ^3.0.1
   font_awesome_flutter: ^10.2.1
   flutter_form_builder: ^7.7.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -20,3 +21,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-VariableFont_wght.ttf
+        - asset: assets/fonts/JetBrainsMono-Italic-VariableFont_wght.ttf
