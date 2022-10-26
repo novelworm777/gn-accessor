@@ -15,6 +15,7 @@ dependencies:
   intl: ^0.17.0
   circular_menu: ^2.0.1
   battery_info: ^1.1.1
+  flutter_smart_dialog: ^4.6.1+5
 
 dev_dependencies:
   flutter_test:
