@@ -9,12 +9,14 @@ class ColourDefaultScreen extends StatelessWidget {
     required this.colour,
     required this.child,
     this.onTapUnfocus = true,
+    this.padding = const EdgeInsets.all(33),
     this.resizeToAvoidBottomInset = false,
   }) : super(key: key);
 
   final Widget child;
   final Color colour;
   final bool onTapUnfocus;
+  final EdgeInsetsGeometry padding;
   final bool resizeToAvoidBottomInset;
 
   @override
@@ -30,7 +32,7 @@ class ColourDefaultScreen extends StatelessWidget {
             color: colour,
             child: child,
             height: ScreenSize.height(context),
-            padding: const EdgeInsets.all(33),
+            padding: padding,
             width: ScreenSize.width(context),
           ),
         ),
