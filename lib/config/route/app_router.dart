@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gn_accessor/config/route/routes.dart';
 
 import '../../auth/presentation/screens/login_screen.dart';
+import '../../home/presentation/screens/home_screen.dart';
 
 /// Route generator.
 ///
@@ -11,6 +12,8 @@ class AppRouter {
     switch (settings.name) {
       case Routes.loginScreen:
         return MaterialPageRoute(builder: (_) => LoginScreen());
+      case Routes.homeScreen:
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
