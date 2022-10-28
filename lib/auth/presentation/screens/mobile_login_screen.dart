@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
+import '../../../config/route/routes.dart';
 import '../../../config/themes/colours.dart';
 
 /// Login Screen for Mobile App
@@ -37,8 +38,9 @@ class MobileLoginScreen extends StatelessWidget {
               // TODO login
               final loginRes = null;
 
-              // TODO push into Home Screen if login succeed
-              if (loginRes != null) {}
+              if (loginRes != null) {
+                Navigator.pushNamed(context, Routes.homeScreen);
+              }
             }
           },
           style: const TextStyle(
