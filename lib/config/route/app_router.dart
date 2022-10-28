@@ -3,6 +3,7 @@ import 'package:gn_accessor/config/route/routes.dart';
 
 import '../../auth/presentation/screens/login_screen.dart';
 import '../../home/presentation/screens/home_screen.dart';
+import '../../task/presentation/screens/task_board_screen.dart';
 
 /// Route generator.
 ///
@@ -14,6 +15,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case Routes.homeScreen:
         return MaterialPageRoute(builder: (_) => HomeScreen());
+      case Routes.taskBoardScreen:
+        return MaterialPageRoute(builder: (_) => TaskBoardScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
