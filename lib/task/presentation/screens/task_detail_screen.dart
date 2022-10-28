@@ -6,6 +6,7 @@ import '../../../config/themes/colours.dart';
 
 const _kSpacingBetweenItems = SizedBox(height: 33.0);
 
+/// Screen containing details of a task.
 class TaskDetailScreen extends StatelessWidget {
   const TaskDetailScreen({Key? key}) : super(key: key);
 
@@ -56,6 +57,7 @@ class TaskDetailScreen extends StatelessWidget {
   }
 }
 
+/// Item for [TaskDetailScreen].
 class _DetailItem extends StatelessWidget {
   const _DetailItem({Key? key, required this.content, required this.label})
       : super(key: key);
