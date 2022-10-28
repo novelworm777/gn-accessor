@@ -37,4 +37,10 @@ class Colours {
   /// Hex: #CE3133
   /// Alpha: 100%
   static const Color red = Color(0xFFCE3133);
+
+  /// Default green colour.
+  ///
+  /// Hex: #89CA00
+  /// Alpha: 100%
+  static const Color green = Color(0xFF89CA00);
 }
