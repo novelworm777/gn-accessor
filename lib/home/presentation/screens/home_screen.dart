@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../components/templates/colour_default_screen.dart';
+import '../../../config/route/routes.dart';
 import '../../../config/themes/colours.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -97,14 +98,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         curve: Curves.easeOut,
         items: <CircularMenuItem>[
+          // task board app icon button
           CircularMenuItem(
             color: Colours.text,
             icon: FontAwesomeIcons.clipboard,
             iconColor: Colours.darkText,
             onTap: () {
-              // push to task board screen
+              Navigator.pushNamed(context, Routes.taskBoardScreen);
             },
           ),
+          // turn off icon button
           CircularMenuItem(
             color: Colours.text,
             icon: FontAwesomeIcons.powerOff,
