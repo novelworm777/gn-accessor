@@ -39,6 +39,7 @@ class TaskBoardScreen extends StatelessWidget {
             const SizedBox(height: 17.0),
       ),
       headerTitle: 'Task Board',
+      homeRoute: Routes.homeScreen,
     );
   }
 }
