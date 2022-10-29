@@ -19,7 +19,8 @@ class AppRouter {
       case Routes.taskBoardScreen:
         return MaterialPageRoute(builder: (_) => TaskBoardScreen());
       case Routes.taskDetailScreen:
-        return MaterialPageRoute(builder: (_) => const TaskDetailScreen());
+        final id = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => TaskDetailScreen(id: id));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

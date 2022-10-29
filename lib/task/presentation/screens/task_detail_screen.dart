@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:gn_accessor/task/presentation/models/task.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../components/templates/detail_screen.dart';
+import '../../../config/route/routes.dart';
 import '../../../config/themes/colours.dart';
 
 const _kSpacingBetweenItems = SizedBox(height: 33.0);
 
 /// Screen containing details of a task.
 class TaskDetailScreen extends StatelessWidget {
-  const TaskDetailScreen({Key? key}) : super(key: key);
+  TaskDetailScreen({Key? key, required this.id}) : super(key: key);
+
+  final String id;
+  final _task = Task();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class TaskDetailScreen extends StatelessWidget {
           children: <Widget>[
             // task title
             Text(
-              'Task Title',
+              _task.title,
               style: GoogleFonts.jetBrainsMono(
                 color: Colours.text,
                 fontSize: 21.0,
@@ -29,25 +34,21 @@ class TaskDetailScreen extends StatelessWidget {
             ),
             _kSpacingBetweenItems,
             // notes
-            const _DetailItem(
-              content:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sollicitudin ultrices magna ut ornare. Integer nibh magna, egestas ac arcu in, congue posuere augue. Pellentesque interdum congue nibh, vel aliquet arcu luctus non. Vestibulum cursus at dolor ut tristique. Suspendisse at viverra justo, quis laoreet nisi. Morbi sit amet massa vel quam commodo congue. In sit amet arcu consectetur, molestie magna quis, dignissim mi. Fusce suscipit iaculis sem, et condimentum purus. Pellentesque placerat arcu mauris, at pharetra turpis tincidunt ut. Donec at tellus dui. Proin sodales volutpat dapibus.',
-              label: 'Notes',
-            ),
+            _DetailItem(content: _task.notes, label: 'Notes'),
             _kSpacingBetweenItems,
             // due date
-            const _DetailItem(content: '1 Oct 2022 7:03 AM', label: 'Due Date'),
+            _DetailItem(content: '${_task.due}', label: 'Due Date'),
             _kSpacingBetweenItems,
             // available
-            const _DetailItem(content: '999+', label: 'Available'),
+            _DetailItem(content: '${_task.available}', label: 'Available'),
             _kSpacingBetweenItems,
             // rewards
-            const _DetailItem(content: '99.00 Cryois', label: 'Rewards'),
+            _DetailItem(content: '${_task.reward} Cryois', label: 'Rewards'),
           ],
         ),
       ),
       hasRightIconButton: true,
-      // TODO set homeRoute
+      homeRoute: Routes.homeScreen,
       rightIconColour: Colours.green,
       rightIconData: Icons.check,
       rightIconOnPress: () {
