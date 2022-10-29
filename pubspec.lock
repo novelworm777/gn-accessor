@@ -170,13 +170,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  js:
-    dependency: transitive
-    description:
-      name: js
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.3"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -206,12 +199,14 @@ packages:
     source: hosted
     version: "4.0.2"
   intl:
+    version: "0.17.0"
+  js:
     dependency: transitive
     description:
-      name: intl
+      name: js
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.17.0"
+    version: "0.6.4"
   lints:
     dependency: transitive
     description:
