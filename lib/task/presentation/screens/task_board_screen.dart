@@ -3,36 +3,37 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../components/atoms/app_list_tile.dart';
 import '../../../components/templates/main_app_screen.dart';
+import '../../../config/route/routes.dart';
 import '../../../config/themes/colours.dart';
 import '../../../constants/image_path.dart';
+import '../models/task.dart';
 
 /// Screen where user can see all tasks.
 class TaskBoardScreen extends StatelessWidget {
   TaskBoardScreen({Key? key}) : super(key: key);
 
-  final List<_TaskTile> _tasks = [
-    _TaskTile(
-      bodyOnPress: () {},
-      completion: 1000,
-      leadingOnPress: () {},
-      reward: 99,
-      title: 'Task Title',
-    ),
-    _TaskTile(
-      bodyOnPress: () {},
-      completion: 100,
-      leadingOnPress: () {},
-      reward: 0.5,
-      title: 'Task Title',
-    ),
-  ];
+  final List<Task> _tasks = [Task()];
 
   @override
   Widget build(BuildContext context) {
     return MainAppScreen(
       colour: Colours.darkBase,
       content: ListView.separated(
-        itemBuilder: (BuildContext context, int index) => _tasks[index],
+        itemBuilder: (BuildContext context, int index) {
+          final task = _tasks[index];
+          return _TaskTile(
+            bodyOnPress: () {
+              Navigator.pushNamed(context, Routes.taskDetailScreen,
+                  arguments: task.id);
+            },
+            completion: task.completed,
+            leadingOnPress: () {
+              // TODO complete task
+            },
+            reward: task.reward,
+            title: task.title,
+          );
+        },
         itemCount: _tasks.length,
         separatorBuilder: (BuildContext context, int index) =>
             const SizedBox(height: 17.0),
@@ -88,7 +89,7 @@ class _TaskTile extends StatelessWidget {
         ],
       ),
       leadingColour: Colours.lightBase,
-      leadingOnPress: leadingOnPress, // TODO complete task
+      leadingOnPress: leadingOnPress,
       // number of completed
       trailing: Text(
         completion > 999 ? '999+' : '$completion',
@@ -98,7 +99,7 @@ class _TaskTile extends StatelessWidget {
           fontWeight: FontWeight.w500,
         ),
       ),
-      onPress: bodyOnPress, // TODO push into task detail screen
+      onPress: bodyOnPress,
     );
   }
 }
