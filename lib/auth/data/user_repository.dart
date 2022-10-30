@@ -18,7 +18,7 @@ class UserRepository {
       _db(userId: userId).update(data);
 
   _db({String? userId}) {
-    if (userId == null) {
+    if (userId != null) {
       return FirebaseFirestore.instance.collection(dUser).doc(userId);
     }
     return FirebaseFirestore.instance.collection(dUser);
