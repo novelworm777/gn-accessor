@@ -22,7 +22,7 @@ class Task with ChangeNotifier, DiagnosticableTreeMixin {
     _due = map['due'];
     _available = map['available'];
     _completed = map['completed'] ?? -1;
-    _reward = map['completed'] ?? -1;
+    _reward = map['reward'] ?? -1;
   }
 
   // getter
