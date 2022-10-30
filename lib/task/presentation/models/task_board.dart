@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
 
 import 'task.dart';
@@ -14,6 +16,10 @@ class TaskBoard with ChangeNotifier, DiagnosticableTreeMixin {
   set tasks(Iterable<Map<String, dynamic>> mapIterable) {
     _tasks = mapIterable.map<Task>((map) => Task.create(map)) as List<Task>;
   }
+
+  /// Get unmodifiable [tasks].
+  UnmodifiableListView<Task> get unmodifiableTasks =>
+      UnmodifiableListView(_tasks);
 
   /// Get the number of [tasks].
   int get taskCount => _tasks.length;
