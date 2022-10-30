@@ -34,6 +34,13 @@ class Task with ChangeNotifier, DiagnosticableTreeMixin {
   int get completed => _completed!;
   int get reward => _reward!;
 
+  /// Complete a task.
+  VoidCallback complete() {
+    return () {
+      _completed = _completed! + 1;
+    };
+  }
+
   /// Makes [Task] readable inside devtools.
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
