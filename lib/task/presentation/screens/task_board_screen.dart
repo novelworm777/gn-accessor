@@ -42,6 +42,8 @@ class _TaskBoardScreenState extends State<TaskBoardScreen> {
               leadingOnPress: () {
                 // complete task
                 taskBoard.update(task.complete());
+                _taskUsecase.completeTask(
+                    userId: context.read<User>().uid, taskId: task.id);
               },
               reward: task.reward,
               title: task.title,
