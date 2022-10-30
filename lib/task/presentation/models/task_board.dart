@@ -14,7 +14,9 @@ class TaskBoard with ChangeNotifier, DiagnosticableTreeMixin {
 
   /// Set [tasks] from a map iterable.
   set tasks(Iterable<Map<String, dynamic>> mapIterable) {
-    _tasks = mapIterable.map<Task>((map) => Task.create(map)) as List<Task>;
+    _tasks = mapIterable.map<Task>((map) => Task.create(map)).toList();
+    isViewed = true;
+    notifyListeners();
   }
 
   /// Get unmodifiable [tasks].
