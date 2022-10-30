@@ -40,7 +40,8 @@ class _TaskBoardScreenState extends State<TaskBoardScreen> {
               },
               completion: task.completed,
               leadingOnPress: () {
-                // TODO complete task
+                // complete task
+                taskBoard.update(task.complete());
               },
               reward: task.reward,
               title: task.title,
