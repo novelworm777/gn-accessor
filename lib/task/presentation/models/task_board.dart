@@ -15,6 +15,9 @@ class TaskBoard with ChangeNotifier, DiagnosticableTreeMixin {
     _tasks = mapIterable.map<Task>((map) => Task.create(map)) as List<Task>;
   }
 
+  /// Get the number of [tasks].
+  int get taskCount => _tasks.length;
+
   /// Makes [TaskBoard] readable inside devtools.
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
