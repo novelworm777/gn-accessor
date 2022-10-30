@@ -9,6 +9,7 @@ class Task with ChangeNotifier, DiagnosticableTreeMixin {
   int? _available;
   int? _completed;
   int? _reward;
+  bool isViewed = false;
 
   /// No-args constructor for [Task].
   Task();
