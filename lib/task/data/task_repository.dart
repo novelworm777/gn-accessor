@@ -10,6 +10,15 @@ class TaskRepository {
     return found.docs.map((doc) => Task.create(doc.id, doc.data()));
   }
 
+  /// Find one task.
+  Future<Task?> findOne(
+      {required String userId, required String taskId}) async {
+    DocumentSnapshot<Map<String, dynamic>> doc =
+        await _db(userId: userId, taskId: taskId).get();
+    if (doc.exists) return Task.create(doc.id, doc.data()!);
+    return null;
+  }
+
   /// Update a task data.
   ///
   /// Only the data given will be updated, others will be untouched.
