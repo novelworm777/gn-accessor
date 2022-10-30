@@ -10,6 +10,17 @@ class UserRepository {
     return null;
   }
 
-  CollectionReference<Map<String, dynamic>> _db() =>
-      FirebaseFirestore.instance.collection(dUser);
+  /// Update a user data.
+  ///
+  /// Only the data given will be updated, others will be untouched.
+  void updateOne(
+          {required String userId, required Map<String, dynamic> data}) =>
+      _db(userId: userId).update(data);
+
+  _db({String? userId}) {
+    if (userId == null) {
+      return FirebaseFirestore.instance.collection(dUser).doc(userId);
+    }
+    return FirebaseFirestore.instance.collection(dUser);
+  }
 }
