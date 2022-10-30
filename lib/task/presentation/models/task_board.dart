@@ -5,6 +5,7 @@ import '../../domain/models/task.dart';
 /// Task board presentation model.
 class TaskBoard with ChangeNotifier, DiagnosticableTreeMixin {
   List<Task> _tasks = [];
+  bool isViewed = false;
 
   /// No-args constructor for [TaskBoard].
   TaskBoard();
