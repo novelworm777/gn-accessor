@@ -16,6 +16,19 @@ class TaskService {
     return tasks;
   }
 
+  /// Get a task by ID.
+  Future<Task?> findById({
+    required String userId,
+    required String taskId,
+    bool throwError = true,
+  }) async {
+    Task? task = await _repository.findOne(userId: userId, taskId: taskId);
+    if (task == null && throwError) {
+      throw const FormatException("task can't be found");
+    }
+    return task;
+  }
+
   /// Add the number of [completed] by one.
   Task addCompleted({
     required String userId,
