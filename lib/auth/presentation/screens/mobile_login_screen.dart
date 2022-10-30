@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:gn_accessor/auth/domain/usecases/user_usecase.dart';
+import 'package:provider/provider.dart';
 
 import '../../../config/route/routes.dart';
 import '../../../config/themes/colours.dart';
+import '../models/user.dart';
 
 /// Login Screen for Mobile App
 class MobileLoginScreen extends StatelessWidget {
-  const MobileLoginScreen({
+  MobileLoginScreen({
     Key? key,
     required GlobalKey<FormBuilderState> formKey,
   })  : _formKey = formKey,
         super(key: key);
 
+  // usecases
+  final UserUsecase _userUsecase = UserUsecase();
+
+  // keys
   final GlobalKey<FormBuilderState> _formKey;
 
   @override
@@ -33,13 +40,19 @@ class MobileLoginScreen extends StatelessWidget {
           ),
           keyboardType: TextInputType.number,
           maxLength: 3,
-          onChanged: (value) {
+          onChanged: (value) async {
             if (value != null && value.length == 3) {
-              // TODO login
-              final loginRes = null;
+              try {
+                // login
+                final res = await _userUsecase.login(value);
 
-              if (loginRes != null) {
+                // save the data locally
+                context.read<User>().user = res;
+
+                // push into home screen
                 Navigator.pushNamed(context, Routes.homeScreen);
+              } catch (error) {
+                _formKey.currentState?.reset();
               }
             }
           },
