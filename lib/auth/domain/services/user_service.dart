@@ -11,4 +11,18 @@ class UserService {
     }
     return found;
   }
+
+  /// Add the number of cryois.
+  User addCryois({
+    required User user,
+    required int number,
+    bool update = true,
+  }) {
+    user.cryois = user.cryois! + number;
+    if (update) {
+      Map<String, dynamic> updated = {'cryois': user.cryois};
+      _repository.updateOne(userId: user.uid!, data: updated);
+    }
+    return user;
+  }
 }
