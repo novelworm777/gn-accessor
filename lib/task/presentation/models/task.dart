@@ -14,8 +14,8 @@ class Task with ChangeNotifier, DiagnosticableTreeMixin {
   /// No-args constructor for [Task].
   Task();
 
-  /// Set [Task] properties from a map.
-  set task(Map<String, dynamic> map) {
+  /// Create [Task] from a map.
+  Task.create(Map<String, dynamic> map) {
     _id = map['id'] ?? '-';
     _title = map['title'] ?? 'no title';
     _notes = map['notes'];
