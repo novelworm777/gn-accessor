@@ -15,6 +15,6 @@ class Task {
     available = map['available'];
     completed = map['completed'];
     reward = map['reward'];
-    createdAt = map['created_at'];
+    createdAt = map['created_at']?.toDate();
   }
 }
