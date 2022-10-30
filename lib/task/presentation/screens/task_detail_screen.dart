@@ -23,7 +23,7 @@ class TaskDetailScreen extends StatefulWidget {
 
 class _TaskDetailScreenState extends State<TaskDetailScreen> {
   final TaskUsecase _taskUsecase = TaskUsecase();
-  final Task _task = Task();
+  late final Task _task;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
       taskId: widget.id,
     );
     setState(() {
-      _task.task = res;
+      _task = Task.create(res);
     });
   }
 }
