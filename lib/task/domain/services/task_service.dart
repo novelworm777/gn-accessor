@@ -15,4 +15,18 @@ class TaskService {
     }
     return tasks;
   }
+
+  /// Add the number of [completed] by one.
+  Task addCompleted({
+    required String userId,
+    required Task task,
+    bool update = true,
+  }) {
+    task.completed = task.completed! + 1;
+    if (update) {
+      Map<String, dynamic> updated = {'completed': task.completed};
+      _repository.updateOne(userId: userId, taskId: task.id!, data: updated);
+    }
+    return task;
+  }
 }
