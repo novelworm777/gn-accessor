@@ -1,46 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../../../auth/presentation/models/user.dart';
 import '../../../components/atoms/app_list_tile.dart';
 import '../../../components/templates/main_app_screen.dart';
 import '../../../config/route/routes.dart';
 import '../../../config/themes/colours.dart';
 import '../../../constants/image_path.dart';
-import '../models/task.dart';
+import '../../domain/usecases/task_usecase.dart';
+import '../models/task_board.dart';
 
 /// Screen where user can see all tasks.
-class TaskBoardScreen extends StatelessWidget {
-  TaskBoardScreen({Key? key}) : super(key: key);
+class TaskBoardScreen extends StatefulWidget {
+  const TaskBoardScreen({Key? key}) : super(key: key);
 
-  final List<Task> _tasks = [Task()];
+  @override
+  State<TaskBoardScreen> createState() => _TaskBoardScreenState();
+}
+
+class _TaskBoardScreenState extends State<TaskBoardScreen> {
+  final TaskUsecase _taskUsecase = TaskUsecase();
 
   @override
   Widget build(BuildContext context) {
+    viewAllTasks();
+
     return MainAppScreen(
       colour: Colours.darkBase,
-      content: ListView.separated(
-        itemBuilder: (BuildContext context, int index) {
-          final task = _tasks[index];
-          return _TaskTile(
-            bodyOnPress: () {
-              Navigator.pushNamed(context, Routes.taskDetailScreen,
-                  arguments: task.id);
-            },
-            completion: task.completed,
-            leadingOnPress: () {
-              // TODO complete task
-            },
-            reward: task.reward,
-            title: task.title,
-          );
-        },
-        itemCount: _tasks.length,
-        separatorBuilder: (BuildContext context, int index) =>
-            const SizedBox(height: 17.0),
-      ),
+      content: Consumer<TaskBoard>(
+          builder: (BuildContext context, TaskBoard taskBoard, Widget? child) {
+        return ListView.separated(
+          itemBuilder: (BuildContext context, int index) {
+            final task = taskBoard.unmodifiableTasks[index];
+            return _TaskTile(
+              bodyOnPress: () {
+                Navigator.pushNamed(context, Routes.taskDetailScreen,
+                    arguments: task.id);
+              },
+              completion: task.completed,
+              leadingOnPress: () {
+                // TODO complete task
+              },
+              reward: task.reward,
+              title: task.title,
+            );
+          },
+          itemCount: taskBoard.taskCount,
+          separatorBuilder: (BuildContext context, int index) =>
+              const SizedBox(height: 17.0),
+        );
+      }),
       headerTitle: 'Task Board',
       homeRoute: Routes.homeScreen,
     );
+  }
+
+  void viewAllTasks() async {
+    if (!context.watch<TaskBoard>().isViewed) {
+      context.read<TaskBoard>().tasks = await _taskUsecase.viewAllTasks(
+        userId: context.read<User>().uid,
+      );
+    }
   }
 }
 
