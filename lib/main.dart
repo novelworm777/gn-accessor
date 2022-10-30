@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'auth/presentation/models/user.dart';
 import 'config/route/app_router.dart';
 import 'config/route/routes.dart';
+import 'task/presentation/models/task_board.dart';
 
 void main() async {
   // initialize firebase
@@ -23,6 +24,7 @@ void main() async {
       child: const GNAccessor(),
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
+        ChangeNotifierProvider(create: (_) => TaskBoard()),
       ],
     ),
   );
