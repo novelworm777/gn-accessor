@@ -26,6 +26,12 @@ class TaskBoard with ChangeNotifier, DiagnosticableTreeMixin {
   /// Get the number of [tasks].
   int get taskCount => _tasks.length;
 
+  /// Update property of [TaskBoard] by [callback].
+  void update(VoidCallback callback) {
+    callback.call();
+    notifyListeners();
+  }
+
   /// Makes [TaskBoard] readable inside devtools.
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
