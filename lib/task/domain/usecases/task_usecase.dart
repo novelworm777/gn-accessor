@@ -24,6 +24,23 @@ class TaskUsecase {
         });
   }
 
+  /// View a task.
+  Future<Map<String, dynamic>> viewTask({
+    required String userId,
+    required String taskId,
+  }) async {
+    Task? task = await _taskService.findById(userId: userId, taskId: taskId);
+    return {
+      'id': task!.id,
+      'title': task.title,
+      'notes': task.notes,
+      'due': task.due,
+      'available': task.available,
+      'completed': task.completed,
+      'reward': task.reward,
+    };
+  }
+
   /// Complete a task.
   void completeTask({
     required String userId,
