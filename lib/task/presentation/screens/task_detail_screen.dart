@@ -52,7 +52,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
             _DetailItem(content: '${_task.due}', label: 'Due Date'),
             _kSpacingBetweenItems,
             // available
-            _DetailItem(content: '${_task.available}', label: 'Available'),
+            _DetailItem(content: '${_task.completed}', label: 'Available'),
             _kSpacingBetweenItems,
             // rewards
             _DetailItem(content: '${_task.reward} Cryois', label: 'Rewards'),
@@ -64,14 +64,21 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
       rightIconColour: Colours.green,
       rightIconData: Icons.check,
       rightIconOnPress: () {
-        // TODO complete task
+        // complete task
+        setState(() => _task.completeTask());
+        _taskUsecase.completeTask(
+          userId: context.read<User>().uid,
+          taskId: widget.id,
+        );
       },
     );
   }
 
   void viewTask() async {
     Map<String, dynamic> res = await _taskUsecase.viewTask(
-        userId: context.read<User>().uid, taskId: widget.id);
+      userId: context.read<User>().uid,
+      taskId: widget.id,
+    );
     setState(() {
       _task.task = res;
     });
