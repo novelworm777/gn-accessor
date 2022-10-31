@@ -1,6 +1,5 @@
-import 'package:gn_accessor/auth/domain/models/user.dart';
-import 'package:gn_accessor/auth/domain/services/user_service.dart';
-
+import '../../../auth/domain/models/user.dart';
+import '../../../auth/domain/services/user_service.dart';
 import '../models/task.dart';
 import '../services/task_service.dart';
 
@@ -22,6 +21,23 @@ class TaskUsecase {
           'completed': task.completed,
           'reward': task.reward,
         });
+  }
+
+  /// View a task.
+  Future<Map<String, dynamic>> viewTask({
+    required String userId,
+    required String taskId,
+  }) async {
+    Task? task = await _taskService.findById(userId: userId, taskId: taskId);
+    return {
+      'id': task!.id,
+      'title': task.title,
+      'notes': task.notes,
+      'due': task.due,
+      'available': task.available,
+      'completed': task.completed,
+      'reward': task.reward,
+    };
   }
 
   /// Complete a task.
