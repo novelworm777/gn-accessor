@@ -11,7 +11,7 @@ class Task {
   Task.create(String this.id, Map<String, dynamic> map) {
     title = map['title'];
     notes = map['notes'];
-    due = map['due'];
+    due = map['due']?.toDate();
     available = map['available'];
     completed = map['completed'];
     reward = map['reward'];
