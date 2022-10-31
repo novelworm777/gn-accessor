@@ -34,7 +34,7 @@ class TaskDetailScreen extends StatelessWidget {
             ),
             _kSpacingBetweenItems,
             // notes
-            _DetailItem(content: _task.notes, label: 'Notes'),
+            _DetailItem(content: _task.notes!, label: 'Notes'),
             _kSpacingBetweenItems,
             // due date
             _DetailItem(content: '${_task.due}', label: 'Due Date'),
