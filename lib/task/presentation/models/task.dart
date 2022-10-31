@@ -41,6 +41,11 @@ class Task with ChangeNotifier, DiagnosticableTreeMixin {
     };
   }
 
+  // Complete a task.
+  void completeTask() {
+    _completed = _completed! + 1;
+  }
+
   /// Makes [Task] readable inside devtools.
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
