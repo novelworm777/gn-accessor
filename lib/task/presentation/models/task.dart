@@ -18,19 +18,19 @@ class Task with ChangeNotifier, DiagnosticableTreeMixin {
   Task.create(Map<String, dynamic> map) {
     _id = map['id'] ?? '-';
     _title = map['title'] ?? 'no title';
-    _notes = map['notes'];
-    _due = map['due'];
-    _available = map['available'];
-    _completed = map['completed'] ?? -1;
+    _notes = map['notes'] ?? '-';
+    _due = map['due'] ?? '-';
+    _available = map['available'] ?? -1;
+    _completed = map['completed'] ?? 0;
     _reward = map['reward'] ?? -1;
   }
 
   // getter
   String get id => _id!;
   String get title => _title!;
-  String? get notes => _notes;
-  DateTime? get due => _due;
-  int? get available => _available;
+  String get notes => _notes!;
+  DateTime get due => _due!;
+  int get available => _available!;
   int get completed => _completed!;
   int get reward => _reward!;
 
