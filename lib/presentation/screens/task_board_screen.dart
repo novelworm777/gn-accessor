@@ -9,7 +9,6 @@ import '../../config/themes/colours.dart';
 import '../../constants/image_path.dart';
 import '../../domain/usecases/task_usecase.dart';
 import '../models/task.dart';
-import '../models/task_board.dart';
 import '../models/user.dart';
 
 /// Screen where user can see all tasks.
@@ -42,32 +41,31 @@ class _TaskBoardScreenState extends State<TaskBoardScreen> {
   Widget build(BuildContext context) {
     return MainAppScreen(
       colour: Colours.darkBase,
-      content: Consumer<TaskBoard>(
-          builder: (BuildContext context, TaskBoard taskBoard, Widget? child) {
-        return ListView.separated(
-          itemBuilder: (BuildContext context, int index) {
-            final task = _tasks[index];
-            return _TaskTile(
-              bodyOnPress: () {
-                Navigator.pushNamed(context, Routes.taskDetailScreen,
-                    arguments: task.id);
-              },
-              completion: task.completed,
-              leadingOnPress: () {
-                // complete task
-                taskBoard.update(task.complete());
-                _taskUsecase.completeTask(
-                    userId: context.read<User>().uid, taskId: task.id);
-              },
-              reward: task.reward,
-              title: task.title,
-            );
-          },
-          itemCount: _tasks.length,
-          separatorBuilder: (BuildContext context, int index) =>
-              const SizedBox(height: 17.0),
-        );
-      }),
+      content: ListView.separated(
+        itemBuilder: (BuildContext context, int index) {
+          final task = _tasks[index];
+          return _TaskTile(
+            bodyOnPress: () {
+              Navigator.pushNamed(context, Routes.taskDetailScreen,
+                  arguments: task.id);
+            },
+            completion: task.completed,
+            leadingOnPress: () {
+              // complete task
+              setState(() => task.completeTask());
+              _taskUsecase.completeTask(
+                userId: context.read<User>().uid,
+                taskId: task.id,
+              );
+            },
+            reward: task.reward,
+            title: task.title,
+          );
+        },
+        itemCount: _tasks.length,
+        separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(height: 17.0),
+      ),
       headerTitle: 'Task Board',
       homeRoute: Routes.homeScreen,
     );
