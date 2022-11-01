@@ -4,6 +4,18 @@ import '../constants/database_collection.dart';
 import '../domain/models/user.dart';
 
 class UserRepository {
+  /// Find all user data.
+  Future<List<User>> findAllWhereEqualTo({
+    required String field,
+    required dynamic value,
+  }) async {
+    QuerySnapshot<Map<String, dynamic>> found =
+        await _users().where(field, isEqualTo: value).get();
+    return found.docs
+        .map<User>((doc) => User.create(doc.id, doc.data()))
+        .toList();
+  }
+
   Future<User?> findUser(String docId) async {
     DocumentSnapshot<Map<String, dynamic>> doc =
         await _users().doc(docId).get();

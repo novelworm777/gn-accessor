@@ -44,7 +44,7 @@ class MobileLoginScreen extends StatelessWidget {
             if (value != null && value.length == 3) {
               try {
                 // login
-                final res = await _userUsecase.login(value);
+                final res = await _userUsecase.login(uid: value);
 
                 // save the data locally
                 context.read<User>().user = res;
