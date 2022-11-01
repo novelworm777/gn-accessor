@@ -4,16 +4,16 @@ import 'package:gn_accessor/presentation/models/task.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../models/user.dart';
 import '../../components/templates/detail_screen.dart';
 import '../../config/route/routes.dart';
 import '../../config/themes/colours.dart';
+import '../models/user.dart';
 
 const _kSpacingBetweenItems = SizedBox(height: 33.0);
 
 /// Screen containing details of a task.
 class TaskDetailScreen extends StatefulWidget {
-  TaskDetailScreen({Key? key, required this.id}) : super(key: key);
+  const TaskDetailScreen({Key? key, required this.id}) : super(key: key);
 
   final String id;
 
@@ -26,9 +26,21 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
   late final Task _task;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     viewTask();
+  }
 
+  void viewTask() async {
+    final userId = context.read<User>().uid;
+    final res = await _taskUsecase.viewTask(userId: userId, taskId: widget.id);
+    setState(() {
+      _task = Task.create(res);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return DetailScreen(
       colour: Colours.darkBase,
       body: SingleChildScrollView(
@@ -72,16 +84,6 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
         );
       },
     );
-  }
-
-  void viewTask() async {
-    Map<String, dynamic> res = await _taskUsecase.viewTask(
-      userId: context.read<User>().uid,
-      taskId: widget.id,
-    );
-    setState(() {
-      _task = Task.create(res);
-    });
   }
 }
 
