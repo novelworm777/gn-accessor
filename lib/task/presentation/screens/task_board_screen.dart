@@ -8,7 +8,7 @@ import '../../../components/templates/main_app_screen.dart';
 import '../../../config/route/routes.dart';
 import '../../../config/themes/colours.dart';
 import '../../../constants/image_path.dart';
-import '../../domain/usecases/task_usecase.dart';
+import '../../../domain/usecases/task_usecase.dart';
 import '../models/task_board.dart';
 
 /// Screen where user can see all tasks.

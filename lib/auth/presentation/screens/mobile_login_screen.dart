@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:gn_accessor/auth/domain/usecases/user_usecase.dart';
+import 'package:gn_accessor/domain/usecases/user_usecase.dart';
 import 'package:provider/provider.dart';
 
 import '../../../config/route/routes.dart';

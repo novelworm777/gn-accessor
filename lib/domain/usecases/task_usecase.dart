@@ -1,5 +1,5 @@
-import '../../../auth/domain/models/user.dart';
-import '../../../auth/domain/services/user_service.dart';
+import '../../../domain/models/user.dart';
+import '../../../domain/services/user_service.dart';
 import '../models/task.dart';
 import '../services/task_service.dart';
 

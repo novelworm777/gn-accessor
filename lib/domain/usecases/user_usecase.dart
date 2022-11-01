@@ -1,4 +1,4 @@
-import 'package:gn_accessor/auth/domain/services/user_service.dart';
+import 'package:gn_accessor/domain/services/user_service.dart';
 
 import '../models/user.dart';
 
