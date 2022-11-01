@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../auth/presentation/models/user.dart';
-import '../../../components/atoms/app_list_tile.dart';
-import '../../../components/templates/main_app_screen.dart';
-import '../../../config/route/routes.dart';
-import '../../../config/themes/colours.dart';
-import '../../../constants/image_path.dart';
-import '../../../domain/usecases/task_usecase.dart';
+import '../models/user.dart';
+import '../../components/atoms/app_list_tile.dart';
+import '../../components/templates/main_app_screen.dart';
+import '../../config/route/routes.dart';
+import '../../config/themes/colours.dart';
+import '../../constants/image_path.dart';
+import '../../domain/usecases/task_usecase.dart';
 import '../models/task_board.dart';
 
 /// Screen where user can see all tasks.

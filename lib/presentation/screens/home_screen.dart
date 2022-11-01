@@ -11,9 +11,9 @@ import 'package:gn_accessor/components/atoms/circular_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../components/templates/colour_default_screen.dart';
-import '../../../config/route/routes.dart';
-import '../../../config/themes/colours.dart';
+import '../../components/templates/colour_default_screen.dart';
+import '../../config/route/routes.dart';
+import '../../config/themes/colours.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
