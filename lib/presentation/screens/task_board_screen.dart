@@ -21,15 +21,15 @@ class TaskBoardScreen extends StatefulWidget {
 
 class _TaskBoardScreenState extends State<TaskBoardScreen> {
   final TaskUsecase _taskUsecase = TaskUsecase();
-  late final List<Task> _tasks;
+  List<Task> _tasks = [];
 
   @override
   void initState() {
     super.initState();
-    viewAllTasks();
+    _initTasks();
   }
 
-  void viewAllTasks() async {
+  void _initTasks() async {
     final userId = context.read<User>().uid;
     final res = await _taskUsecase.viewAllTasks(userId: userId);
     setState(() {

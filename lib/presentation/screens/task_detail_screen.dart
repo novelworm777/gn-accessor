@@ -23,15 +23,15 @@ class TaskDetailScreen extends StatefulWidget {
 
 class _TaskDetailScreenState extends State<TaskDetailScreen> {
   final TaskUsecase _taskUsecase = TaskUsecase();
-  late final Task _task;
+  Task _task = Task();
 
   @override
   void initState() {
     super.initState();
-    viewTask();
+    _initTask();
   }
 
-  void viewTask() async {
+  void _initTask() async {
     final userId = context.read<User>().uid;
     final res = await _taskUsecase.viewTask(userId: userId, taskId: widget.id);
     setState(() {
