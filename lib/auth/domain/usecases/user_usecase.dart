@@ -7,9 +7,10 @@ class UserUsecase {
 
   Future<Map<String, dynamic>> login(String? id) async {
     if (id == null) throw const FormatException('id is required');
-    User? user = await userService.findUserById(id, true);
+    User? user = await userService.findUserById(id);
+    if (user == null) throw FormatException("unable to find user: $id");
     return {
-      'uid': user!.uid,
+      'uid': user.uid,
       'cryois': user.cryois,
     };
   }
