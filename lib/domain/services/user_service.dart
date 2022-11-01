@@ -8,6 +8,16 @@ class UserService {
     return await _repository.findUser(id);
   }
 
+  /// Find a [User] by its [uid].
+  Future<User?> findByUID({required String uid}) async {
+    List<User?> users = await _repository.findAllWhereEqualTo(
+      field: 'uid',
+      value: uid,
+    );
+    if (users.isEmpty) return null;
+    return users.first;
+  }
+
   /// Add the number of cryois.
   User addCryois({
     required User user,
