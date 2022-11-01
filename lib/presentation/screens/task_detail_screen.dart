@@ -42,7 +42,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return DetailScreen(
-      colour: Colours.darkBase,
+      backRoute: Routes.taskBoardScreen,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -71,6 +71,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
           ],
         ),
       ),
+      colour: Colours.darkBase,
       hasRightIconButton: true,
       homeRoute: Routes.homeScreen,
       rightIconColour: Colours.green,
