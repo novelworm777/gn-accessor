@@ -1,8 +1,7 @@
-import 'package:gn_accessor/domain/models/user.dart';
-import 'package:gn_accessor/domain/services/user_service.dart';
-
 import '../models/task.dart';
+import '../models/user.dart';
 import '../services/task_service.dart';
+import '../services/user_service.dart';
 
 /// Usecase for task module.
 class TaskUsecase {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gn_accessor/domain/usecases/task_usecase.dart';
-import 'package:gn_accessor/presentation/models/task.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/templates/detail_screen.dart';
 import '../../config/route/routes.dart';
 import '../../config/themes/colours.dart';
+import '../../domain/usecases/task_usecase.dart';
+import '../models/task.dart';
 import '../models/user.dart';
 
 const _kSpacingBetweenItems = SizedBox(height: 33.0);

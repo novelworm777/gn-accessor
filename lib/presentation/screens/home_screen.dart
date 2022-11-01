@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gn_accessor/components/atoms/circular_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../components/atoms/circular_button.dart';
 import '../../components/templates/colour_default_screen.dart';
 import '../../config/route/routes.dart';
 import '../../config/themes/colours.dart';
