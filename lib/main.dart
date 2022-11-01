@@ -20,10 +20,10 @@ void main() async {
   // run the app
   runApp(
     MultiProvider(
-      child: const GNAccessor(),
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
       ],
+      child: const GNAccessor(),
     ),
   );
 }
