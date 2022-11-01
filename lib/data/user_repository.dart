@@ -6,7 +6,7 @@ import '../domain/models/user.dart';
 class UserRepository {
   Future<User?> findUser(String docId) async {
     DocumentSnapshot<Map<String, dynamic>> doc =
-        await _firestore().doc(docId).get();
+        await _users().doc(docId).get();
     if (doc.exists) return User.create(doc.id, doc.data()!);
     return null;
   }
@@ -14,14 +14,13 @@ class UserRepository {
   /// Update a user data.
   ///
   /// Only the data given will be updated, others will be untouched.
-  void updateOne(
-          {required String userId, required Map<String, dynamic> data}) =>
-      _firestore(userId: userId).update(data);
+  void updateOne({
+    required String userId,
+    required Map<String, dynamic> data,
+  }) =>
+      _users().doc(userId).update(data);
 
-  _firestore({String? userId}) {
-    if (userId != null) {
-      return FirebaseFirestore.instance.collection(dUser).doc(userId);
-    }
-    return FirebaseFirestore.instance.collection(dUser);
-  }
+  /// Create [FirebaseFirestore] instance for user collection.
+  CollectionReference<Map<String, dynamic>> _users() =>
+      FirebaseFirestore.instance.collection(dUser);
 }
