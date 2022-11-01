@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:gn_accessor/domain/usecases/user_usecase.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/route/routes.dart';
 import '../../config/themes/colours.dart';
+import '../../domain/usecases/user_usecase.dart';
 import '../models/user.dart';
 
 /// Login Screen for Mobile App
@@ -15,10 +15,7 @@ class MobileLoginScreen extends StatelessWidget {
   })  : _formKey = formKey,
         super(key: key);
 
-  // usecases
   final UserUsecase _userUsecase = UserUsecase();
-
-  // keys
   final GlobalKey<FormBuilderState> _formKey;
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gn_accessor/config/themes/colours.dart';
+
+import '../../config/themes/colours.dart';
 
 /// Circular icon button.
 class CircularButton extends StatelessWidget {
