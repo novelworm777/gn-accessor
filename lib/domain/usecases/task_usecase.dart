@@ -1,5 +1,5 @@
-import 'package:gn_accessor/auth/domain/models/user.dart';
-import 'package:gn_accessor/auth/domain/services/user_service.dart';
+import 'package:gn_accessor/domain/models/user.dart';
+import 'package:gn_accessor/domain/services/user_service.dart';
 
 import '../models/task.dart';
 import '../services/task_service.dart';

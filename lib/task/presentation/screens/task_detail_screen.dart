@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gn_accessor/task/domain/usecases/task_usecase.dart';
+import 'package:gn_accessor/domain/usecases/task_usecase.dart';
 import 'package:gn_accessor/task/presentation/models/task.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
