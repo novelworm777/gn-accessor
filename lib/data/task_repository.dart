@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../constants/database_collection.dart';
-import '../domain/models/task.dart';
+import '../constants/database_collection.dart';
+import '../task/domain/models/task.dart';
 
 class TaskRepository {
   /// Find all tasks of a user.

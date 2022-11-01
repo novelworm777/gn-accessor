@@ -1,6 +1,6 @@
 import 'package:gn_accessor/task/domain/models/task.dart';
 
-import '../../data/task_repository.dart';
+import '../../../data/task_repository.dart';
 
 /// Service for task module.
 class TaskService {
