@@ -4,12 +4,18 @@ import '../models/user.dart';
 class UserService {
   final UserRepository _repository = UserRepository();
 
-  Future<User?> findUserById(String id, bool throwError) async {
-    User? found = await _repository.findUser(id);
-    if (found == null && throwError) {
-      throw const FormatException("user can't be found");
-    }
-    return found;
+  Future<User?> findUserById(String id) async {
+    return await _repository.findUser(id);
+  }
+
+  /// Find a [User] by its [uid].
+  Future<User?> findByUID({required String uid}) async {
+    List<User?> users = await _repository.findAllWhereEqualTo(
+      field: 'uid',
+      value: uid,
+    );
+    if (users.isEmpty) return null;
+    return users.first;
   }
 
   /// Add the number of cryois.

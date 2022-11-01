@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:gn_accessor/task/domain/usecases/task_usecase.dart';
-import 'package:gn_accessor/task/presentation/models/task.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../auth/presentation/models/user.dart';
-import '../../../components/templates/detail_screen.dart';
-import '../../../config/route/routes.dart';
-import '../../../config/themes/colours.dart';
+import '../../components/templates/detail_screen.dart';
+import '../../config/route/routes.dart';
+import '../../config/themes/colours.dart';
+import '../../domain/usecases/task_usecase.dart';
+import '../models/task.dart';
+import '../models/user.dart';
 
 const _kSpacingBetweenItems = SizedBox(height: 33.0);
 
 /// Screen containing details of a task.
 class TaskDetailScreen extends StatefulWidget {
-  TaskDetailScreen({Key? key, required this.id}) : super(key: key);
+  const TaskDetailScreen({Key? key, required this.id}) : super(key: key);
 
   final String id;
 
@@ -23,14 +23,26 @@ class TaskDetailScreen extends StatefulWidget {
 
 class _TaskDetailScreenState extends State<TaskDetailScreen> {
   final TaskUsecase _taskUsecase = TaskUsecase();
-  late final Task _task;
+  Task _task = Task();
+
+  @override
+  void initState() {
+    super.initState();
+    _initTask();
+  }
+
+  void _initTask() async {
+    final userId = context.read<User>().uid;
+    final res = await _taskUsecase.viewTask(userId: userId, taskId: widget.id);
+    setState(() {
+      _task = Task.create(res);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    viewTask();
-
     return DetailScreen(
-      colour: Colours.darkBase,
+      backRoute: Routes.taskBoardScreen,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -59,6 +71,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
           ],
         ),
       ),
+      colour: Colours.darkBase,
       hasRightIconButton: true,
       homeRoute: Routes.homeScreen,
       rightIconColour: Colours.green,
@@ -72,16 +85,6 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
         );
       },
     );
-  }
-
-  void viewTask() async {
-    Map<String, dynamic> res = await _taskUsecase.viewTask(
-      userId: context.read<User>().uid,
-      taskId: widget.id,
-    );
-    setState(() {
-      _task = Task.create(res);
-    });
   }
 }
 

@@ -4,10 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:provider/provider.dart';
 
-import 'auth/presentation/models/user.dart';
 import 'config/route/app_router.dart';
 import 'config/route/routes.dart';
-import 'task/presentation/models/task_board.dart';
+import 'presentation/models/user.dart';
 
 void main() async {
   // initialize firebase
@@ -21,11 +20,10 @@ void main() async {
   // run the app
   runApp(
     MultiProvider(
-      child: const GNAccessor(),
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
-        ChangeNotifierProvider(create: (_) => TaskBoard()),
       ],
+      child: const GNAccessor(),
     ),
   );
 }

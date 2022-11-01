@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../auth/presentation/models/user.dart';
-import '../../../components/atoms/app_list_tile.dart';
-import '../../../components/templates/main_app_screen.dart';
-import '../../../config/route/routes.dart';
-import '../../../config/themes/colours.dart';
-import '../../../constants/image_path.dart';
+import '../../components/atoms/app_list_tile.dart';
+import '../../components/templates/main_app_screen.dart';
+import '../../config/route/routes.dart';
+import '../../config/themes/colours.dart';
+import '../../constants/image_path.dart';
 import '../../domain/usecases/task_usecase.dart';
-import '../models/task_board.dart';
+import '../models/task.dart';
+import '../models/user.dart';
 
 /// Screen where user can see all tasks.
 class TaskBoardScreen extends StatefulWidget {
@@ -21,50 +21,54 @@ class TaskBoardScreen extends StatefulWidget {
 
 class _TaskBoardScreenState extends State<TaskBoardScreen> {
   final TaskUsecase _taskUsecase = TaskUsecase();
+  List<Task> _tasks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _initTasks();
+  }
+
+  void _initTasks() async {
+    final userId = context.read<User>().uid;
+    final res = await _taskUsecase.viewAllTasks(userId: userId);
+    setState(() {
+      _tasks = res.map<Task>((map) => Task.create(map)).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    viewAllTasks();
-
     return MainAppScreen(
       colour: Colours.darkBase,
-      content: Consumer<TaskBoard>(
-          builder: (BuildContext context, TaskBoard taskBoard, Widget? child) {
-        return ListView.separated(
-          itemBuilder: (BuildContext context, int index) {
-            final task = taskBoard.unmodifiableTasks[index];
-            return _TaskTile(
-              bodyOnPress: () {
-                Navigator.pushNamed(context, Routes.taskDetailScreen,
-                    arguments: task.id);
-              },
-              completion: task.completed,
-              leadingOnPress: () {
-                // complete task
-                taskBoard.update(task.complete());
-                _taskUsecase.completeTask(
-                    userId: context.read<User>().uid, taskId: task.id);
-              },
-              reward: task.reward,
-              title: task.title,
-            );
-          },
-          itemCount: taskBoard.taskCount,
-          separatorBuilder: (BuildContext context, int index) =>
-              const SizedBox(height: 17.0),
-        );
-      }),
+      content: ListView.separated(
+        itemBuilder: (BuildContext context, int index) {
+          final task = _tasks[index];
+          return _TaskTile(
+            bodyOnPress: () {
+              Navigator.pushNamed(context, Routes.taskDetailScreen,
+                  arguments: task.id);
+            },
+            completion: task.completed,
+            leadingOnPress: () {
+              // complete task
+              setState(() => task.completeTask());
+              _taskUsecase.completeTask(
+                userId: context.read<User>().uid,
+                taskId: task.id,
+              );
+            },
+            reward: task.reward,
+            title: task.title,
+          );
+        },
+        itemCount: _tasks.length,
+        separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(height: 17.0),
+      ),
       headerTitle: 'Task Board',
       homeRoute: Routes.homeScreen,
     );
-  }
-
-  void viewAllTasks() async {
-    if (!context.watch<TaskBoard>().isViewed) {
-      context.read<TaskBoard>().tasks = await _taskUsecase.viewAllTasks(
-        userId: context.read<User>().uid,
-      );
-    }
   }
 }
 

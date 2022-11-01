@@ -12,6 +12,7 @@ const _kDefaultContentPadding = EdgeInsets.only(
 class DetailScreen extends StatelessWidget {
   const DetailScreen({
     Key? key,
+    this.backRoute,
     required this.body,
     required this.colour,
     this.hasRightIconButton = false,
@@ -23,6 +24,7 @@ class DetailScreen extends StatelessWidget {
     this.rightIconOnPress,
   }) : super(key: key);
 
+  final String? backRoute;
   final Widget body;
   final Color colour;
   final bool hasRightIconButton;
@@ -61,7 +63,9 @@ class DetailScreen extends StatelessWidget {
                           colour: Colours.base,
                           iconData: Icons.arrow_back_ios_rounded,
                           location: FlyingLocation.left,
-                          onPress: () => Navigator.pop(context),
+                          onPress: () => backRoute != null
+                              ? Navigator.pushNamed(context, backRoute!)
+                              : Navigator.pop(context),
                         ),
                         const SizedBox(width: 13.0),
                         // home icon button
