@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gn_accessor/config/route/routes.dart';
 
-import '../../auth/presentation/screens/login_screen.dart';
-import '../../home/presentation/screens/home_screen.dart';
-import '../../task/presentation/screens/task_board_screen.dart';
-import '../../task/presentation/screens/task_detail_screen.dart';
+import '../../presentation/screens/login_screen.dart';
+import '../../presentation/screens/home_screen.dart';
+import '../../presentation/screens/task_board_screen.dart';
+import '../../presentation/screens/task_detail_screen.dart';
 
 /// Route generator.
 ///

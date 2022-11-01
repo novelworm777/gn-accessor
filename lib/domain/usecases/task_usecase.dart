@@ -1,7 +1,7 @@
-import '../../../auth/domain/models/user.dart';
-import '../../../auth/domain/services/user_service.dart';
 import '../models/task.dart';
+import '../models/user.dart';
 import '../services/task_service.dart';
+import '../services/user_service.dart';
 
 /// Usecase for task module.
 class TaskUsecase {
@@ -11,10 +11,7 @@ class TaskUsecase {
   /// Get all tasks for task board.
   Future<Iterable<Map<String, dynamic>>> viewAllTasks(
       {required String userId}) async {
-    Iterable<Task> tasks = await _taskService.findAllByUserId(
-      userId: userId,
-      throwError: false,
-    );
+    Iterable<Task> tasks = await _taskService.findAllByUserId(userId: userId);
     return tasks.map<Map<String, dynamic>>((task) => {
           'id': task.id,
           'title': task.title,
@@ -46,12 +43,11 @@ class TaskUsecase {
     required String taskId,
   }) async {
     // get all data that will be updated
-    User? user = await _userService.findUserById(userId, false);
+    User? user = await _userService.findUserById(userId);
     if (user == null) {
       throw const FormatException("unable to update nonexistent user");
     }
-    Task? task = await _taskService.findById(
-        userId: userId, taskId: taskId, throwError: true);
+    Task? task = await _taskService.findById(userId: userId, taskId: taskId);
     if (task == null) {
       throw const FormatException("unable to update nonexistent task");
     }
