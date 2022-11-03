@@ -6,7 +6,7 @@ class TaskService {
   final TaskRepository _repository = TaskRepository();
 
   /// Find all tasks.
-  Future<Iterable<Task>> findAll({required String userId}) async {
+  Future<List<Task>> findAll({required String userId}) async {
     return await _repository.findAll(userId: userId);
   }
 
