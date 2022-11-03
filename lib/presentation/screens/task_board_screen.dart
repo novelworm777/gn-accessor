@@ -49,17 +49,17 @@ class _TaskBoardScreenState extends State<TaskBoardScreen> {
               Navigator.pushNamed(context, Routes.taskDetailScreen,
                   arguments: task.id);
             },
-            completion: task.completed,
+            completion: task.completed ?? 0,
             leadingOnPress: () {
               // complete task
               setState(() => task.completeTask());
               _taskUsecase.completeTask(
                 userId: context.read<User>().uid,
-                taskId: task.id,
+                taskId: task.id ?? 'taskId',
               );
             },
-            reward: task.reward,
-            title: task.title,
+            reward: task.reward ?? 0,
+            title: task.title ?? '-',
           );
         },
         itemCount: _tasks.length,
