@@ -5,12 +5,12 @@ import '../models/task.dart';
 class TaskService {
   final TaskRepository _repository = TaskRepository();
 
-  /// Find all tasks that a user has.
-  Future<Iterable<Task>> findAllByUserId({required String userId}) async {
-    return await _repository.findTasks(userId: userId);
+  /// Find all tasks.
+  Future<Iterable<Task>> findAll({required String userId}) async {
+    return await _repository.findAll(userId: userId);
   }
 
-  /// Get a task by ID.
+  /// Find a task by [id].
   Future<Task?> findById({
     required String userId,
     required String taskId,
@@ -30,11 +30,11 @@ class TaskService {
     // check whether task has been cleared
     bool isCleared = task.completed == task.available;
 
-    // delete task
+    // delete task data
     if (isCleared) {
       _repository.deleteOne(userId: userId, taskId: task.id!);
     }
-    // update task
+    // update task data
     else if (update) {
       Map<String, dynamic> updated = {'completed': task.completed};
       _repository.updateOne(userId: userId, taskId: task.id!, data: updated);

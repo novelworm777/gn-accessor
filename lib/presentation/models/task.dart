@@ -13,7 +13,7 @@ class Task with ChangeNotifier, DiagnosticableTreeMixin {
   /// No-args constructor for [Task].
   Task();
 
-  /// Create [Task] from a map.
+  /// Creates [Task] from a map.
   Task.create(Map<String, dynamic> map) {
     _id = map['id'];
     _title = map['title'];
@@ -33,14 +33,14 @@ class Task with ChangeNotifier, DiagnosticableTreeMixin {
   int? get completed => _completed;
   int? get reward => _reward;
 
-  /// Complete a task.
+  /// Completes a task.
   VoidCallback complete() {
     return () {
       _completed = _completed! + 1;
     };
   }
 
-  // Complete a task.
+  /// Completes a task.
   void completeTask() {
     _completed = _completed! + 1;
   }
