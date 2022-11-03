@@ -9,6 +9,7 @@ const _kDefaultContentPadding = EdgeInsets.only(
   right: 33.0,
 );
 
+/// A screen template for showing details.
 class DetailScreen extends StatelessWidget {
   const DetailScreen({
     Key? key,

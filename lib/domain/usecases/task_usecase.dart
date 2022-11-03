@@ -11,7 +11,7 @@ class TaskUsecase {
   /// Get all tasks for task board.
   Future<Iterable<Map<String, dynamic>>> viewAllTasks(
       {required String userId}) async {
-    Iterable<Task> tasks = await _taskService.findAllByUserId(userId: userId);
+    Iterable<Task> tasks = await _taskService.findAll(userId: userId);
     return tasks.map<Map<String, dynamic>>((task) => {
           'id': task.id,
           'title': task.title,
@@ -20,7 +20,7 @@ class TaskUsecase {
         });
   }
 
-  /// View a task.
+  /// Get a task details.
   Future<Map<String, dynamic>> viewTask({
     required String userId,
     required String taskId,
@@ -43,7 +43,7 @@ class TaskUsecase {
     required String taskId,
   }) async {
     // get all data that will be updated
-    User? user = await _userService.findUserById(userId);
+    User? user = await _userService.findById(id: userId);
     if (user == null) {
       throw const FormatException("unable to update nonexistent user");
     }

@@ -3,47 +3,46 @@ import 'package:flutter/foundation.dart';
 /// Task presentation model.
 class Task with ChangeNotifier, DiagnosticableTreeMixin {
   String? _id;
-  String? _title = '';
-  String? _notes = '';
-  DateTime? _due = DateTime.now();
-  int? _available = 0;
-  int? _completed = 0;
-  int? _reward = 0;
-  bool isViewed = false;
+  String? _title;
+  String? _notes;
+  DateTime? _due;
+  int? _available;
+  int? _completed;
+  int? _reward;
 
   /// No-args constructor for [Task].
   Task();
 
-  /// Create [Task] from a map.
+  /// Creates [Task] from a map.
   Task.create(Map<String, dynamic> map) {
-    _id = map['id'] ?? '-';
-    _title = map['title'] ?? 'no title';
-    _notes = map['notes'] ?? '-';
-    _due = map['due'] ?? DateTime.now();
-    _available = map['available'] ?? -1;
-    _completed = map['completed'] ?? 0;
-    _reward = map['reward'] ?? -1;
+    _id = map['id'];
+    _title = map['title'];
+    _notes = map['notes'];
+    _due = map['due'];
+    _available = map['available'];
+    _completed = map['completed'];
+    _reward = map['reward'];
   }
 
   // getter
-  String get id => _id!;
-  String get title => _title!;
-  String get notes => _notes!;
-  DateTime get due => _due!;
-  int get available => _available!;
-  int get completed => _completed!;
-  int get reward => _reward!;
+  String? get id => _id;
+  String? get title => _title;
+  String? get notes => _notes;
+  DateTime? get due => _due;
+  int? get available => _available;
+  int? get completed => _completed;
+  int? get reward => _reward;
 
-  /// Complete a task.
+  /// Completes a task.
   VoidCallback complete() {
     return () {
-      _completed = _completed! + 1;
+      _completed = _completed ?? 0 + 1;
     };
   }
 
-  // Complete a task.
+  /// Completes a task.
   void completeTask() {
-    _completed = _completed! + 1;
+    _completed = _completed ?? 0 + 1;
   }
 
   /// Makes [Task] readable inside devtools.

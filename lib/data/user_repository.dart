@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../constants/database_collection.dart';
 import '../domain/models/user.dart';
 
+/// Repository for user [FirebaseFirestore] collection.
 class UserRepository {
   /// Find all user data.
   Future<List<User>> findAllWhereEqualTo({
@@ -16,9 +17,10 @@ class UserRepository {
         .toList();
   }
 
-  Future<User?> findUser(String docId) async {
+  /// Find a user data
+  Future<User?> findOne({required String userId}) async {
     DocumentSnapshot<Map<String, dynamic>> doc =
-        await _users().doc(docId).get();
+        await _users().doc(userId).get();
     if (doc.exists) return User.create(doc.id, doc.data()!);
     return null;
   }
@@ -29,8 +31,9 @@ class UserRepository {
   void updateOne({
     required String userId,
     required Map<String, dynamic> data,
-  }) =>
-      _users().doc(userId).update(data);
+  }) {
+    _users().doc(userId).update(data);
+  }
 
   /// Create [FirebaseFirestore] instance for user collection.
   CollectionReference<Map<String, dynamic>> _users() =>
