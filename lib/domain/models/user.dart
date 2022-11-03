@@ -1,8 +1,10 @@
+/// User domain model.
 class User {
   String? uid;
   String? name;
   int? cryois;
 
+  /// Creates [User] from an id and a map.
   User.create(String id, Map<String, dynamic> map) {
     uid = id;
     name = map['name'];
