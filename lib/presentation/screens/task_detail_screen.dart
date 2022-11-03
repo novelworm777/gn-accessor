@@ -32,7 +32,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
   }
 
   void _initTask() async {
-    final userId = context.read<User>().uid;
+    final userId = context.read<User>().id;
     final res = await _taskUsecase.viewTask(userId: userId, taskId: widget.id);
     setState(() {
       _task = Task.create(res);
@@ -86,7 +86,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
         // complete task
         setState(() => _task.completeTask());
         _taskUsecase.completeTask(
-          userId: context.read<User>().uid,
+          userId: context.read<User>().id,
           taskId: widget.id,
         );
       },

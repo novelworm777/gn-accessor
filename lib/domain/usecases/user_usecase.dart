@@ -11,9 +11,6 @@ class UserUsecase {
     if (user == null) {
       throw FormatException("unable to find user with uid: $uid");
     }
-    return {
-      'uid': user.uid,
-      'cryois': user.cryois,
-    };
+    return {'id': user.id};
   }
 }
