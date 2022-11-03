@@ -30,7 +30,7 @@ class _TaskBoardScreenState extends State<TaskBoardScreen> {
   }
 
   void _initTasks() async {
-    final userId = context.read<User>().uid;
+    final userId = context.read<User>().id;
     final res = await _taskUsecase.viewAllTasks(userId: userId);
     setState(() {
       _tasks = res.map<Task>((map) => Task.create(map)).toList();
@@ -54,7 +54,7 @@ class _TaskBoardScreenState extends State<TaskBoardScreen> {
               // complete task
               setState(() => task.completeTask());
               _taskUsecase.completeTask(
-                userId: context.read<User>().uid,
+                userId: context.read<User>().id,
                 taskId: task.id ?? 'taskId',
               );
             },

@@ -2,27 +2,23 @@ import 'package:flutter/foundation.dart';
 
 /// User presentation model.
 class User with ChangeNotifier, DiagnosticableTreeMixin {
-  String? _uid;
-  int? _cryois;
+  String? _id;
 
   /// No-args constructor for [User].
   User();
 
   /// Set [User] properties from a map.
   set user(Map<String, dynamic> map) {
-    _uid = map['uid'] ?? '-';
-    _cryois = map['cryois'] ?? -1;
+    _id = map['id'] ?? 'userId';
   }
 
   // getter
-  String get uid => _uid!;
-  int get cryois => _cryois!;
+  String get id => _id!;
 
   /// Makes [User] readable inside devtools.
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(StringProperty('uid', _uid));
-    properties.add(IntProperty('cryois', _cryois));
+    properties.add(StringProperty('id', _id));
   }
 }
