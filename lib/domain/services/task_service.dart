@@ -24,11 +24,22 @@ class TaskService {
     required Task task,
     bool update = true,
   }) {
+    // update task
     task.completed = task.completed! + 1;
-    if (update) {
+
+    // check whether task has been cleared
+    bool isCleared = task.completed == task.available;
+
+    // delete task
+    if (isCleared) {
+      _repository.deleteOne(userId: userId, taskId: task.id!);
+    }
+    // update task
+    else if (update) {
       Map<String, dynamic> updated = {'completed': task.completed};
       _repository.updateOne(userId: userId, taskId: task.id!, data: updated);
     }
+
     return task;
   }
 }

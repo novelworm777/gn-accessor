@@ -31,6 +31,14 @@ class TaskRepository {
     _tasks(userId: userId).doc(taskId).update(data);
   }
 
+  /// Delete a task data.
+  void deleteOne({
+    required String userId,
+    required String taskId,
+  }) {
+    _tasks(userId: userId).doc(taskId).delete();
+  }
+
   /// Create [FirebaseFirestore] instance for task collection.
   CollectionReference<Map<String, dynamic>> _tasks({required String userId}) =>
       FirebaseFirestore.instance
