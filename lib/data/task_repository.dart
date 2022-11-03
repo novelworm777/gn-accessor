@@ -6,10 +6,10 @@ import '../domain/models/task.dart';
 /// Repository for task [FirebaseFirestore] collection.
 class TaskRepository {
   /// Find all task data.
-  Future<Iterable<Task>> findAll({required String userId}) async {
+  Future<List<Task>> findAll({required String userId}) async {
     QuerySnapshot<Map<String, dynamic>> found =
         await _tasks(userId: userId).get();
-    return found.docs.map((doc) => Task.create(doc.id, doc.data()));
+    return found.docs.map((doc) => Task.create(doc.id, doc.data())).toList();
   }
 
   /// Find a task data.
