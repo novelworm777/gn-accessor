@@ -27,7 +27,7 @@ class UserService {
     bool update = true,
   }) {
     // update user
-    user.cryois = user.cryois! + number;
+    user.cryois = user.cryois ?? 0 + number;
 
     // update user data
     if (update) {

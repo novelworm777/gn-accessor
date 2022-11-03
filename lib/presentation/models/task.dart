@@ -36,13 +36,13 @@ class Task with ChangeNotifier, DiagnosticableTreeMixin {
   /// Completes a task.
   VoidCallback complete() {
     return () {
-      _completed = _completed! + 1;
+      _completed = _completed ?? 0 + 1;
     };
   }
 
   /// Completes a task.
   void completeTask() {
-    _completed = _completed! + 1;
+    _completed = _completed ?? 0 + 1;
   }
 
   /// Makes [Task] readable inside devtools.
