@@ -49,7 +49,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
           children: <Widget>[
             // task title
             Text(
-              _task.title,
+              _task.title ?? '-',
               style: GoogleFonts.jetBrainsMono(
                 color: Colours.text,
                 fontSize: 21.0,
@@ -58,16 +58,22 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
             ),
             _kSpacingBetweenItems,
             // notes
-            _DetailItem(content: _task.notes!, label: 'Notes'),
-            _kSpacingBetweenItems,
+            _task.notes != null && _task.notes!.isNotEmpty
+                ? _DetailItem(content: _task.notes!, label: 'Notes')
+                : Container(),
+            _task.notes != null ? _kSpacingBetweenItems : Container(),
             // due date
-            _DetailItem(content: '${_task.due}', label: 'Due Date'),
+            _DetailItem(content: '${_task.due ?? '-'}', label: 'Due Date'),
             _kSpacingBetweenItems,
             // available
-            _DetailItem(content: '${_task.completed}', label: 'Available'),
+            _DetailItem(
+                content: '${_task.completed ?? '-'}', label: 'Available'),
             _kSpacingBetweenItems,
             // rewards
-            _DetailItem(content: '${_task.reward} Cryois', label: 'Rewards'),
+            _DetailItem(
+              content: _task.reward != null ? '${_task.reward} Cryois' : '-',
+              label: 'Rewards',
+            ),
           ],
         ),
       ),
