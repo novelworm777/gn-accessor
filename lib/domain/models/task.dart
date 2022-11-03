@@ -1,5 +1,6 @@
+/// Task domain model.
 class Task {
-  String? id;
+  String id;
   String? title;
   String? notes;
   DateTime? due;
@@ -8,7 +9,8 @@ class Task {
   int? reward;
   DateTime? createdAt;
 
-  Task.create(String this.id, Map<String, dynamic> map) {
+  /// Creates [Task] from an id and a map.
+  Task.create(this.id, Map<String, dynamic> map) {
     title = map['title'];
     notes = map['notes'];
     due = map['due']?.toDate();
