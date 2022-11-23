@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../domain/models/user_domain.dart';
-import '../utils/services/firestore.dart';
-import 'models/user_firestore_data.dart';
+import '../../domain/models/user_domain.dart';
+import '../../utils/services/firestore.dart';
+import '../models/user_firestore_data.dart';
 
 /// Repository for user [FirebaseFirestore] collection.
 class UserRepository {
