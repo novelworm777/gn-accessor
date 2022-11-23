@@ -25,7 +25,7 @@ class TaskService {
     bool update = true,
   }) {
     // update task
-    task.completed = task.completed ?? 0 + 1;
+    task.completed = (task.completed ?? 0) + 1;
 
     // check whether task has been cleared
     bool isCleared = task.completed == task.available;
