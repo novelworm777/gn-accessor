@@ -1,4 +1,4 @@
-import '../../data/task_repository.dart';
+import '../../data/repositories/task_repository.dart';
 import '../models/task.dart';
 
 /// Service for task module.
