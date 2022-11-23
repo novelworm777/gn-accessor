@@ -27,12 +27,12 @@ class UserService {
     bool update = true,
   }) {
     // update user
-    user.cryois = user.cryois ?? 0 + number;
+    user.cryois = (user.cryois ?? 0) + number;
 
     // update user data
     if (update) {
       Map<String, dynamic> updated = {'cryois': user.cryois};
-      _repository.updateOne(userId: user.uid!, data: updated);
+      _repository.updateOne(userId: user.id, data: updated);
     }
 
     return user;
