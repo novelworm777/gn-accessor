@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../constants/database_collection.dart';
 import '../domain/models/user.dart';
+import '../utils/services/firestore.dart';
 
 /// Repository for user [FirebaseFirestore] collection.
 class UserRepository {
+  final _firestore = Firestore.user();
+
   /// Find all user data.
   Future<List<User>> findAllWhereEqualTo({
     required String field,
@@ -36,6 +38,5 @@ class UserRepository {
   }
 
   /// Create [FirebaseFirestore] instance for user collection.
-  CollectionReference<Map<String, dynamic>> _users() =>
-      FirebaseFirestore.instance.collection(dUser);
+  CollectionReference<Map<String, dynamic>> _users() => _firestore;
 }

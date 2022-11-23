@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../constants/database_collection.dart';
 import '../domain/models/task.dart';
+import '../utils/services/firestore.dart';
 
 /// Repository for task [FirebaseFirestore] collection.
 class TaskRepository {
+  final _firestore = Firestore.user();
+
   /// Find all task data.
   Future<List<Task>> findAll({required String userId}) async {
     QuerySnapshot<Map<String, dynamic>> found =
@@ -44,8 +47,5 @@ class TaskRepository {
 
   /// Create [FirebaseFirestore] instance for task collection.
   CollectionReference<Map<String, dynamic>> _tasks({required String userId}) =>
-      FirebaseFirestore.instance
-          .collection(dUser)
-          .doc(userId)
-          .collection(dTask);
+      _firestore.doc(userId).collection(dTask);
 }
