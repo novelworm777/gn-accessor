@@ -1,4 +1,4 @@
-import '../models/user.dart';
+import '../models/user_domain.dart';
 import '../services/user_service.dart';
 
 /// Usecase for user module.
@@ -7,7 +7,7 @@ class UserUsecase {
 
   /// authentication
   Future<Map<String, dynamic>> login({required String uid}) async {
-    User? user = await userService.findByUID(uid: uid);
+    UserDomain? user = await userService.findByUID(uid: uid);
     if (user == null) {
       throw FormatException("unable to find user with uid: $uid");
     }
