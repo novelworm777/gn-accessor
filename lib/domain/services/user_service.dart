@@ -1,4 +1,4 @@
-import '../../data/user_repository.dart';
+import '../../data/repositories/user_repository.dart';
 import '../models/user_domain.dart';
 
 /// Service for user module.

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../constants/database_collection.dart';
-import '../domain/models/task_domain.dart';
-import '../utils/services/firestore.dart';
-import 'models/task_firestore_data.dart';
+import '../../constants/database_collection.dart';
+import '../../domain/models/task_domain.dart';
+import '../../utils/services/firestore.dart';
+import '../models/task_firestore_data.dart';
 
 /// Repository for task [FirebaseFirestore] collection.
 class TaskRepository {
