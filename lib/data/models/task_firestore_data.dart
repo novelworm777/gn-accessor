@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gn_accessor/domain/models/task.dart';
+
+import '../../domain/models/task_domain.dart';
 
 /// Task firestore data model.
 class TaskFirestoreData {
