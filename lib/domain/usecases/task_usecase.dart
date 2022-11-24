@@ -1,5 +1,5 @@
 import '../models/task_domain.dart';
-import '../models/user.dart';
+import '../models/user_domain.dart';
 import '../services/task_service.dart';
 import '../services/user_service.dart';
 
@@ -44,7 +44,7 @@ class TaskUsecase {
     required String taskId,
   }) async {
     // get all data that will be updated
-    User? user = await _userService.findById(id: userId);
+    UserDomain? user = await _userService.findById(id: userId);
     if (user == null) {
       throw const FormatException("unable to update nonexistent user");
     }

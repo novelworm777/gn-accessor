@@ -1,4 +1,4 @@
-import 'package:gn_accessor/data/models/task_firestore_data.dart';
+import '../../data/models/task_firestore_data.dart';
 
 /// Task domain model.
 class TaskDomain {

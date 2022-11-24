@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gn_accessor/domain/models/user.dart';
+
+import '../../domain/models/user_domain.dart';
 
 /// User firestore data model.
 class UserFirestoreData {
@@ -15,8 +16,8 @@ class UserFirestoreData {
     this.cryois,
   });
 
-  /// Convert [User] into [UserFirestoreData] object.
-  factory UserFirestoreData.fromDomain(User model) => UserFirestoreData(
+  /// Convert [UserDomain] into [UserFirestoreData] object.
+  factory UserFirestoreData.fromDomain(UserDomain model) => UserFirestoreData(
         id: model.id,
         uid: model.uid,
         name: model.name,
