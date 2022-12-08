@@ -43,6 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return ColourDefaultScreen(
       colour: Colours.darkBase,
+      padding: const EdgeInsets.only(
+        bottom: 33.0,
+        left: 21.0,
+        right: 21.0,
+        top: 17.0,
+      ),
       child: CircularMenu(
         animationDuration: const Duration(milliseconds: 370),
         backgroundWidget: Stack(
@@ -108,6 +114,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pushNamed(context, Routes.taskBoardScreen);
             },
           ),
+          // tools icon button
+          CircularMenuItem(
+            color: Colours.text,
+            icon: FontAwesomeIcons.toolbox,
+            iconColor: Colours.darkText,
+            onTap: () {},
+          ),
           // turn off icon button
           CircularMenuItem(
             color: Colours.text,
@@ -122,12 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
         reverseCurve: Curves.easeIn,
         toggleButtonColor: Colours.text,
         toggleButtonIconColor: Colours.darkText,
-      ),
-      padding: const EdgeInsets.only(
-        bottom: 33.0,
-        left: 21.0,
-        right: 21.0,
-        top: 17.0,
       ),
     );
   }
