@@ -17,7 +17,7 @@ class ToolsScreen extends StatelessWidget {
         crossAxisSpacing: 13.0,
         mainAxisSpacing: 21.0,
         primary: false,
-        children: <Widget>[
+        children: <MiniApp>[
           MiniApp(
             iconData: FontAwesomeIcons.childReaching,
             onPress: () {},
