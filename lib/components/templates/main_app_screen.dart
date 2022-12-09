@@ -76,8 +76,8 @@ class MainAppScreen extends StatelessWidget {
                 // body
                 Expanded(
                   child: Container(
-                    child: content,
                     padding: contentPadding,
+                    child: content,
                   ),
                 ),
               ],
