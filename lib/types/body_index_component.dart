@@ -1,5 +1,5 @@
 /// Body index component types.
-enum BodyIndexComponentType {
+enum BodyIndexComponent {
   gender("Gender", null),
   age("Age", " Y/O"),
   height("Height", "cm"),
@@ -25,61 +25,61 @@ enum BodyIndexComponentType {
   rightCalf("Right Calf", "cm"),
   unknown("???", null);
 
-  const BodyIndexComponentType(this.name, this.notation);
+  const BodyIndexComponent(this.name, this.notation);
   final String name;
   final String? notation;
 
-  /// Get [BodyIndexComponentType] by key.
-  static BodyIndexComponentType getType(String key) {
+  /// Get [BodyIndexComponent] by key.
+  static BodyIndexComponent getType(String key) {
     switch (key) {
       case "gender":
-        return BodyIndexComponentType.gender;
+        return BodyIndexComponent.gender;
       case "age":
-        return BodyIndexComponentType.age;
+        return BodyIndexComponent.age;
       case "height":
-        return BodyIndexComponentType.height;
+        return BodyIndexComponent.height;
       case "weight":
-        return BodyIndexComponentType.weight;
+        return BodyIndexComponent.weight;
       case "body_age":
-        return BodyIndexComponentType.bodyAge;
+        return BodyIndexComponent.bodyAge;
       case "body_mass_index":
-        return BodyIndexComponentType.bodyMassIndex;
+        return BodyIndexComponent.bodyMassIndex;
       case "body_fat_percent":
-        return BodyIndexComponentType.bodyFatPercent;
+        return BodyIndexComponent.bodyFatPercent;
       case "body_fat_kilo":
-        return BodyIndexComponentType.bodyFatKilo;
+        return BodyIndexComponent.bodyFatKilo;
       case "skeletal_muscle_percent":
-        return BodyIndexComponentType.skeletalMusclePercent;
+        return BodyIndexComponent.skeletalMusclePercent;
       case "skeletal_muscle_kilo":
-        return BodyIndexComponentType.skeletalMuscleKilo;
+        return BodyIndexComponent.skeletalMuscleKilo;
       case "visceral_fat":
-        return BodyIndexComponentType.visceralFat;
+        return BodyIndexComponent.visceralFat;
       case "antioxidant_value":
-        return BodyIndexComponentType.antioxidantValue;
+        return BodyIndexComponent.antioxidantValue;
       case "basal_metabolic_rate":
-        return BodyIndexComponentType.basalMetabolicRate;
+        return BodyIndexComponent.basalMetabolicRate;
       case "navel":
-        return BodyIndexComponentType.navel;
+        return BodyIndexComponent.navel;
       case "waistline":
-        return BodyIndexComponentType.waistline;
+        return BodyIndexComponent.waistline;
       case "abdomen":
-        return BodyIndexComponentType.abdomen;
+        return BodyIndexComponent.abdomen;
       case "hip":
-        return BodyIndexComponentType.hip;
+        return BodyIndexComponent.hip;
       case "left_upper_arm":
-        return BodyIndexComponentType.leftUpperArm;
+        return BodyIndexComponent.leftUpperArm;
       case "right_upper_arm":
-        return BodyIndexComponentType.rightUpperArm;
+        return BodyIndexComponent.rightUpperArm;
       case "left_thigh":
-        return BodyIndexComponentType.leftThigh;
+        return BodyIndexComponent.leftThigh;
       case "right_thigh":
-        return BodyIndexComponentType.rightThigh;
+        return BodyIndexComponent.rightThigh;
       case "left_calf":
-        return BodyIndexComponentType.leftCalf;
+        return BodyIndexComponent.leftCalf;
       case "right_calf":
-        return BodyIndexComponentType.rightCalf;
+        return BodyIndexComponent.rightCalf;
       default:
-        return BodyIndexComponentType.unknown;
+        return BodyIndexComponent.unknown;
     }
   }
 }
