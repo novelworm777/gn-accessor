@@ -7,93 +7,8 @@ import 'package:provider/provider.dart';
 import '../../components/atoms/circular_button.dart';
 import '../../components/templates/detail_screen.dart';
 import '../../config/themes/colours.dart';
+import '../../types/body_index_component_type.dart';
 import '../models/user.dart';
-
-/// Body index component types.
-enum _BodyIndexComponentType {
-  gender("Gender", null),
-  age("Age", " Y/O"),
-  height("Height", "cm"),
-  weight("Weight", "kg"),
-  bodyAge("Body Age", null),
-  bodyMassIndex("BMI", null),
-  bodyFatPercent("Body Fat (%)", "%"),
-  bodyFatKilo("Body Fat (kg)", "kg"),
-  skeletalMusclePercent("Skeletal Muscle (%)", "%"),
-  skeletalMuscleKilo("Skeletal Muscle (kg)", "kg"),
-  visceralFat("Visceral Fat", null),
-  antioxidantValue("Antioxidant Value", null),
-  basalMetabolicRate("BMR", "kcal/day"),
-  navel("Navel", "cm"),
-  waistline("Waistline", "cm"),
-  abdomen("Abdomen", "cm"),
-  hip("Hip", "cm"),
-  leftUpperArm("Upper Left Arm", "cm"),
-  rightUpperArm("Upper Right Arm", "cm"),
-  leftThigh("Left Thigh", "cm"),
-  rightThigh("Right Thigh", "cm"),
-  leftCalf("Left Calf", "cm"),
-  rightCalf("Right Calf", "cm"),
-  unknown("???", null);
-
-  const _BodyIndexComponentType(this.name, this.notation);
-  final String name;
-  final String? notation;
-
-  /// Get [_BodyIndexComponentType] by key.
-  static _BodyIndexComponentType getType(String key) {
-    switch (key) {
-      case "gender":
-        return _BodyIndexComponentType.gender;
-      case "age":
-        return _BodyIndexComponentType.age;
-      case "height":
-        return _BodyIndexComponentType.height;
-      case "weight":
-        return _BodyIndexComponentType.weight;
-      case "body_age":
-        return _BodyIndexComponentType.bodyAge;
-      case "body_mass_index":
-        return _BodyIndexComponentType.bodyMassIndex;
-      case "body_fat_percent":
-        return _BodyIndexComponentType.bodyFatPercent;
-      case "body_fat_kilo":
-        return _BodyIndexComponentType.bodyFatKilo;
-      case "skeletal_muscle_percent":
-        return _BodyIndexComponentType.skeletalMusclePercent;
-      case "skeletal_muscle_kilo":
-        return _BodyIndexComponentType.skeletalMuscleKilo;
-      case "visceral_fat":
-        return _BodyIndexComponentType.visceralFat;
-      case "antioxidant_value":
-        return _BodyIndexComponentType.antioxidantValue;
-      case "basal_metabolic_rate":
-        return _BodyIndexComponentType.basalMetabolicRate;
-      case "navel":
-        return _BodyIndexComponentType.navel;
-      case "waistline":
-        return _BodyIndexComponentType.waistline;
-      case "abdomen":
-        return _BodyIndexComponentType.abdomen;
-      case "hip":
-        return _BodyIndexComponentType.hip;
-      case "left_upper_arm":
-        return _BodyIndexComponentType.leftUpperArm;
-      case "right_upper_arm":
-        return _BodyIndexComponentType.rightUpperArm;
-      case "left_thigh":
-        return _BodyIndexComponentType.leftThigh;
-      case "right_thigh":
-        return _BodyIndexComponentType.rightThigh;
-      case "left_calf":
-        return _BodyIndexComponentType.leftCalf;
-      case "right_calf":
-        return _BodyIndexComponentType.rightCalf;
-      default:
-        return _BodyIndexComponentType.unknown;
-    }
-  }
-}
 
 /// Gender types.
 enum _Gender {
@@ -238,8 +153,8 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
   List<BodyIndexComponent> _convertDataToWidget(Map<String, dynamic> data) {
     List<BodyIndexComponent> components = [];
     data.forEach((key, value) {
-      _BodyIndexComponentType type = _BodyIndexComponentType.getType(key);
-      if (type == _BodyIndexComponentType.gender) {
+      BodyIndexComponentType type = BodyIndexComponentType.getType(key);
+      if (type == BodyIndexComponentType.gender) {
         value = _Gender.fromString(value).pretty;
       }
       BodyIndexComponent component = BodyIndexComponent(
@@ -247,7 +162,7 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
         notation: type.notation,
         value: value,
       );
-      if (type != _BodyIndexComponentType.unknown) components.add(component);
+      if (type != BodyIndexComponentType.unknown) components.add(component);
     });
     return components;
   }
