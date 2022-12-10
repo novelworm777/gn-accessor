@@ -8,21 +8,8 @@ import '../../components/atoms/circular_button.dart';
 import '../../components/templates/detail_screen.dart';
 import '../../config/themes/colours.dart';
 import '../../types/body_index_component_type.dart';
+import '../../types/gender.dart';
 import '../models/user.dart';
-
-/// Gender types.
-enum _Gender {
-  male("Male"),
-  female("Female");
-
-  const _Gender(this.pretty);
-  final String pretty;
-
-  static _Gender fromString(String str) {
-    return _Gender.values
-        .firstWhere((element) => element.toString() == '$_Gender.$str');
-  }
-}
 
 /// Screen for body index record details.
 class BodyIndexScreen extends StatefulWidget {
@@ -155,7 +142,7 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
     data.forEach((key, value) {
       BodyIndexComponentType type = BodyIndexComponentType.getType(key);
       if (type == BodyIndexComponentType.gender) {
-        value = _Gender.fromString(value).pretty;
+        value = Gender.fromString(value).pretty;
       }
       BodyIndexComponent component = BodyIndexComponent(
         name: type.name,
