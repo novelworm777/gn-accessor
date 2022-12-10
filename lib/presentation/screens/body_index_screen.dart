@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../components/atoms/circular_button.dart';
 import '../../components/templates/detail_screen.dart';
 import '../../config/themes/colours.dart';
-import '../../types/body_index_component_type.dart';
+import '../../types/body_index_component.dart';
 import '../../types/gender.dart';
 import '../models/user.dart';
 
@@ -136,20 +136,20 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
     );
   }
 
-  /// Convert each component data into [BodyIndexComponent].
-  List<BodyIndexComponent> _convertDataToWidget(Map<String, dynamic> data) {
-    List<BodyIndexComponent> components = [];
+  /// Convert each component data into [BodyIndexComponentView].
+  List<BodyIndexComponentView> _convertDataToWidget(Map<String, dynamic> data) {
+    List<BodyIndexComponentView> components = [];
     data.forEach((key, value) {
-      BodyIndexComponentType type = BodyIndexComponentType.getType(key);
-      if (type == BodyIndexComponentType.gender) {
+      BodyIndexComponent type = BodyIndexComponent.getType(key);
+      if (type == BodyIndexComponent.gender) {
         value = Gender.fromString(value).pretty;
       }
-      BodyIndexComponent component = BodyIndexComponent(
+      BodyIndexComponentView component = BodyIndexComponentView(
         name: type.name,
         notation: type.notation,
         value: value,
       );
-      if (type != BodyIndexComponentType.unknown) components.add(component);
+      if (type != BodyIndexComponent.unknown) components.add(component);
     });
     return components;
   }
@@ -165,7 +165,7 @@ class ExpandedBodyIndexPanel extends StatefulWidget {
     required this.title,
   }) : super(key: key);
 
-  final List<BodyIndexComponent> components;
+  final List<BodyIndexComponentView> components;
   bool isExpanded;
   final String title;
 
@@ -294,8 +294,8 @@ class _ExpandedBodyIndexPanelHeader extends StatelessWidget {
 }
 
 /// Body index component widget for view usage.
-class BodyIndexComponent extends StatelessWidget {
-  const BodyIndexComponent({
+class BodyIndexComponentView extends StatelessWidget {
+  const BodyIndexComponentView({
     Key? key,
     required this.name,
     this.notation,
