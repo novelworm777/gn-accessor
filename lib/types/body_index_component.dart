@@ -25,8 +25,8 @@ enum BodyIndexComponent {
   rightCalf("Right Calf", "cm"),
   unknown("???", null);
 
-  const BodyIndexComponent(this.name, this.notation);
-  final String name;
+  const BodyIndexComponent(this.pretty, this.notation);
+  final String pretty;
   final String? notation;
 
   /// Get [BodyIndexComponent] by key.
@@ -81,5 +81,14 @@ enum BodyIndexComponent {
       default:
         return BodyIndexComponent.unknown;
     }
+  }
+
+  static bool isBasicProfile(BodyIndexComponent component) {
+    List<BodyIndexComponent> basicProfileComponents = [
+      BodyIndexComponent.gender,
+      BodyIndexComponent.age,
+      BodyIndexComponent.height,
+    ];
+    return basicProfileComponents.contains(component);
   }
 }

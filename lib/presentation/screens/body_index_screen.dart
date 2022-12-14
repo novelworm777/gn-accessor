@@ -145,7 +145,7 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
         value = Gender.fromString(value).pretty;
       }
       BodyIndexComponentView component = BodyIndexComponentView(
-        name: type.name,
+        name: type.pretty,
         notation: type.notation,
         value: value,
       );
