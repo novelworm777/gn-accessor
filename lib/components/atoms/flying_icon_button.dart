@@ -26,11 +26,8 @@ class FlyingIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onPress,
       child: Container(
-        child: Icon(
-          iconData,
-          color: iconColour,
-        ),
         decoration: BoxDecoration(
           borderRadius: getBorderRadius(),
           boxShadow: [
@@ -43,8 +40,11 @@ class FlyingIconButton extends StatelessWidget {
           color: colour,
         ),
         padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 7.0),
+        child: Icon(
+          iconData,
+          color: iconColour,
+        ),
       ),
-      onTap: onPress,
     );
   }
 
