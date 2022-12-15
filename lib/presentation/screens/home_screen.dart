@@ -37,9 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String _dateMonth = DateFormat('d/M').format(_currentTime);
-    final String _day = DateFormat('EEE').format(_currentTime).toUpperCase();
-    final String _hourMinute = DateFormat('HH:mm').format(_currentTime);
+    final String dateMonth = DateFormat('d/M').format(_currentTime);
+    final String day = DateFormat('EEE').format(_currentTime).toUpperCase();
+    final String hourMinute = DateFormat('HH:mm').format(_currentTime);
 
     return ColourDefaultScreen(
       colour: Colours.darkBase,
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Text>[
                   Text(
-                    _hourMinute,
+                    hourMinute,
                     style: GoogleFonts.jetBrainsMono(
                       color: Colours.text,
                       fontSize: 77.0,
@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Text(
-                    '$_dateMonth $_day',
+                    '$dateMonth $day',
                     style: GoogleFonts.jetBrainsMono(
                       color: Colours.darkText,
                       fontSize: 21.0,
@@ -119,7 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colours.text,
             icon: FontAwesomeIcons.toolbox,
             iconColor: Colours.darkText,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, Routes.toolsScreen);
+            },
           ),
           // turn off icon button
           CircularMenuItem(
