@@ -12,12 +12,12 @@ class BodyIndexRepository {
   /// Find a body index by [BodyIndexFirestoreData.date].
   Future<BodyIndexDomain?> findOneByDate({
     required String userId,
-    required DateTime fieldValue,
+    required DateTime date,
   }) async {
     final QuerySnapshot<BodyIndexFirestoreData> found =
-        await _records(userId: userId)
-            .where('date', isGreaterThanOrEqualTo: fieldValue)
-            .where('date', isLessThan: fieldValue.add(const Duration(days: 1)))
+        await _bodyIndexes(userId: userId)
+            .where('date', isGreaterThanOrEqualTo: date)
+            .where('date', isLessThan: date.add(const Duration(days: 1)))
             .limit(1)
             .get();
     List<BodyIndexDomain> converted = found.docs
@@ -27,8 +27,16 @@ class BodyIndexRepository {
     return null;
   }
 
+  /// Delete a body index by [BodyIndexFirestoreData.id].
+  void deleteOneById({
+    required String userId,
+    required String bodyIndexId,
+  }) async {
+    await _bodyIndexes(userId: userId).doc(bodyIndexId).delete();
+  }
+
   /// Create [FirebaseFirestore] instance for body index collection.
-  CollectionReference<BodyIndexFirestoreData> _records(
+  CollectionReference<BodyIndexFirestoreData> _bodyIndexes(
           {required String userId}) =>
       _firestore
           .doc(userId)

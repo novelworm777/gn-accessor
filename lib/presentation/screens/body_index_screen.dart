@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -135,10 +136,16 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
                 ],
               ),
               _hasRecord
-                  ? const Icon(
-                      FontAwesomeIcons.solidTrashCan,
-                      color: Colours.red,
-                      size: 21.0,
+                  ? GestureDetector(
+                      onTap: () {
+                        // show pop up to delete
+                        _showDeleteBodyIndexPopup();
+                      },
+                      child: const Icon(
+                        FontAwesomeIcons.solidTrashCan,
+                        color: Colours.red,
+                        size: 21.0,
+                      ),
                     )
                   : Container(),
             ],
@@ -201,6 +208,108 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
         ],
       ),
       colour: Colours.darkBase,
+    );
+  }
+
+  _showDeleteBodyIndexPopup() {
+    const radius = Radius.circular(15.0);
+    const margin = 49.0;
+    const message = 'Are you sure you want to delete body index record of ';
+    final date = DateFormat('d MMM yyyy').format(_date);
+
+    SmartDialog.show(
+      builder: (_) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: radius,
+                topRight: radius,
+              ),
+              color: Colours.darkBase,
+            ),
+            margin: const EdgeInsets.symmetric(horizontal: margin),
+            padding: const EdgeInsets.all(21.0),
+            child: RichText(
+              text: TextSpan(
+                style: GoogleFonts.jetBrainsMono(
+                  color: Colours.text,
+                  fontSize: 13.0,
+                ),
+                children: <TextSpan>[
+                  const TextSpan(text: message),
+                  TextSpan(
+                    text: date,
+                    style: GoogleFonts.jetBrainsMono(color: Colours.red),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    // remove popup
+                    SmartDialog.dismiss();
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(bottomLeft: radius),
+                      color: Colours.text,
+                    ),
+                    margin: const EdgeInsets.only(left: margin),
+                    padding: const EdgeInsets.all(13.0),
+                    child: Text(
+                      'Back',
+                      style: GoogleFonts.jetBrainsMono(
+                        color: Colours.darkBase,
+                        fontSize: 13.0,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    // delete body index
+                    final userId = context.read<User>().id;
+                    _bodyIndexUseCase.deleteBodyIndex(
+                      userId: userId,
+                      bodyIndexId: _id!,
+                    );
+                    _emptyBodyIndexData();
+                    // remove popup
+                    SmartDialog.dismiss();
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(bottomRight: radius),
+                      color: Colours.red,
+                    ),
+                    margin: const EdgeInsets.only(right: margin),
+                    padding: const EdgeInsets.all(13.0),
+                    child: Text(
+                      'Confirm',
+                      style: GoogleFonts.jetBrainsMono(
+                        color: Colours.text,
+                        fontSize: 13.0,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      clickMaskDismiss: true,
+      maskColor: Colors.black.withOpacity(0.93),
     );
   }
 

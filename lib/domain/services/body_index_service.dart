@@ -12,7 +12,18 @@ class BodyIndexService {
   }) async {
     return await _repository.findOneByDate(
       userId: userId,
-      fieldValue: date,
+      date: date,
+    );
+  }
+
+  /// Delete a body index by [BodyIndexDomain.id].
+  void deleteById({
+    required String userId,
+    required String bodyIndexId,
+  }) {
+    _repository.deleteOneById(
+      userId: userId,
+      bodyIndexId: bodyIndexId,
     );
   }
 }
