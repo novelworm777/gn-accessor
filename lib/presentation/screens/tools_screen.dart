@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../components/templates/main_app_screen.dart';
+import '../../config/route/routes.dart';
 import '../../config/themes/colours.dart';
 
 /// Screen of mini apps.
@@ -18,9 +19,12 @@ class ToolsScreen extends StatelessWidget {
         mainAxisSpacing: 21.0,
         primary: false,
         children: <MiniApp>[
+          // body index icon button
           MiniApp(
             iconData: FontAwesomeIcons.childReaching,
-            onPress: () {},
+            onPress: () {
+              Navigator.pushNamed(context, Routes.bodyIndexScreen);
+            },
           ),
         ],
       ),
