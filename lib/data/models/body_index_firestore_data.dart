@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gn_accessor/domain/models/record_domain.dart';
 
-/// Body index record firestore data model.
-class RecordFirestoreData {
+import '../../domain/models/body_index_domain.dart';
+
+/// Body index firestore data model.
+class BodyIndexFirestoreData {
   String? id;
   DateTime? date;
   String? gender;
@@ -30,7 +31,7 @@ class RecordFirestoreData {
   int? rightCalf;
   DateTime? createdAt;
 
-  RecordFirestoreData({
+  BodyIndexFirestoreData({
     this.id,
     this.date,
     this.gender,
@@ -59,9 +60,9 @@ class RecordFirestoreData {
     this.createdAt,
   });
 
-  /// Convert [RecordDomain] into [RecordFirestoreData] object.
-  factory RecordFirestoreData.fromDomain(RecordDomain model) =>
-      RecordFirestoreData(
+  /// Convert [BodyIndexDomain] into [BodyIndexFirestoreData] object.
+  factory BodyIndexFirestoreData.fromDomain(BodyIndexDomain model) =>
+      BodyIndexFirestoreData(
         id: model.id,
         date: model.date,
         gender: model.gender,
@@ -90,22 +91,22 @@ class RecordFirestoreData {
         createdAt: model.createdAt,
       );
 
-  /// Convert firestore snapshot into [RecordFirestoreData] object.
-  factory RecordFirestoreData.fromFirestore(
+  /// Convert firestore snapshot into [BodyIndexFirestoreData] object.
+  factory BodyIndexFirestoreData.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot, {
     SnapshotOptions? options,
   }) {
     final data = snapshot.data();
-    final record = RecordFirestoreData.fromMap(data);
+    final record = BodyIndexFirestoreData.fromMap(data);
     record.id = snapshot.id;
     return record;
   }
 
-  /// Convert [Map] into [RecordFirestoreData] object.
-  factory RecordFirestoreData.fromMap(Map<String, dynamic>? map) =>
-      RecordFirestoreData(
+  /// Convert [Map] into [BodyIndexFirestoreData] object.
+  factory BodyIndexFirestoreData.fromMap(Map<String, dynamic>? map) =>
+      BodyIndexFirestoreData(
         id: map?['id'] as String?,
-        date: map?['date'] as DateTime?,
+        date: map?['date']?.toDate(),
         gender: map?['gender'] as String?,
         age: map?['age'] as int?,
         height: map?['height'] as int?,
@@ -129,10 +130,10 @@ class RecordFirestoreData {
         rightThigh: map?['rightThigh'] as int?,
         leftCalf: map?['leftCalf'] as int?,
         rightCalf: map?['rightCalf'] as int?,
-        createdAt: map?['createdAt'] as DateTime?,
+        createdAt: map?['createdAt']?.toDate(),
       );
 
-  /// Convert [RecordFirestoreData] into firestore json.
+  /// Convert [BodyIndexFirestoreData] into firestore json.
   Map<String, dynamic> toFirestore() => {
         if (date != null) 'date': date,
         if (gender != null) 'gender': gender,

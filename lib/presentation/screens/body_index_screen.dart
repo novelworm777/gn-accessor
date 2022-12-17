@@ -7,8 +7,10 @@ import 'package:provider/provider.dart';
 import '../../components/atoms/circular_button.dart';
 import '../../components/templates/detail_screen.dart';
 import '../../config/themes/colours.dart';
+import '../../domain/usecases/body_index_usecase.dart';
 import '../../types/body_index_component.dart';
 import '../../types/gender.dart';
+import '../../utils/helpers/map_formatter.dart';
 import '../models/user.dart';
 
 /// Screen for body index record details.
@@ -21,26 +23,42 @@ class BodyIndexScreen extends StatefulWidget {
 
 class _BodyIndexScreenState extends State<BodyIndexScreen> {
   final double _spacing = 17.0;
-
+  final BodyIndexUseCase _bodyIndexUseCase = BodyIndexUseCase();
   DateTime _date = DateTime.now();
   bool _hasRecord = false;
-  Map<String, dynamic> _basicProfileData = {
-    "gender": "female",
-    "age": 21,
-    "height": 155,
-  };
+  Map<String, dynamic> _basicProfileData = {};
   Map<String, dynamic> _bodyIndexData = {};
   Map<String, dynamic> _circumferenceData = {};
 
   @override
   void initState() {
     super.initState();
-    _initRecord();
+    _initBodyIndex();
   }
 
-  /// Get record from database.
-  void _initRecord() async {
+  /// Get body index from database.
+  void _initBodyIndex() async {
     final userId = context.read<User>().id;
+    final date = DateTime(_date.year, _date.month, _date.day);
+    try {
+      final res =
+          await _bodyIndexUseCase.viewBodyIndex(userId: userId, date: date);
+      _updateBodyIndex(res);
+    } catch (_) {}
+  }
+
+  /// Give value to screen.
+  void _updateBodyIndex(res) {
+    setState(() {
+      _basicProfileData = MapFormatter.removeNull(res['basicProfile']);
+      _bodyIndexData = MapFormatter.removeNull(res['bodyIndex']);
+      _circumferenceData = MapFormatter.removeNull(res['circumference']);
+      if (_basicProfileData.isNotEmpty ||
+          _bodyIndexData.isNotEmpty ||
+          _circumferenceData.isNotEmpty) {
+        _hasRecord = true;
+      }
+    });
   }
 
   @override
@@ -124,7 +142,9 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
                           color: Colours.green,
                           size: 56.0,
                         ),
-                        onPress: () {},
+                        onPress: () async {
+                          // TODO create new body index for the date
+                        },
                         size: 73.0,
                       ),
                     ],
