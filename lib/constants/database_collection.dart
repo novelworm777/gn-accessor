@@ -1,4 +1,4 @@
 // firestore
-const dBodyIndex = 'bodyIndex';
+const dBodyIndex = 'bodyIndexes';
 const dTask = 'tasks';
 const dUser = 'users';

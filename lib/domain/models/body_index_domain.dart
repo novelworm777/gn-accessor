@@ -1,7 +1,9 @@
-import 'package:gn_accessor/data/models/record_firestore_data.dart';
+import 'dart:collection';
 
-/// Body index record domain model.
-class RecordDomain {
+import '../../data/models/body_index_firestore_data.dart';
+
+/// Body index domain model.
+class BodyIndexDomain {
   String? id;
   DateTime? date;
   String? gender;
@@ -29,7 +31,7 @@ class RecordDomain {
   int? rightCalf;
   DateTime? createdAt;
 
-  RecordDomain({
+  BodyIndexDomain({
     this.id,
     this.date,
     this.gender,
@@ -58,8 +60,9 @@ class RecordDomain {
     this.createdAt,
   });
 
-  /// Convert [RecordFirestoreData] into [RecordDomain] object.
-  factory RecordDomain.fromData(RecordFirestoreData model) => RecordDomain(
+  /// Convert [BodyIndexFirestoreData] into [BodyIndexDomain] object.
+  factory BodyIndexDomain.fromData(BodyIndexFirestoreData model) =>
+      BodyIndexDomain(
         id: model.id,
         date: model.date,
         gender: model.gender,
@@ -87,4 +90,42 @@ class RecordDomain {
         rightCalf: model.rightCalf,
         createdAt: model.createdAt,
       );
+
+  LinkedHashMap<String, dynamic> getBasicProfileComponentsMap() {
+    return LinkedHashMap.of(<String, dynamic>{
+      'gender': gender,
+      'age': age,
+      'height': height,
+    });
+  }
+
+  LinkedHashMap<String, dynamic> getBodyIndexComponentsMap() {
+    return LinkedHashMap.of(<String, dynamic>{
+      'weight': weight,
+      'bodyAge': bodyAge,
+      'bodyMassIndex': bodyMassIndex,
+      'bodyFatPercent': bodyFatPercent,
+      'bodyFatKilo': bodyFatKilo,
+      'skeletalMusclePercent': skeletalMusclePercent,
+      'skeletalMuscleKilo': skeletalMuscleKilo,
+      'visceralFat': visceralFat,
+      'antioxidantValue': antioxidantValue,
+      'basalMetabolicRate': basalMetabolicRate,
+    });
+  }
+
+  LinkedHashMap<String, dynamic> getCircumferenceComponentsMap() {
+    return LinkedHashMap.of(<String, dynamic>{
+      'navel': navel,
+      'waistline': waistline,
+      'abdomen': abdomen,
+      'hip': hip,
+      'leftUpperArm': leftUpperArm,
+      'rightUpperArm': rightUpperArm,
+      'leftThigh': leftThigh,
+      'rightThigh': rightThigh,
+      'leftCalf': leftCalf,
+      'rightCalf': rightCalf,
+    });
+  }
 }
