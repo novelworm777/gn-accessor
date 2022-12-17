@@ -43,22 +43,31 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
     try {
       final res =
           await _bodyIndexUseCase.viewBodyIndex(userId: userId, date: date);
-      _updateBodyIndex(res);
+      _giveValueToBodyIndex(res);
     } catch (_) {}
   }
 
-  /// Give value to screen.
-  void _updateBodyIndex(res) {
-    setState(() {
-      _basicProfileData = MapFormatter.removeNull(res['basicProfile']);
-      _bodyIndexData = MapFormatter.removeNull(res['bodyIndex']);
-      _circumferenceData = MapFormatter.removeNull(res['circumference']);
-      if (_basicProfileData.isNotEmpty ||
-          _bodyIndexData.isNotEmpty ||
-          _circumferenceData.isNotEmpty) {
-        _hasRecord = true;
-      }
-    });
+  /// Give value to body index data.
+  void _giveValueToBodyIndex(res) {
+    if (res == null) {
+      setState(() {
+        _basicProfileData.clear();
+        _bodyIndexData.clear();
+        _circumferenceData.clear();
+        _hasRecord = false;
+      });
+    } else {
+      setState(() {
+        _basicProfileData = MapFormatter.removeNull(res['basicProfile']);
+        _bodyIndexData = MapFormatter.removeNull(res['bodyIndex']);
+        _circumferenceData = MapFormatter.removeNull(res['circumference']);
+        if (_basicProfileData.isNotEmpty ||
+            _bodyIndexData.isNotEmpty ||
+            _circumferenceData.isNotEmpty) {
+          _hasRecord = true;
+        }
+      });
+    }
   }
 
   @override
@@ -71,10 +80,40 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  const Icon(
-                    FontAwesomeIcons.solidCalendarDays,
-                    color: Colours.darkText,
-                    size: 21.0,
+                  GestureDetector(
+                    onTap: () async {
+                      // show date picker to pick a new body index date
+                      DateTime? newDate = await showDatePicker(
+                          context: context,
+                          initialDate: _date,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                          builder: (context, child) {
+                            return Theme(
+                              data: ThemeData(
+                                colorScheme: const ColorScheme.light(
+                                  primary: Colours.base,
+                                  onPrimary: Colours.text,
+                                  onSurface: Colours.darkBase,
+                                ),
+                              ),
+                              child: child!,
+                            );
+                          });
+                      // no change in body index date
+                      if (newDate == null) return;
+                      if (_date != newDate) {
+                        // change body index date
+                        setState(() => _date = newDate);
+                        // update body index data
+                        _initBodyIndex();
+                      }
+                    },
+                    child: const Icon(
+                      FontAwesomeIcons.solidCalendarDays,
+                      color: Colours.darkText,
+                      size: 21.0,
+                    ),
                   ),
                   const SizedBox(width: 13.0),
                   Text(
