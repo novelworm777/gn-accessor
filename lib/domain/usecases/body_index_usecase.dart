@@ -26,6 +26,16 @@ class BodyIndexUseCase {
     };
   }
 
+  /// Get locked data of body index.
+  Future<Map<String, dynamic>> viewLockedComponents({
+    required String userId,
+  }) async {
+    BodyIndexDomain locked = await _bodyIndexService.findLocked(
+      userId: userId,
+    );
+    return locked.getBasicProfileComponentsMap();
+  }
+
   /// Delete a body index.
   void deleteBodyIndex({
     required String userId,
