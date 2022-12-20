@@ -1,4 +1,5 @@
 import '../../data/repositories/body_index_repository.dart';
+import '../../types/variant_doc.dart';
 import '../models/body_index_domain.dart';
 
 /// Service for body index module.
@@ -13,6 +14,14 @@ class BodyIndexService {
     return await _repository.findOneByDate(
       userId: userId,
       date: date,
+    );
+  }
+
+  /// Find a variant data named locked.
+  Future<BodyIndexDomain> findLocked({required String userId}) async {
+    return await _repository.findVariant(
+      userId: userId,
+      variant: VariantDoc.locked,
     );
   }
 

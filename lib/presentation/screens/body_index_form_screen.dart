@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gn_accessor/domain/usecases/body_index_usecase.dart';
+import 'package:gn_accessor/utils/helpers/map_formatter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +35,8 @@ class BodyIndexFormScreen extends StatefulWidget {
 }
 
 class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
+  final _bodyIndexUseCase = BodyIndexUseCase();
+
   final List<Component> _components = [
     Component(type: BodyIndexComponent.gender),
     Component(type: BodyIndexComponent.age),
@@ -49,8 +53,19 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
 
   /// Get locked components value from database.
   void _initLockedComponents() async {
+    // get locked components data
     final userId = context.read<User>().id;
-    // TODO get locked components and add value as initial value
+    final res = await _bodyIndexUseCase.viewLockedComponents(userId: userId);
+    // remove null entries
+    final lockedData = MapFormatter.removeNull(res);
+    // update basic profile components value
+    for (Component component in _components) {
+      if (lockedData.containsKey(component.type!.name)) {
+        setState(() => component.value = lockedData[component.type!.name]);
+        _formKey.currentState!.fields[component.type!.name]
+            ?.didChange('${component.value}');
+      }
+    }
   }
 
   @override
@@ -143,7 +158,7 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
           // remove component from the list
           _components.remove(component);
           // remove component form value
-          _formKey.currentState!.fields['$componentType']?.didChange(null);
+          _formKey.currentState!.fields[componentType.name]?.didChange(null);
         });
       },
       initialValue:
@@ -268,12 +283,12 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
       setState(() {
         bodyFatKilo.value = null;
       });
-      _formKey.currentState!.fields['${bodyFatKilo.type}']?.didChange(null);
+      _formKey.currentState!.fields[bodyFatKilo.type!.name]?.didChange(null);
     } else {
       setState(() {
         bodyFatKilo.value = (weight * bodyFatPercent / 100).toStringAsFixed(2);
       });
-      _formKey.currentState!.fields['${bodyFatKilo.type}']
+      _formKey.currentState!.fields[bodyFatKilo.type!.name]
           ?.didChange('${bodyFatKilo.value}');
     }
   }
@@ -295,14 +310,14 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
       setState(() {
         skeletalMuscleKilo.value = null;
       });
-      _formKey.currentState!.fields['${skeletalMuscleKilo.type}']
+      _formKey.currentState!.fields[skeletalMuscleKilo.type!.name]
           ?.didChange(null);
     } else {
       setState(() {
         skeletalMuscleKilo.value =
             (weight * skeletalMusclePercent / 100).toStringAsFixed(2);
       });
-      _formKey.currentState!.fields['${skeletalMuscleKilo.type}']
+      _formKey.currentState!.fields[skeletalMuscleKilo.type!.name]
           ?.didChange('${skeletalMuscleKilo.value}');
     }
   }
@@ -344,10 +359,10 @@ class BasicProfileComponentForm extends StatefulWidget {
 }
 
 class _BasicProfileComponentFormState extends State<BasicProfileComponentForm> {
-  bool isLocked = false;
-
   @override
   Widget build(BuildContext context) {
+    bool isLocked = widget.initialValue != null ? true : false;
+
     return BodyIndexComponentForm(
       componentType: widget.componentType,
       iconButtonColour: Colours.lightBase,
@@ -488,11 +503,11 @@ class BodyIndexComponentForm extends StatelessWidget {
           itemHeight: 49.0,
           items: Gender.values
               .map((element) => DropdownMenuItem(
-                    value: element.toString(),
+                    value: element.name,
                     child: Text(element.pretty),
                   ))
               .toList(),
-          name: componentType.toString(),
+          name: componentType.name,
           onChanged: onChanged,
           style: _kFormTextStyle,
         );
@@ -501,7 +516,7 @@ class BodyIndexComponentForm extends StatelessWidget {
           decoration: _getFormDecoration(),
           enabled: !isDisabled,
           initialValue: initialValue,
-          name: componentType.toString(),
+          name: componentType.name,
           onChanged: onChanged,
           readOnly: isDisabled,
           showCursor: false,
