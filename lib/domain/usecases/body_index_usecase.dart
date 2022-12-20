@@ -25,4 +25,15 @@ class BodyIndexUseCase {
       'circumference': bodyIndex.getCircumferenceComponentsMap(),
     };
   }
+
+  /// Delete a body index.
+  void deleteBodyIndex({
+    required String userId,
+    required String bodyIndexId,
+  }) {
+    _bodyIndexService.deleteById(
+      userId: userId,
+      bodyIndexId: bodyIndexId,
+    );
+  }
 }
