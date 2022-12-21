@@ -208,7 +208,7 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
   List<BodyIndexComponentView> _convertDataToWidget(Map<String, dynamic> data) {
     List<BodyIndexComponentView> components = [];
     data.forEach((key, value) {
-      BodyIndexComponent type = BodyIndexComponent.getType(key);
+      BodyIndexComponent type = BodyIndexComponent.fromString(key);
       if (type == BodyIndexComponent.gender) {
         value = Gender.fromString(value).pretty;
       }
