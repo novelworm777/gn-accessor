@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gn_accessor/domain/usecases/body_index_usecase.dart';
-import 'package:gn_accessor/utils/helpers/map_formatter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -11,8 +9,10 @@ import '../../components/atoms/circular_button.dart';
 import '../../components/templates/detail_screen.dart';
 import '../../config/route/routes.dart';
 import '../../config/themes/colours.dart';
+import '../../domain/usecases/body_index_usecase.dart';
 import '../../types/body_index_component.dart';
 import '../../types/gender.dart';
+import '../../utils/helpers/map_formatter.dart';
 import '../models/component.dart';
 import '../models/user.dart';
 

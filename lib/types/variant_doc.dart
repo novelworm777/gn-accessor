@@ -1,4 +1,4 @@
-import 'package:gn_accessor/constants/database_collection.dart';
+import '../constants/database_collection.dart';
 
 enum VariantDoc {
   locked('locked');
