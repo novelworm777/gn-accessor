@@ -6,7 +6,7 @@ import '../../presentation/screens/body_index_screen/body_index_screen.dart';
 import '../../presentation/screens/login_screen/login_screen.dart';
 import '../../presentation/screens/home_screen/home_screen.dart';
 import '../../presentation/screens/task_board_screen/task_board_screen.dart';
-import '../../presentation/screens/task_detail_screen.dart';
+import '../../presentation/screens/task_detail_screen/task_detail_screen.dart';
 import 'routes.dart';
 
 /// Route generator.
