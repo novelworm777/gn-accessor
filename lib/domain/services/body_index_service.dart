@@ -25,6 +25,24 @@ class BodyIndexService {
     );
   }
 
+  /// Change value of locked variant data.
+  Future<BodyIndexDomain> changeLockedValue({
+    required String userId,
+    required Map<String, dynamic> data,
+    bool update = true,
+  }) async {
+    // convert value into its property type
+    if (data.containsKey('gender')) data['gender'] = data['gender'] as String?;
+    if (data.containsKey('age')) data['age'] = int.parse(data['age']);
+    if (data.containsKey('height')) data['height'] = int.parse(data['height']);
+    // update locked data
+    return await _repository.updateVariant(
+      userId: userId,
+      variant: VariantDoc.locked,
+      data: data,
+    );
+  }
+
   /// Delete a body index by [BodyIndexDomain.id].
   void deleteById({
     required String userId,

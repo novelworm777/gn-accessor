@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../constants/database_collection.dart';
 import '../../domain/models/body_index_domain.dart';
+import '../../types/variant_doc.dart';
 import '../../utils/services/firestore.dart';
 import '../models/body_index_firestore_data.dart';
-import '../../types/variant_doc.dart';
 
 /// Repository for body index [FirebaseFirestore] collection.
 class BodyIndexRepository {
@@ -36,6 +36,19 @@ class BodyIndexRepository {
     final docId = VariantDoc.getDocId(dBodyIndex, variant);
     final snapshot = await _bodyIndexes(userId: userId).doc(docId).get();
     return BodyIndexDomain.fromData(snapshot.data()!);
+  }
+
+  /// Update a variant document.
+  ///
+  /// Only the data given will be updated, others will be untouched.
+  Future<BodyIndexDomain> updateVariant({
+    required String userId,
+    required VariantDoc variant,
+    required Map<String, dynamic> data,
+  }) async {
+    final docId = VariantDoc.getDocId(dBodyIndex, variant);
+    await _bodyIndexes(userId: userId).doc(docId).update(data);
+    return await findVariant(userId: userId, variant: variant);
   }
 
   /// Delete a body index by [BodyIndexFirestoreData.id].
