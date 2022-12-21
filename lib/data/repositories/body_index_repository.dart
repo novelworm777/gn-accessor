@@ -48,8 +48,9 @@ class BodyIndexRepository {
     required VariantDoc variant,
   }) async {
     final docId = VariantDoc.getDocId(dBodyIndex, variant);
-    final snapshot = await _bodyIndexes(userId: userId).doc(docId).get();
-    return BodyIndexDomain.fromData(snapshot.data()!);
+    final found = await _bodyIndexes(userId: userId).doc(docId).get();
+    if (found.exists) return BodyIndexDomain.fromData(found.data()!);
+    return BodyIndexDomain();
   }
 
   /// Update a variant document.
