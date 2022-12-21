@@ -43,15 +43,19 @@ class BodyIndexService {
     required Map<String, dynamic> data,
     bool update = true,
   }) async {
-    // convert value into its property type
-    if (data.containsKey('gender')) data['gender'] = data['gender'] as String?;
-    if (data.containsKey('age')) data['age'] = int.parse(data['age']);
-    if (data.containsKey('height')) data['height'] = int.parse(data['height']);
+    // get current locked variant data
+    BodyIndexDomain updated = await findLocked(userId: userId);
+    // set new value
+    if (data.containsKey('gender')) updated.gender = data['gender'];
+    if (data.containsKey('age')) updated.age = int.tryParse(data['age'] ?? '');
+    if (data.containsKey('height')) {
+      updated.height = int.tryParse(data['height'] ?? '');
+    }
     // update locked data
     return await _repository.updateVariant(
       userId: userId,
       variant: VariantDoc.locked,
-      data: data,
+      data: updated,
     );
   }
 

@@ -59,10 +59,12 @@ class BodyIndexRepository {
   Future<BodyIndexDomain> updateVariant({
     required String userId,
     required VariantDoc variant,
-    required Map<String, dynamic> data,
+    required BodyIndexDomain data,
   }) async {
+    // get doc id of the variant doc
     final docId = VariantDoc.getDocId(dBodyIndex, variant);
-    await _bodyIndexes(userId: userId).doc(docId).update(data);
+    final converted = BodyIndexFirestoreData.fromDomain(data);
+    await _bodyIndexes(userId: userId).doc(docId).set(converted);
     return await findVariant(userId: userId, variant: variant);
   }
 
