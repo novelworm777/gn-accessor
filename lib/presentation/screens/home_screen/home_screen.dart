@@ -10,10 +10,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../components/atoms/circular_button.dart';
-import '../../components/templates/colour_default_screen.dart';
-import '../../config/route/routes.dart';
-import '../../config/themes/colours.dart';
+import '../../../components/atoms/circular_button.dart';
+import '../../../components/templates/colour_default_screen.dart';
+import '../../../config/route/routes.dart';
+import '../../../config/themes/colours.dart';
 
 /// Screen for the root of all screens.
 class HomeScreen extends StatefulWidget {

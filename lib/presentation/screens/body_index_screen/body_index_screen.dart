@@ -5,15 +5,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../components/atoms/circular_button.dart';
-import '../../components/templates/detail_screen.dart';
-import '../../config/route/routes.dart';
-import '../../config/themes/colours.dart';
-import '../../domain/usecases/body_index_usecase.dart';
-import '../../types/body_index_component.dart';
-import '../../types/gender.dart';
-import '../../utils/helpers/map_formatter.dart';
-import '../models/user.dart';
+import '../../../components/atoms/circular_button.dart';
+import '../../../components/templates/detail_screen.dart';
+import '../../../config/route/routes.dart';
+import '../../../config/themes/colours.dart';
+import '../../../domain/usecases/body_index_usecase.dart';
+import '../../../types/body_index_component.dart';
+import '../../../types/gender.dart';
+import '../../../utils/helpers/map_formatter.dart';
+import '../../models/user.dart';
+import 'body_index_component_view.dart';
+import 'expanded_body_index_panel.dart';
 
 /// Screen for body index record details.
 class BodyIndexScreen extends StatefulWidget {
@@ -334,182 +336,5 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
       if (type != BodyIndexComponent.unknown) components.add(component);
     });
     return components;
-  }
-}
-
-/// Expanded panel for body index record.
-// ignore: must_be_immutable
-class ExpandedBodyIndexPanel extends StatefulWidget {
-  ExpandedBodyIndexPanel({
-    Key? key,
-    required this.components,
-    this.isExpanded = true,
-    required this.title,
-  }) : super(key: key);
-
-  final List<BodyIndexComponentView> components;
-  bool isExpanded;
-  final String title;
-
-  @override
-  State<ExpandedBodyIndexPanel> createState() => _ExpandedBodyIndexPanelState();
-}
-
-class _ExpandedBodyIndexPanelState extends State<ExpandedBodyIndexPanel> {
-  final Radius _radius = const Radius.circular(7.0);
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.isExpanded
-        ? Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.75),
-                  blurRadius: 4,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              children: <Widget>[
-                _ExpandedBodyIndexPanelHeader(
-                  arrowIcon: Icons.arrow_drop_down,
-                  bottomWithoutRadius: true,
-                  onPress: () => setState(() {
-                    widget.isExpanded = !widget.isExpanded;
-                  }),
-                  title: widget.title,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: _radius,
-                      bottomRight: _radius,
-                    ),
-                    color: Colours.base,
-                  ),
-                  padding: const EdgeInsets.all(13.0),
-                  child: ListView.separated(
-                    itemBuilder: (BuildContext context, int index) {
-                      return widget.components[index];
-                    },
-                    itemCount: widget.components.length,
-                    primary: false,
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const SizedBox(height: 7.0),
-                    shrinkWrap: true,
-                  ),
-                ),
-              ],
-            ),
-          )
-        : Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.75),
-                  blurRadius: 4,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: _ExpandedBodyIndexPanelHeader(
-              arrowIcon: Icons.arrow_right,
-              onPress: () => setState(() {
-                widget.isExpanded = !widget.isExpanded;
-              }),
-              title: widget.title,
-            ),
-          );
-  }
-}
-
-/// Expanded panel header for [ExpandedBodyIndexPanel].
-class _ExpandedBodyIndexPanelHeader extends StatelessWidget {
-  const _ExpandedBodyIndexPanelHeader({
-    Key? key,
-    required this.arrowIcon,
-    this.bottomWithoutRadius = false,
-    required this.onPress,
-    required this.title,
-  }) : super(key: key);
-
-  final IconData arrowIcon;
-  final bool bottomWithoutRadius;
-  final VoidCallback onPress;
-  final String title;
-
-  final Radius _radius = const Radius.circular(7.0);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: bottomWithoutRadius
-            ? BorderRadius.only(topLeft: _radius, topRight: _radius)
-            : BorderRadius.all(_radius),
-        color: Colours.lightBase,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 7.0, vertical: 3.0),
-      child: Row(
-        children: <Widget>[
-          GestureDetector(
-            onTap: onPress,
-            child: Icon(
-              arrowIcon,
-              color: Colours.text,
-              size: 33.0,
-            ),
-          ),
-          Text(
-            title,
-            style: GoogleFonts.jetBrainsMono(
-              color: Colours.text,
-              fontSize: 15.0,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Body index component widget for view usage.
-class BodyIndexComponentView extends StatelessWidget {
-  const BodyIndexComponentView({
-    Key? key,
-    required this.name,
-    this.notation,
-    required this.value,
-  }) : super(key: key);
-
-  final String name;
-  final String? notation;
-  final Object value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Text>[
-        Text(
-          name,
-          style: GoogleFonts.jetBrainsMono(
-            color: Colours.darkText,
-            fontSize: 13.0,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        Text(
-          notation != null ? "$value$notation" : "$value",
-          style: GoogleFonts.jetBrainsMono(
-            color: Colours.darkText,
-            fontSize: 13.0,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
   }
 }

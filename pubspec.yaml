@@ -1,6 +1,6 @@
 name: gn_accessor
 description: A new Flutter project.
-version: 0.2.0+72
+version: 0.2.1+76
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
