@@ -5,6 +5,20 @@ import '../services/body_index_service.dart';
 class BodyIndexUseCase {
   final BodyIndexService _bodyIndexService = BodyIndexService();
 
+  /// Create a body index.
+  Future<Map<String, dynamic>> createBodyIndex({
+    required String userId,
+    required DateTime date,
+    required Map<String, dynamic> data,
+  }) async {
+    await _bodyIndexService.createByDate(
+      userId: userId,
+      date: date,
+      data: data,
+    );
+    return {'message': 'success'};
+  }
+
   /// Get a body index.
   Future<Map<String, dynamic>> viewBodyIndex({
     required String userId,

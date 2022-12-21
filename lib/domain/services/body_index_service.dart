@@ -6,6 +6,18 @@ import '../models/body_index_domain.dart';
 class BodyIndexService {
   final BodyIndexRepository _repository = BodyIndexRepository();
 
+  /// Create a body index by [BodyIndexDomain.date].
+  Future<BodyIndexDomain> createByDate({
+    required String userId,
+    required DateTime date,
+    required Map<String, dynamic> data,
+    bool create = true,
+  }) async {
+    BodyIndexDomain newBodyIndex = BodyIndexDomain.fromMap(data);
+    newBodyIndex.date = date;
+    return _repository.createOne(userId: userId, data: newBodyIndex);
+  }
+
   /// Find a body index by [BodyIndexDomain.date].
   Future<BodyIndexDomain?> findByDate({
     required String userId,

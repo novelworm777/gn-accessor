@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../components/atoms/circular_button.dart';
 import '../../components/templates/detail_screen.dart';
+import '../../config/route/routes.dart';
 import '../../config/themes/colours.dart';
 import '../../types/body_index_component.dart';
 import '../../types/gender.dart';
@@ -28,7 +29,12 @@ const _kFormulaComponent = [
 
 /// Screen to create a record of body index.
 class BodyIndexFormScreen extends StatefulWidget {
-  const BodyIndexFormScreen({Key? key}) : super(key: key);
+  const BodyIndexFormScreen({
+    Key? key,
+    required this.date,
+  }) : super(key: key);
+
+  final DateTime date;
 
   @override
   State<BodyIndexFormScreen> createState() => _BodyIndexFormScreenState();
@@ -141,9 +147,25 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
       rightIconColour: Colours.green,
       rightIconData: Icons.save,
       rightIconOnPress: () {
-        // TODO create as new record
+        // create new body index data
+        _createBodyIndex();
+        // navigate to body index screen
+        Navigator.pushNamed(context, Routes.bodyIndexScreen);
       },
     );
+  }
+
+  /// Create a new body index in database.
+  void _createBodyIndex() async {
+    if (_formKey.currentState!.saveAndValidate()) {
+      final userId = context.read<User>().id;
+      final formData = _formKey.currentState!.value;
+      await _bodyIndexUseCase.createBodyIndex(
+        userId: userId,
+        date: widget.date,
+        data: formData,
+      );
+    }
   }
 
   /// Generate component widget based on its component group.
