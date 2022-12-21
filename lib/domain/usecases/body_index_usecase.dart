@@ -36,6 +36,14 @@ class BodyIndexUseCase {
     return locked.getBasicProfileComponentsMap();
   }
 
+  /// Change locked data value of body index.
+  void lockComponent({
+    required String userId,
+    required Map<String, dynamic> data,
+  }) async {
+    await _bodyIndexService.changeLockedValue(userId: userId, data: data);
+  }
+
   /// Delete a body index.
   void deleteBodyIndex({
     required String userId,

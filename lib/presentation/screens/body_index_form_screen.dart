@@ -37,6 +37,7 @@ class BodyIndexFormScreen extends StatefulWidget {
 class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
   final _bodyIndexUseCase = BodyIndexUseCase();
 
+  bool _isLoading = true;
   final List<Component> _components = [
     Component(type: BodyIndexComponent.gender),
     Component(type: BodyIndexComponent.age),
@@ -58,75 +59,83 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
     final res = await _bodyIndexUseCase.viewLockedComponents(userId: userId);
     // remove null entries
     final lockedData = MapFormatter.removeNull(res);
-    // update basic profile components value
+    // check for basic profile components
     for (Component component in _components) {
       if (lockedData.containsKey(component.type!.name)) {
-        setState(() => component.value = lockedData[component.type!.name]);
-        _formKey.currentState!.fields[component.type!.name]
-            ?.didChange('${component.value}');
+        setState(() {
+          // update component value
+          component.value = lockedData[component.type!.name];
+          // set the component form as locked
+          component.isLocked = true;
+        });
       }
     }
+    // ends loading
+    setState(() => _isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
     return DetailScreen(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            FormBuilder(
-              key: _formKey,
-              child: ListView.separated(
-                itemBuilder: ((context, index) =>
-                    _generateComponentWidget(_components[index])),
-                itemCount: _components.length,
-                primary: false,
-                separatorBuilder: ((context, index) => _kSpacing),
-                shrinkWrap: true,
-              ),
-            ),
-            if (!_hasAllComponents) _kSpacing,
-            if (!_hasAllComponents)
-              GestureDetector(
-                onTap: () {
-                  // show dropdown pop up
-                  _showAddComponentDropdownPopUp();
-                  // check whether all components are already added
-                  if (_components.length == BodyIndexComponent.values.length) {
-                    _hasAllComponents = true;
-                  }
-                },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(7.0)),
-                    color: Colours.green,
+      body: _isLoading
+          ? Container()
+          : SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  FormBuilder(
+                    key: _formKey,
+                    child: ListView.separated(
+                      itemBuilder: ((context, index) =>
+                          _generateComponentWidget(_components[index])),
+                      itemCount: _components.length,
+                      primary: false,
+                      separatorBuilder: ((context, index) => _kSpacing),
+                      shrinkWrap: true,
+                    ),
                   ),
-                  margin: const EdgeInsets.symmetric(horizontal: 73.0),
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Icon(
-                        FontAwesomeIcons.plus,
-                        color: Colours.text,
-                        size: 21.0,
-                      ),
-                      const SizedBox(width: 7.0),
-                      Text(
-                        "Add Component",
-                        style: GoogleFonts.jetBrainsMono(
-                          color: Colours.text,
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.w700,
+                  if (!_hasAllComponents) _kSpacing,
+                  if (!_hasAllComponents)
+                    GestureDetector(
+                      onTap: () {
+                        // show dropdown pop up
+                        _showAddComponentDropdownPopUp();
+                        // check whether all components are already added
+                        if (_components.length ==
+                            BodyIndexComponent.values.length) {
+                          _hasAllComponents = true;
+                        }
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                          color: Colours.green,
+                        ),
+                        margin: const EdgeInsets.symmetric(horizontal: 73.0),
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Icon(
+                              FontAwesomeIcons.plus,
+                              color: Colours.text,
+                              size: 21.0,
+                            ),
+                            const SizedBox(width: 7.0),
+                            Text(
+                              "Add Component",
+                              style: GoogleFonts.jetBrainsMono(
+                                color: Colours.text,
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                ],
               ),
-          ],
-        ),
-      ),
+            ),
       colour: Colours.darkBase,
       hasRightIconButton: true,
       rightIconColour: Colours.green,
@@ -146,8 +155,17 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
       return BasicProfileComponentForm(
         componentType: componentType,
         initialValue: hasValue ? '${component.value}' : null,
+        isLocked: component.isLocked,
         onChanged: (value) {
           setState(() => component.value = value);
+        },
+        onPress: () {
+          setState(() => component.isLocked = !component.isLocked);
+          final userId = context.read<User>().id;
+          final data = component.isLocked
+              ? {componentType.name: component.value}
+              : {componentType.name: null};
+          _bodyIndexUseCase.lockComponent(userId: userId, data: data);
         },
       );
     }
@@ -346,12 +364,16 @@ class BasicProfileComponentForm extends StatefulWidget {
     Key? key,
     required this.componentType,
     this.initialValue,
+    required this.isLocked,
     required this.onChanged,
+    required this.onPress,
   }) : super(key: key);
 
   final BodyIndexComponent componentType;
   final String? initialValue;
+  final bool isLocked;
   final void Function(dynamic) onChanged;
+  final VoidCallback onPress;
 
   @override
   State<BasicProfileComponentForm> createState() =>
@@ -361,20 +383,16 @@ class BasicProfileComponentForm extends StatefulWidget {
 class _BasicProfileComponentFormState extends State<BasicProfileComponentForm> {
   @override
   Widget build(BuildContext context) {
-    bool isLocked = widget.initialValue != null ? true : false;
-
     return BodyIndexComponentForm(
       componentType: widget.componentType,
       iconButtonColour: Colours.lightBase,
       iconColour: Colours.text,
-      iconData: isLocked ? FontAwesomeIcons.lock : FontAwesomeIcons.lockOpen,
+      iconData:
+          widget.isLocked ? FontAwesomeIcons.lock : FontAwesomeIcons.lockOpen,
       initialValue: widget.initialValue,
-      isDisabled: isLocked,
+      isDisabled: widget.isLocked,
       onChanged: widget.onChanged,
-      onPress: () {
-        setState(() => isLocked = !isLocked);
-        // TODO update locked component value in database
-      },
+      onPress: widget.onPress,
     );
   }
 }
