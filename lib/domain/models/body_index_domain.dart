@@ -91,6 +91,37 @@ class BodyIndexDomain {
         createdAt: model.createdAt,
       );
 
+  /// Convert [Map] into [BodyIndexDomain] object.
+  factory BodyIndexDomain.fromMap(Map<String, dynamic>? map) => BodyIndexDomain(
+        id: map?['id'],
+        date: map?['date']?.toDate(),
+        gender: map?['gender'],
+        age: int.tryParse(map?['age']),
+        height: int.tryParse(map?['height']),
+        weight: num.tryParse(map?['weight'] ?? ''),
+        bodyAge: int.tryParse(map?['bodyAge'] ?? ''),
+        bodyMassIndex: num.tryParse(map?['bodyMassIndex'] ?? ''),
+        bodyFatPercent: num.tryParse(map?['bodyFatPercent'] ?? ''),
+        bodyFatKilo: num.tryParse(map?['bodyFatKilo'] ?? ''),
+        skeletalMusclePercent:
+            num.tryParse(map?['skeletalMusclePercent'] ?? ''),
+        skeletalMuscleKilo: num.tryParse(map?['skeletalMuscleKilo'] ?? ''),
+        visceralFat: int.tryParse(map?['visceralFat'] ?? ''),
+        antioxidantValue: int.tryParse(map?['antioxidantValue'] ?? ''),
+        basalMetabolicRate: int.tryParse(map?['basalMetabolicRate'] ?? ''),
+        navel: int.tryParse(map?['navel'] ?? ''),
+        waistline: int.tryParse(map?['waistline'] ?? ''),
+        abdomen: int.tryParse(map?['abdomen'] ?? ''),
+        hip: int.tryParse(map?['hip'] ?? ''),
+        leftUpperArm: int.tryParse(map?['leftUpperArm'] ?? ''),
+        rightUpperArm: int.tryParse(map?['rightUpperArm'] ?? ''),
+        leftThigh: int.tryParse(map?['rightUpperArm'] ?? ''),
+        rightThigh: int.tryParse(map?['rightThigh'] ?? ''),
+        leftCalf: int.tryParse(map?['leftCalf'] ?? ''),
+        rightCalf: int.tryParse(map?['rightCalf'] ?? ''),
+        createdAt: map?['createdAt']?.toDate(),
+      );
+
   LinkedHashMap<String, dynamic> getBasicProfileComponentsMap() {
     return LinkedHashMap.of(<String, dynamic>{
       'gender': gender,

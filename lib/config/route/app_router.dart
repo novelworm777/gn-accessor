@@ -29,7 +29,9 @@ class AppRouter {
       case Routes.bodyIndexScreen:
         return MaterialPageRoute(builder: (_) => const BodyIndexScreen());
       case Routes.bodyIndexFormScreen:
-        return MaterialPageRoute(builder: (_) => const BodyIndexFormScreen());
+        final date = settings.arguments as DateTime;
+        return MaterialPageRoute(
+            builder: (_) => BodyIndexFormScreen(date: date));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

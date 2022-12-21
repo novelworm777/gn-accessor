@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../constants/database_collection.dart';
 import '../../domain/models/body_index_domain.dart';
+import '../../types/variant_doc.dart';
 import '../../utils/services/firestore.dart';
 import '../models/body_index_firestore_data.dart';
 
@@ -9,7 +10,21 @@ import '../models/body_index_firestore_data.dart';
 class BodyIndexRepository {
   final _firestore = Firestore.user();
 
-  /// Find a body index by [BodyIndexFirestoreData.date].
+  /// Create a body index data.
+  Future<BodyIndexDomain> createOne({
+    required String userId,
+    required BodyIndexDomain data,
+  }) async {
+    final converted = BodyIndexFirestoreData.fromDomain(data);
+    final created = await _bodyIndexes(userId: userId).add(converted).then(
+          (snapshot) => snapshot.get(),
+          onError: (error) =>
+              throw FormatException("failed to create body index: $error"),
+        );
+    return BodyIndexDomain.fromData(created.data()!);
+  }
+
+  /// Find a body index data by [BodyIndexFirestoreData.date].
   Future<BodyIndexDomain?> findOneByDate({
     required String userId,
     required DateTime date,
@@ -27,7 +42,30 @@ class BodyIndexRepository {
     return null;
   }
 
-  /// Delete a body index by [BodyIndexFirestoreData.id].
+  /// Find a variant document.
+  Future<BodyIndexDomain> findVariant({
+    required String userId,
+    required VariantDoc variant,
+  }) async {
+    final docId = VariantDoc.getDocId(dBodyIndex, variant);
+    final snapshot = await _bodyIndexes(userId: userId).doc(docId).get();
+    return BodyIndexDomain.fromData(snapshot.data()!);
+  }
+
+  /// Update a variant document.
+  ///
+  /// Only the data given will be updated, others will be untouched.
+  Future<BodyIndexDomain> updateVariant({
+    required String userId,
+    required VariantDoc variant,
+    required Map<String, dynamic> data,
+  }) async {
+    final docId = VariantDoc.getDocId(dBodyIndex, variant);
+    await _bodyIndexes(userId: userId).doc(docId).update(data);
+    return await findVariant(userId: userId, variant: variant);
+  }
+
+  /// Delete a body index data by [BodyIndexFirestoreData.id].
   void deleteOneById({
     required String userId,
     required String bodyIndexId,

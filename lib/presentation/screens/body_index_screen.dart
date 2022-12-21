@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../components/atoms/circular_button.dart';
 import '../../components/templates/detail_screen.dart';
+import '../../config/route/routes.dart';
 import '../../config/themes/colours.dart';
 import '../../domain/usecases/body_index_usecase.dart';
 import '../../types/body_index_component.dart';
@@ -192,9 +193,11 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
                           color: Colours.green,
                           size: 56.0,
                         ),
-                        onPress: () async {
-                          // TODO create new body index for the date
-                        },
+                        onPress: () => Navigator.pushNamed(
+                          context,
+                          Routes.bodyIndexFormScreen,
+                          arguments: _date,
+                        ),
                         size: 73.0,
                       ),
                     ],

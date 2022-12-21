@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gn_accessor/domain/usecases/body_index_usecase.dart';
+import 'package:gn_accessor/utils/helpers/map_formatter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/atoms/circular_button.dart';
 import '../../components/templates/detail_screen.dart';
+import '../../config/route/routes.dart';
 import '../../config/themes/colours.dart';
 import '../../types/body_index_component.dart';
 import '../../types/gender.dart';
@@ -26,13 +29,21 @@ const _kFormulaComponent = [
 
 /// Screen to create a record of body index.
 class BodyIndexFormScreen extends StatefulWidget {
-  const BodyIndexFormScreen({Key? key}) : super(key: key);
+  const BodyIndexFormScreen({
+    Key? key,
+    required this.date,
+  }) : super(key: key);
+
+  final DateTime date;
 
   @override
   State<BodyIndexFormScreen> createState() => _BodyIndexFormScreenState();
 }
 
 class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
+  final _bodyIndexUseCase = BodyIndexUseCase();
+
+  bool _isLoading = true;
   final List<Component> _components = [
     Component(type: BodyIndexComponent.gender),
     Component(type: BodyIndexComponent.age),
@@ -49,77 +60,112 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
 
   /// Get locked components value from database.
   void _initLockedComponents() async {
+    // get locked components data
     final userId = context.read<User>().id;
-    // TODO get locked components and add value as initial value
+    final res = await _bodyIndexUseCase.viewLockedComponents(userId: userId);
+    // remove null entries
+    final lockedData = MapFormatter.removeNull(res);
+    // check for basic profile components
+    for (Component component in _components) {
+      if (lockedData.containsKey(component.type!.name)) {
+        setState(() {
+          // update component value
+          component.value = lockedData[component.type!.name];
+          // set the component form as locked
+          component.isLocked = true;
+        });
+      }
+    }
+    // ends loading
+    setState(() => _isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
     return DetailScreen(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            FormBuilder(
-              key: _formKey,
-              child: ListView.separated(
-                itemBuilder: ((context, index) =>
-                    _generateComponentWidget(_components[index])),
-                itemCount: _components.length,
-                primary: false,
-                separatorBuilder: ((context, index) => _kSpacing),
-                shrinkWrap: true,
-              ),
-            ),
-            if (!_hasAllComponents) _kSpacing,
-            if (!_hasAllComponents)
-              GestureDetector(
-                onTap: () {
-                  // show dropdown pop up
-                  _showAddComponentDropdownPopUp();
-                  // check whether all components are already added
-                  if (_components.length == BodyIndexComponent.values.length) {
-                    _hasAllComponents = true;
-                  }
-                },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(7.0)),
-                    color: Colours.green,
+      body: _isLoading
+          ? Container()
+          : SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  FormBuilder(
+                    key: _formKey,
+                    child: ListView.separated(
+                      itemBuilder: ((context, index) =>
+                          _generateComponentWidget(_components[index])),
+                      itemCount: _components.length,
+                      primary: false,
+                      separatorBuilder: ((context, index) => _kSpacing),
+                      shrinkWrap: true,
+                    ),
                   ),
-                  margin: const EdgeInsets.symmetric(horizontal: 73.0),
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Icon(
-                        FontAwesomeIcons.plus,
-                        color: Colours.text,
-                        size: 21.0,
-                      ),
-                      const SizedBox(width: 7.0),
-                      Text(
-                        "Add Component",
-                        style: GoogleFonts.jetBrainsMono(
-                          color: Colours.text,
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.w700,
+                  if (!_hasAllComponents) _kSpacing,
+                  if (!_hasAllComponents)
+                    GestureDetector(
+                      onTap: () {
+                        // show dropdown pop up
+                        _showAddComponentDropdownPopUp();
+                        // check whether all components are already added
+                        if (_components.length ==
+                            BodyIndexComponent.values.length) {
+                          _hasAllComponents = true;
+                        }
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                          color: Colours.green,
+                        ),
+                        margin: const EdgeInsets.symmetric(horizontal: 73.0),
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Icon(
+                              FontAwesomeIcons.plus,
+                              color: Colours.text,
+                              size: 21.0,
+                            ),
+                            const SizedBox(width: 7.0),
+                            Text(
+                              "Add Component",
+                              style: GoogleFonts.jetBrainsMono(
+                                color: Colours.text,
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                ],
               ),
-          ],
-        ),
-      ),
+            ),
       colour: Colours.darkBase,
       hasRightIconButton: true,
       rightIconColour: Colours.green,
       rightIconData: Icons.save,
       rightIconOnPress: () {
-        // TODO create as new record
+        // create new body index data
+        _createBodyIndex();
+        // navigate to body index screen
+        Navigator.pushNamed(context, Routes.bodyIndexScreen);
       },
     );
+  }
+
+  /// Create a new body index in database.
+  void _createBodyIndex() async {
+    if (_formKey.currentState!.saveAndValidate()) {
+      final userId = context.read<User>().id;
+      final formData = _formKey.currentState!.value;
+      await _bodyIndexUseCase.createBodyIndex(
+        userId: userId,
+        date: widget.date,
+        data: formData,
+      );
+    }
   }
 
   /// Generate component widget based on its component group.
@@ -131,8 +177,17 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
       return BasicProfileComponentForm(
         componentType: componentType,
         initialValue: hasValue ? '${component.value}' : null,
+        isLocked: component.isLocked,
         onChanged: (value) {
           setState(() => component.value = value);
+        },
+        onPress: () {
+          setState(() => component.isLocked = !component.isLocked);
+          final userId = context.read<User>().id;
+          final data = component.isLocked
+              ? {componentType.name: component.value}
+              : {componentType.name: null};
+          _bodyIndexUseCase.lockComponent(userId: userId, data: data);
         },
       );
     }
@@ -143,7 +198,7 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
           // remove component from the list
           _components.remove(component);
           // remove component form value
-          _formKey.currentState!.fields['$componentType']?.didChange(null);
+          _formKey.currentState!.fields[componentType.name]?.didChange(null);
         });
       },
       initialValue:
@@ -268,12 +323,12 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
       setState(() {
         bodyFatKilo.value = null;
       });
-      _formKey.currentState!.fields['${bodyFatKilo.type}']?.didChange(null);
+      _formKey.currentState!.fields[bodyFatKilo.type!.name]?.didChange(null);
     } else {
       setState(() {
         bodyFatKilo.value = (weight * bodyFatPercent / 100).toStringAsFixed(2);
       });
-      _formKey.currentState!.fields['${bodyFatKilo.type}']
+      _formKey.currentState!.fields[bodyFatKilo.type!.name]
           ?.didChange('${bodyFatKilo.value}');
     }
   }
@@ -295,14 +350,14 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
       setState(() {
         skeletalMuscleKilo.value = null;
       });
-      _formKey.currentState!.fields['${skeletalMuscleKilo.type}']
+      _formKey.currentState!.fields[skeletalMuscleKilo.type!.name]
           ?.didChange(null);
     } else {
       setState(() {
         skeletalMuscleKilo.value =
             (weight * skeletalMusclePercent / 100).toStringAsFixed(2);
       });
-      _formKey.currentState!.fields['${skeletalMuscleKilo.type}']
+      _formKey.currentState!.fields[skeletalMuscleKilo.type!.name]
           ?.didChange('${skeletalMuscleKilo.value}');
     }
   }
@@ -331,12 +386,16 @@ class BasicProfileComponentForm extends StatefulWidget {
     Key? key,
     required this.componentType,
     this.initialValue,
+    required this.isLocked,
     required this.onChanged,
+    required this.onPress,
   }) : super(key: key);
 
   final BodyIndexComponent componentType;
   final String? initialValue;
+  final bool isLocked;
   final void Function(dynamic) onChanged;
+  final VoidCallback onPress;
 
   @override
   State<BasicProfileComponentForm> createState() =>
@@ -344,22 +403,18 @@ class BasicProfileComponentForm extends StatefulWidget {
 }
 
 class _BasicProfileComponentFormState extends State<BasicProfileComponentForm> {
-  bool isLocked = false;
-
   @override
   Widget build(BuildContext context) {
     return BodyIndexComponentForm(
       componentType: widget.componentType,
       iconButtonColour: Colours.lightBase,
       iconColour: Colours.text,
-      iconData: isLocked ? FontAwesomeIcons.lock : FontAwesomeIcons.lockOpen,
+      iconData:
+          widget.isLocked ? FontAwesomeIcons.lock : FontAwesomeIcons.lockOpen,
       initialValue: widget.initialValue,
-      isDisabled: isLocked,
+      isDisabled: widget.isLocked,
       onChanged: widget.onChanged,
-      onPress: () {
-        setState(() => isLocked = !isLocked);
-        // TODO update locked component value in database
-      },
+      onPress: widget.onPress,
     );
   }
 }
@@ -488,11 +543,11 @@ class BodyIndexComponentForm extends StatelessWidget {
           itemHeight: 49.0,
           items: Gender.values
               .map((element) => DropdownMenuItem(
-                    value: element.toString(),
+                    value: element.name,
                     child: Text(element.pretty),
                   ))
               .toList(),
-          name: componentType.toString(),
+          name: componentType.name,
           onChanged: onChanged,
           style: _kFormTextStyle,
         );
@@ -501,7 +556,7 @@ class BodyIndexComponentForm extends StatelessWidget {
           decoration: _getFormDecoration(),
           enabled: !isDisabled,
           initialValue: initialValue,
-          name: componentType.toString(),
+          name: componentType.name,
           onChanged: onChanged,
           readOnly: isDisabled,
           showCursor: false,
