@@ -84,6 +84,7 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
   @override
   Widget build(BuildContext context) {
     return DetailScreen(
+      backRoute: Routes.toolsScreen,
       body: Column(
         children: <Widget>[
           Row(
