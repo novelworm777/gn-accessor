@@ -211,6 +211,7 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
         ],
       ),
       colour: Colours.darkBase,
+      homeRoute: Routes.homeScreen,
     );
   }
 

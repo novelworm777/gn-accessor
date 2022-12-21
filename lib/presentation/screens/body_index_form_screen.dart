@@ -144,6 +144,7 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
             ),
       colour: Colours.darkBase,
       hasRightIconButton: true,
+      homeRoute: Routes.homeScreen,
       rightIconColour: Colours.green,
       rightIconData: Icons.save,
       rightIconOnPress: () {
