@@ -52,11 +52,11 @@ class TaskFirestoreData {
       TaskFirestoreData(
         title: map?['title'] as String?,
         notes: map?['notes'] as String?,
-        due: map?['due'] as DateTime?,
+        due: map?['due']?.toDate(),
         available: map?['available'] as int?,
         completed: map?['completed'] as int?,
         reward: map?['reward'] as int?,
-        createdAt: map?['createdAt'] as DateTime?,
+        createdAt: map?['createdAt']?.toDate(),
       );
 
   /// Convert [TaskFirestoreData] into firestore json.
