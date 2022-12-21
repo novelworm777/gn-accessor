@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gn_accessor/presentation/screens/tools_screen.dart';
+import 'package:gn_accessor/presentation/screens/tools_screen/tools_screen.dart';
 
 import '../../presentation/screens/body_index_form_screen/body_index_form_screen.dart';
 import '../../presentation/screens/body_index_screen/body_index_screen.dart';
