@@ -24,11 +24,13 @@ class BodyIndexScreen extends StatefulWidget {
 class _BodyIndexScreenState extends State<BodyIndexScreen> {
   final double _spacing = 17.0;
   final BodyIndexUseCase _bodyIndexUseCase = BodyIndexUseCase();
+
+  String? _id;
   DateTime _date = DateTime.now();
-  bool _hasRecord = false;
   Map<String, dynamic> _basicProfileData = {};
   Map<String, dynamic> _bodyIndexData = {};
   Map<String, dynamic> _circumferenceData = {};
+  bool _hasRecord = false;
 
   @override
   void initState() {
@@ -41,33 +43,40 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
     final userId = context.read<User>().id;
     final date = DateTime(_date.year, _date.month, _date.day);
     try {
-      final res =
-          await _bodyIndexUseCase.viewBodyIndex(userId: userId, date: date);
-      _giveValueToBodyIndex(res);
-    } catch (_) {}
+      final res = await _bodyIndexUseCase.viewBodyIndex(
+        userId: userId,
+        date: date,
+      );
+      _setBodyIndexData(res);
+    } catch (e) {
+      _emptyBodyIndexData();
+    }
   }
 
   /// Give value to body index data.
-  void _giveValueToBodyIndex(res) {
-    if (res == null) {
-      setState(() {
-        _basicProfileData.clear();
-        _bodyIndexData.clear();
-        _circumferenceData.clear();
-        _hasRecord = false;
-      });
-    } else {
-      setState(() {
-        _basicProfileData = MapFormatter.removeNull(res['basicProfile']);
-        _bodyIndexData = MapFormatter.removeNull(res['bodyIndex']);
-        _circumferenceData = MapFormatter.removeNull(res['circumference']);
-        if (_basicProfileData.isNotEmpty ||
-            _bodyIndexData.isNotEmpty ||
-            _circumferenceData.isNotEmpty) {
-          _hasRecord = true;
-        }
-      });
-    }
+  void _setBodyIndexData(res) {
+    setState(() {
+      _id = res['id'];
+      _basicProfileData = MapFormatter.removeNull(res['basicProfile']);
+      _bodyIndexData = MapFormatter.removeNull(res['bodyIndex']);
+      _circumferenceData = MapFormatter.removeNull(res['circumference']);
+      if (_basicProfileData.isNotEmpty ||
+          _bodyIndexData.isNotEmpty ||
+          _circumferenceData.isNotEmpty) {
+        _hasRecord = true;
+      }
+    });
+  }
+
+  /// Return body index data to empty state.
+  void _emptyBodyIndexData() {
+    setState(() {
+      _id = null;
+      _basicProfileData.clear();
+      _bodyIndexData.clear();
+      _circumferenceData.clear();
+      _hasRecord = false;
+    });
   }
 
   @override
