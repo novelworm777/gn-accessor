@@ -29,60 +29,13 @@ enum BodyIndexComponent {
   final String pretty;
   final String? notation;
 
-  /// Get [BodyIndexComponent] by key.
-  static BodyIndexComponent getType(String key) {
-    switch (key) {
-      case "gender":
-        return BodyIndexComponent.gender;
-      case "age":
-        return BodyIndexComponent.age;
-      case "height":
-        return BodyIndexComponent.height;
-      case "weight":
-        return BodyIndexComponent.weight;
-      case "body_age":
-        return BodyIndexComponent.bodyAge;
-      case "body_mass_index":
-        return BodyIndexComponent.bodyMassIndex;
-      case "body_fat_percent":
-        return BodyIndexComponent.bodyFatPercent;
-      case "body_fat_kilo":
-        return BodyIndexComponent.bodyFatKilo;
-      case "skeletal_muscle_percent":
-        return BodyIndexComponent.skeletalMusclePercent;
-      case "skeletal_muscle_kilo":
-        return BodyIndexComponent.skeletalMuscleKilo;
-      case "visceral_fat":
-        return BodyIndexComponent.visceralFat;
-      case "antioxidant_value":
-        return BodyIndexComponent.antioxidantValue;
-      case "basal_metabolic_rate":
-        return BodyIndexComponent.basalMetabolicRate;
-      case "navel":
-        return BodyIndexComponent.navel;
-      case "waistline":
-        return BodyIndexComponent.waistline;
-      case "abdomen":
-        return BodyIndexComponent.abdomen;
-      case "hip":
-        return BodyIndexComponent.hip;
-      case "left_upper_arm":
-        return BodyIndexComponent.leftUpperArm;
-      case "right_upper_arm":
-        return BodyIndexComponent.rightUpperArm;
-      case "left_thigh":
-        return BodyIndexComponent.leftThigh;
-      case "right_thigh":
-        return BodyIndexComponent.rightThigh;
-      case "left_calf":
-        return BodyIndexComponent.leftCalf;
-      case "right_calf":
-        return BodyIndexComponent.rightCalf;
-      default:
-        return BodyIndexComponent.unknown;
-    }
+  /// Get [BodyIndexComponent] from string.
+  static BodyIndexComponent fromString(String str) {
+    return BodyIndexComponent.values.firstWhere(
+        (element) => element.toString() == '$BodyIndexComponent.$str');
   }
 
+  /// Check whether the component is one of basic profile components.
   static bool isBasicProfile(BodyIndexComponent component) {
     List<BodyIndexComponent> basicProfileComponents = [
       BodyIndexComponent.gender,
