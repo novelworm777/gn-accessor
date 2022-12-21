@@ -201,6 +201,7 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
                         onPress: () => Navigator.pushNamed(
                           context,
                           Routes.bodyIndexFormScreen,
+                          arguments: _date,
                         ),
                         size: 73.0,
                       ),
