@@ -30,10 +30,10 @@ class ColourDefaultScreen extends StatelessWidget {
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           body: Container(
             color: colour,
-            child: child,
             height: ScreenSize.height(context),
             padding: padding,
             width: ScreenSize.width(context),
+            child: child,
           ),
         ),
       ),

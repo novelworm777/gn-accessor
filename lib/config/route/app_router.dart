@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gn_accessor/config/route/routes.dart';
+import 'package:gn_accessor/presentation/screens/tools_screen.dart';
 
+import '../../presentation/screens/body_index_form_screen.dart';
+import '../../presentation/screens/body_index_screen.dart';
 import '../../presentation/screens/login_screen.dart';
 import '../../presentation/screens/home_screen.dart';
 import '../../presentation/screens/task_board_screen.dart';
 import '../../presentation/screens/task_detail_screen.dart';
+import 'routes.dart';
 
 /// Route generator.
 ///
@@ -15,12 +18,20 @@ class AppRouter {
       case Routes.loginScreen:
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case Routes.homeScreen:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case Routes.toolsScreen:
+        return MaterialPageRoute(builder: (_) => const ToolsScreen());
       case Routes.taskBoardScreen:
-        return MaterialPageRoute(builder: (_) => TaskBoardScreen());
+        return MaterialPageRoute(builder: (_) => const TaskBoardScreen());
       case Routes.taskDetailScreen:
         final id = settings.arguments as String;
         return MaterialPageRoute(builder: (_) => TaskDetailScreen(id: id));
+      case Routes.bodyIndexScreen:
+        return MaterialPageRoute(builder: (_) => const BodyIndexScreen());
+      case Routes.bodyIndexFormScreen:
+        final date = settings.arguments as DateTime;
+        return MaterialPageRoute(
+            builder: (_) => BodyIndexFormScreen(date: date));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

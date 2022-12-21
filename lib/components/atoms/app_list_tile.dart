@@ -33,15 +33,17 @@ class AppListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onPress,
       child: IntrinsicHeight(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // leading
             leading != null
                 ? GestureDetector(
+                    onTap: leadingOnPress ?? onPress,
                     child: Container(
                       alignment: Alignment.centerRight,
-                      child: leading,
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(
                           bottomLeft: _kDefaultRadius,
@@ -55,15 +57,14 @@ class AppListTile extends StatelessWidget {
                         right: _kDefaultPadding,
                         top: _kDefaultPadding,
                       ),
+                      child: leading,
                     ),
-                    onTap: leadingOnPress ?? onPress,
                   )
                 : Container(),
             // body
             Expanded(
               child: Container(
                 alignment: Alignment.centerLeft,
-                child: body,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft: leading == null ? _kDefaultRadius : Radius.zero,
@@ -80,14 +81,15 @@ class AppListTile extends StatelessWidget {
                   right: trailing == null ? _kDefaultPadding : _kDefaultPadding,
                   top: _kDefaultPadding,
                 ),
+                child: body,
               ),
             ),
             // trailing
             trailing != null
                 ? GestureDetector(
+                    onTap: trailingOnPress ?? onPress,
                     child: Container(
                       alignment: Alignment.centerLeft,
-                      child: trailing,
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(
                           bottomRight: _kDefaultRadius,
@@ -101,15 +103,13 @@ class AppListTile extends StatelessWidget {
                         right: _kDefaultPadding,
                         top: _kDefaultPadding,
                       ),
+                      child: trailing,
                     ),
-                    onTap: trailingOnPress ?? onPress,
                   )
                 : Container(),
           ],
-          crossAxisAlignment: CrossAxisAlignment.stretch,
         ),
       ),
-      onTap: onPress,
     );
   }
 }

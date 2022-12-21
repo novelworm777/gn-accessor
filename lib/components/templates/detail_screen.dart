@@ -101,7 +101,7 @@ class DetailScreen extends StatelessWidget {
                 ),
                 // content
                 Expanded(
-                  child: Container(child: body, padding: padding),
+                  child: Container(padding: padding, child: body),
                 ),
               ],
             ),
