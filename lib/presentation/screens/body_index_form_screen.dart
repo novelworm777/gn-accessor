@@ -83,6 +83,7 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
   @override
   Widget build(BuildContext context) {
     return DetailScreen(
+      backRoute: Routes.bodyIndexScreen,
       body: _isLoading
           ? Container()
           : SingleChildScrollView(
