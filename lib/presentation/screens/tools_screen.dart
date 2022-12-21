@@ -29,6 +29,7 @@ class ToolsScreen extends StatelessWidget {
         ],
       ),
       headerTitle: 'Tools',
+      homeRoute: Routes.homeScreen,
     );
   }
 }
