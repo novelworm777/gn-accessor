@@ -5,12 +5,23 @@ import '../models/user_domain.dart';
 class UserService {
   final UserRepository _repository = UserRepository();
 
-  /// Find a user by [id].
+  /// Create a new user.
+  Future<UserDomain> createNewUser({required String uid}) async {
+    // set new user
+    UserDomain newUser = UserDomain(
+      uid: uid,
+      invitedAt: DateTime.now().toUtc(),
+    );
+    // create user in db
+    return _repository.createOne(data: newUser);
+  }
+
+  /// Find a user by [UserDomain.id].
   Future<UserDomain?> findById({required String id}) async {
     return await _repository.findOne(userId: id);
   }
 
-  /// Find a user by [uid].
+  /// Find a user by [UserDomain.uid].
   Future<UserDomain?> findByUID({required String uid}) async {
     List<UserDomain?> users = await _repository.findAllWhereEqualTo(
       field: 'uid',
@@ -20,7 +31,22 @@ class UserService {
     return users.first;
   }
 
-  /// Add the number of [cryois].
+  /// Check the existence of a user by [UserDomain.uid].
+  Future<bool> checkByUID({required String uid}) async {
+    UserDomain? found = await findByUID(uid: uid);
+    if (found != null) return true;
+    return false;
+  }
+
+  /// A new user just join the app.
+  Future<UserDomain?> join({required UserDomain user}) async {
+    // set join as today
+    user.joinedAt = DateTime.now().toUtc();
+    // update user data
+    return await _repository.updateOne(userId: user.id!, data: user);
+  }
+
+  /// Add the number of [UserDomain.cryois].
   UserDomain addCryois({
     required UserDomain user,
     required int number,
@@ -28,12 +54,10 @@ class UserService {
   }) {
     // update user
     UserDomain updated = UserDomain(cryois: (user.cryois ?? 0) + number);
-
     // update user data
     if (update) {
       _repository.updateOne(userId: user.id!, data: updated);
     }
-
     return user;
   }
 }
