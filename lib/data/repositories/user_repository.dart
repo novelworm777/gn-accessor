@@ -8,6 +8,16 @@ import '../models/user_firestore_data.dart';
 class UserRepository {
   final _firestore = Firestore.user();
 
+  /// Create a user data.
+  Future<UserDomain> createOne({required UserDomain data}) async {
+    final created = await _users().add(UserFirestoreData.fromDomain(data)).then(
+          (snapshot) => snapshot.get(),
+          onError: (error) =>
+              throw FormatException("failed to create user: $error"),
+        );
+    return UserDomain.fromData(created.data()!);
+  }
+
   /// Find all user data.
   Future<List<UserDomain>> findAllWhereEqualTo({
     required String field,

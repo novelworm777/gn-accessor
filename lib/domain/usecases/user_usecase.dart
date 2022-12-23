@@ -5,7 +5,18 @@ import '../services/user_service.dart';
 class UserUsecase {
   final UserService _userService = UserService();
 
-  /// authentication
+  Future<Map<String, dynamic>> inviteNewUser({required String uid}) async {
+    // check whether the uid has already existed
+    bool exist = await _userService.checkByUID(uid: uid);
+    if (exist) {
+      throw FormatException("UID $uid has already existed");
+    }
+    // create the new user
+    await _userService.createNewUser(uid: uid);
+    return {};
+  }
+
+  /// Authentication.
   Future<Map<String, dynamic>> login({required String uid}) async {
     UserDomain? user = await _userService.findByUID(uid: uid);
     if (user == null) {
