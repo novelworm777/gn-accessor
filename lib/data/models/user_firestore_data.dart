@@ -8,12 +8,14 @@ class UserFirestoreData {
   String? uid;
   String? name;
   int? cryois;
+  DateTime? joinedAt;
 
   UserFirestoreData({
     this.id,
     this.uid,
     this.name,
     this.cryois,
+    this.joinedAt,
   });
 
   /// Convert [UserDomain] into [UserFirestoreData] object.
@@ -22,6 +24,7 @@ class UserFirestoreData {
         uid: model.uid,
         name: model.name,
         cryois: model.cryois,
+        joinedAt: model.joinedAt,
       );
 
   /// Convert firestore snapshot into [UserFirestoreData] object.
@@ -41,6 +44,7 @@ class UserFirestoreData {
         uid: map?['uid'] as String?,
         name: map?['name'] as String?,
         cryois: map?['cryois'] as int?,
+        joinedAt: map?['joinedAt']?.toDate(),
       );
 
   /// Convert [UserFirestoreData] into firestore json.
@@ -48,5 +52,6 @@ class UserFirestoreData {
         if (uid != null) "uid": uid,
         if (name != null) "name": name,
         if (cryois != null) "cryois": cryois,
+        if (joinedAt != null) "joinedAt": joinedAt,
       };
 }

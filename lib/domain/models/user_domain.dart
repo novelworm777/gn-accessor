@@ -6,12 +6,14 @@ class UserDomain {
   String? uid;
   String? name;
   int? cryois;
+  DateTime? joinedAt;
 
   UserDomain({
     this.id,
     this.uid,
     this.name,
     this.cryois,
+    this.joinedAt,
   });
 
   /// Convert [UserFirestoreData] into [UserDomain] object.
@@ -20,5 +22,6 @@ class UserDomain {
         uid: model.uid,
         name: model.name,
         cryois: model.cryois,
+        joinedAt: model.joinedAt,
       );
 }

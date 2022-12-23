@@ -20,6 +20,14 @@ class UserService {
     return users.first;
   }
 
+  /// A new user just join the app.
+  Future<UserDomain?> join({required UserDomain user}) async {
+    // set join as today
+    user.joinedAt = DateTime.now();
+    // update user data
+    return await _repository.updateOne(userId: user.id!, data: user);
+  }
+
   /// Add the number of [cryois].
   UserDomain addCryois({
     required UserDomain user,
@@ -28,12 +36,10 @@ class UserService {
   }) {
     // update user
     UserDomain updated = UserDomain(cryois: (user.cryois ?? 0) + number);
-
     // update user data
     if (update) {
       _repository.updateOne(userId: user.id!, data: updated);
     }
-
     return user;
   }
 }

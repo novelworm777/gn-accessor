@@ -40,7 +40,7 @@ class UserRepository {
     await _users()
         .doc(userId)
         .set(UserFirestoreData.fromDomain(data), SetOptions(merge: true));
-    return findOne(userId: userId);
+    return await findOne(userId: userId);
   }
 
   /// Create [FirebaseFirestore] instance for user collection.
