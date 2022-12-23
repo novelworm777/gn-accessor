@@ -10,7 +10,7 @@ class UserService {
     // set new user
     UserDomain newUser = UserDomain(
       uid: uid,
-      invitedAt: DateTime.now(),
+      invitedAt: DateTime.now().toUtc(),
     );
     // create user in db
     return _repository.createOne(data: newUser);
@@ -41,7 +41,7 @@ class UserService {
   /// A new user just join the app.
   Future<UserDomain?> join({required UserDomain user}) async {
     // set join as today
-    user.joinedAt = DateTime.now();
+    user.joinedAt = DateTime.now().toUtc();
     // update user data
     return await _repository.updateOne(userId: user.id!, data: user);
   }

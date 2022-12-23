@@ -13,7 +13,7 @@ class BodyIndexUseCase {
   }) async {
     await _bodyIndexService.createByDate(
       userId: userId,
-      date: date,
+      date: date.toUtc(),
       data: data,
     );
     return {'message': 'success'};
@@ -26,14 +26,15 @@ class BodyIndexUseCase {
   }) async {
     BodyIndexDomain? bodyIndex = await _bodyIndexService.findByDate(
       userId: userId,
-      date: date,
+      date: date.toUtc(),
     );
     if (bodyIndex == null) {
-      throw FormatException('unable to find body index by date: $date');
+      throw FormatException(
+          'unable to find body index by date: ${date.toUtc()} (UTC)');
     }
     return {
       'id': bodyIndex.id,
-      'date': bodyIndex.date,
+      'date': bodyIndex.date?.toLocal(),
       'basicProfile': bodyIndex.getBasicProfileComponentsMap(),
       'bodyIndex': bodyIndex.getBodyIndexComponentsMap(),
       'circumference': bodyIndex.getCircumferenceComponentsMap(),
