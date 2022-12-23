@@ -205,7 +205,7 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
         });
       },
       initialValue:
-          hasValue ? num.parse(component.value).toStringAsFixed(2) : null,
+          hasValue ? num.tryParse(component.value)?.toStringAsFixed(2) : null,
       isDisabled: _checkDisabled(componentType),
       onChanged: (value) {
         setState(() => component.value = value);
@@ -370,7 +370,7 @@ class _BodyIndexFormScreenState extends State<BodyIndexFormScreen> {
     final component = _getComponent(componentType);
     if (component == null) return null;
     final value = component.value;
-    return value != null && value != '' ? num.parse(value) : null;
+    return value != null && value != '' ? num.tryParse(value) : null;
   }
 
   /// Get a component from existing components.
