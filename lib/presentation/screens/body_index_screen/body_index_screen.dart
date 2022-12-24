@@ -157,27 +157,31 @@ class _BodyIndexScreenState extends State<BodyIndexScreen> {
           const SizedBox(height: 21.0),
           Expanded(
             child: _hasRecord
-                ? Column(
-                    children: <Widget>[
-                      ExpandedBodyIndexPanel(
-                        components: _convertDataToWidget(_basicProfileData),
-                        isExpanded: false,
-                        title: "Basic Profile",
-                      ),
-                      if (_bodyIndexData.isNotEmpty) SizedBox(height: _spacing),
-                      if (_bodyIndexData.isNotEmpty)
+                ? SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
                         ExpandedBodyIndexPanel(
-                          components: _convertDataToWidget(_bodyIndexData),
-                          title: "Body Index",
+                          components: _convertDataToWidget(_basicProfileData),
+                          isExpanded: false,
+                          title: "Basic Profile",
                         ),
-                      if (_circumferenceData.isNotEmpty)
-                        SizedBox(height: _spacing),
-                      if (_circumferenceData.isNotEmpty)
-                        ExpandedBodyIndexPanel(
-                          components: _convertDataToWidget(_circumferenceData),
-                          title: "Circumference",
-                        ),
-                    ],
+                        if (_bodyIndexData.isNotEmpty)
+                          SizedBox(height: _spacing),
+                        if (_bodyIndexData.isNotEmpty)
+                          ExpandedBodyIndexPanel(
+                            components: _convertDataToWidget(_bodyIndexData),
+                            title: "Body Index",
+                          ),
+                        if (_circumferenceData.isNotEmpty)
+                          SizedBox(height: _spacing),
+                        if (_circumferenceData.isNotEmpty)
+                          ExpandedBodyIndexPanel(
+                            components:
+                                _convertDataToWidget(_circumferenceData),
+                            title: "Circumference",
+                          ),
+                      ],
+                    ),
                   )
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
