@@ -115,7 +115,7 @@ class BodyIndexDomain {
         hip: int.tryParse(map?['hip'] ?? ''),
         leftUpperArm: int.tryParse(map?['leftUpperArm'] ?? ''),
         rightUpperArm: int.tryParse(map?['rightUpperArm'] ?? ''),
-        leftThigh: int.tryParse(map?['rightUpperArm'] ?? ''),
+        leftThigh: int.tryParse(map?['leftThigh'] ?? ''),
         rightThigh: int.tryParse(map?['rightThigh'] ?? ''),
         leftCalf: int.tryParse(map?['leftCalf'] ?? ''),
         rightCalf: int.tryParse(map?['rightCalf'] ?? ''),
