@@ -6,7 +6,6 @@ class UserDomain {
   String? uid;
   String? name;
   int? cryois;
-  DateTime? invitedAt;
   DateTime? joinedAt;
 
   UserDomain({
@@ -14,7 +13,6 @@ class UserDomain {
     this.uid,
     this.name,
     this.cryois,
-    this.invitedAt,
     this.joinedAt,
   });
 
@@ -24,7 +22,6 @@ class UserDomain {
         uid: model.uid,
         name: model.name,
         cryois: model.cryois,
-        invitedAt: model.invitedAt,
         joinedAt: model.joinedAt,
       );
 }

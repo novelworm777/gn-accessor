@@ -1,3 +1,9 @@
-// source
+/// Sources allowed in a log.
+class LogSource {
+  static const invitationCode = 'INVITATION_CODE';
+}
 
-// action type
+/// Action types allowed in a log.
+class LogAction {
+  static const use = 'USE';
+}

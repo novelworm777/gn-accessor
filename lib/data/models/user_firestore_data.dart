@@ -8,7 +8,6 @@ class UserFirestoreData {
   String? uid;
   String? name;
   int? cryois;
-  DateTime? invitedAt;
   DateTime? joinedAt;
 
   UserFirestoreData({
@@ -16,7 +15,6 @@ class UserFirestoreData {
     this.uid,
     this.name,
     this.cryois,
-    this.invitedAt,
     this.joinedAt,
   });
 
@@ -26,7 +24,6 @@ class UserFirestoreData {
         uid: model.uid,
         name: model.name,
         cryois: model.cryois,
-        invitedAt: model.invitedAt,
         joinedAt: model.joinedAt,
       );
 
@@ -44,11 +41,10 @@ class UserFirestoreData {
   /// Convert [Map] into [UserFirestoreData] object.
   factory UserFirestoreData.fromMap(Map<String, dynamic>? map) =>
       UserFirestoreData(
-        uid: map?['uid'] as String?,
-        name: map?['name'] as String?,
-        cryois: map?['cryois'] as int?,
-        invitedAt: map?['invitedAt']?.toDate(),
-        joinedAt: map?['joinedAt']?.toDate(),
+        uid: map?['uid']?.toString(),
+        name: map?['name']?.toString(),
+        cryois: int.tryParse(map?['cryois'] ?? ''),
+        joinedAt: map?['joined_at']?.toDate(),
       );
 
   /// Convert [UserFirestoreData] into firestore json.
@@ -56,7 +52,6 @@ class UserFirestoreData {
         if (uid != null) "uid": uid,
         if (name != null) "name": name,
         if (cryois != null) "cryois": cryois,
-        if (invitedAt != null) "invitedAt": invitedAt,
-        if (joinedAt != null) "joinedAt": joinedAt,
+        if (joinedAt != null) "joined_at": joinedAt,
       };
 }
