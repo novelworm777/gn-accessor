@@ -50,9 +50,9 @@ class InvitationCodeFirestoreData {
 
   /// Convert [InvitationCodeFirestoreData] into firestore json.
   Map<String, dynamic> toFirestore() => {
-        if (code != null) "code": code,
-        if (createdAt != null) "created_at": createdAt,
-        if (usedAt != null) "used_at": usedAt,
-        if (usedBy != null) "used_by": usedBy,
+        if (code != null) 'code': code,
+        if (createdAt != null) 'created_at': createdAt,
+        if (usedAt != null) 'used_at': usedAt,
+        if (usedBy != null) 'used_by': usedBy,
       };
 }
