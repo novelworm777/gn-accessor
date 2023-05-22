@@ -1,5 +1,5 @@
 // firestore
 const dBodyIndex = 'bodyIndexes';
-const dInvitationCode = 'invitationCodes';
+const dInvitationCode = 'invitation_codes';
 const dTask = 'tasks';
 const dUser = 'users';
