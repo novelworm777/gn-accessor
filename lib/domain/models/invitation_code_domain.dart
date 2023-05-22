@@ -4,6 +4,7 @@ import '../../data/models/invitation_code_firestore_data.dart';
 class InvitationCodeDomain {
   String? id;
   String? code;
+  String? status;
   DateTime? createdAt;
   DateTime? usedAt;
   String? usedBy;
@@ -11,6 +12,7 @@ class InvitationCodeDomain {
   InvitationCodeDomain({
     this.id,
     this.code,
+    this.status,
     this.createdAt,
     this.usedAt,
     this.usedBy,
@@ -21,8 +23,15 @@ class InvitationCodeDomain {
       InvitationCodeDomain(
         id: model.id,
         code: model.code,
+        status: model.status,
         createdAt: model.createdAt,
         usedAt: model.usedAt,
         usedBy: model.usedBy,
       );
+}
+
+/// Status of invitation code.
+class InvitationCodeStatus {
+  static const unused = 'UNUSED';
+  static const used = 'USED';
 }

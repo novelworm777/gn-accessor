@@ -6,6 +6,7 @@ import '../../domain/models/invitation_code_domain.dart';
 class InvitationCodeFirestoreData {
   String? id;
   String? code;
+  String? status;
   DateTime? createdAt;
   DateTime? usedAt;
   String? usedBy;
@@ -13,6 +14,7 @@ class InvitationCodeFirestoreData {
   InvitationCodeFirestoreData({
     this.id,
     this.code,
+    this.status,
     this.createdAt,
     this.usedAt,
     this.usedBy,
@@ -23,6 +25,7 @@ class InvitationCodeFirestoreData {
       InvitationCodeFirestoreData(
         id: model.id,
         code: model.code,
+        status: model.status,
         createdAt: model.createdAt,
         usedAt: model.usedAt,
         usedBy: model.usedBy,
@@ -43,6 +46,7 @@ class InvitationCodeFirestoreData {
   factory InvitationCodeFirestoreData.fromMap(Map<String, dynamic>? map) =>
       InvitationCodeFirestoreData(
         code: map?['code']?.toString(),
+        status: map?['status']?.toString(),
         createdAt: map?['created_at']?.toDate(),
         usedAt: map?['used_at']?.toDate(),
         usedBy: map?['used_by']?.toString(),
@@ -51,6 +55,7 @@ class InvitationCodeFirestoreData {
   /// Convert [InvitationCodeFirestoreData] into firestore json.
   Map<String, dynamic> toFirestore() => {
         if (code != null) 'code': code,
+        if (status != null) 'status': status,
         if (createdAt != null) 'created_at': createdAt,
         if (usedAt != null) 'used_at': usedAt,
         if (usedBy != null) 'used_by': usedBy,
