@@ -8,4 +8,5 @@ class Routes {
   static const taskDetailScreen = '/task-detail';
   static const bodyIndexScreen = '/body-index';
   static const bodyIndexFormScreen = '/body-index-form';
+  static const diaryScreen = '/diary';
 }

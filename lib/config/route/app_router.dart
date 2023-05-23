@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../presentation/screens/body_index_form_screen/body_index_form_screen.dart';
 import '../../presentation/screens/body_index_screen/body_index_screen.dart';
+import '../../presentation/screens/diary_screen/diary_screen.dart';
 import '../../presentation/screens/login_screen/login_screen.dart';
 import '../../presentation/screens/home_screen/home_screen.dart';
 import '../../presentation/screens/task_board_screen/task_board_screen.dart';
@@ -32,6 +33,8 @@ class AppRouter {
         final date = settings.arguments as DateTime;
         return MaterialPageRoute(
             builder: (_) => BodyIndexFormScreen(date: date));
+      case Routes.diaryScreen:
+        return MaterialPageRoute(builder: (_) => const DiaryScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
