@@ -27,6 +27,13 @@ class ToolsScreen extends StatelessWidget {
               Navigator.pushNamed(context, Routes.bodyIndexScreen);
             },
           ),
+          // diary app icon button
+          MiniApp(
+            iconData: FontAwesomeIcons.book,
+            onPress: () {
+              Navigator.pushNamed(context, Routes.diaryScreen);
+            },
+          ),
         ],
       ),
       headerTitle: 'Tools',
