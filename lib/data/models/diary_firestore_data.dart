@@ -73,7 +73,7 @@ class DiaryPageFirestoreData {
       date: map?['date']?.toDate(),
       sections: convertedSections,
       actions: map?['actions']?.toList(),
-      isActive: map?['is_active']?.toBool(),
+      isActive: map?['is_active'],
       createdAt: map?['created_at']?.toDate(),
       updatedAt: map?['updated_at']?.toDate(),
       deletedAt: map?['deleted_at']?.toDate(),
