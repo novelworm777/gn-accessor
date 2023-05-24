@@ -19,7 +19,7 @@ class GNAccessor extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GN Accessor',
-      home: MyPainter(),
+      home: ExperimentTilePoint(),
     );
   }
 }
@@ -37,6 +37,177 @@ class MyPainter extends StatelessWidget {
         child: Container(),
       ),
     );
+  }
+}
+
+class ExperimentTilePoint extends StatelessWidget {
+  const ExperimentTilePoint({Key? key}) : super(key: key);
+
+  final double size = 74;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          Row(
+            children: [
+              CustomPaint(
+                painter: ShapeA(),
+                child: SizedBox(width: size, height: size),
+              ),
+              CustomPaint(
+                painter: ShapeB(),
+                child: SizedBox(width: size / 2, height: size),
+              ),
+            ],
+          ),
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomPaint(
+                painter: ShapeC(),
+                child: SizedBox(width: size, height: size / 2),
+              ),
+              CustomPaint(
+                painter: ShapeD(),
+                child: SizedBox(width: size / 2, height: size / 2),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ShapeA extends CustomPainter {
+  // This method is called whenever the object needs to be repainted.
+  @override
+  void paint(Canvas canvas, Size size) {
+    // paintbrush
+    var paint = Paint()
+      ..color = Colors.deepPurple
+      ..strokeWidth = 7
+      ..strokeCap = StrokeCap.round;
+
+    Offset center = Offset(size.width / 2, size.height / 2);
+    double radius = size.height / 2;
+    var path = getPolygonPath(center, radius, 4);
+
+    canvas.drawPath(path, paint);
+  }
+
+  // This method is called when a new instance of the class is provided.
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // no need to redraw
+    return false;
+  }
+}
+
+class ShapeB extends CustomPainter {
+  // This method is called whenever the object needs to be repainted.
+  @override
+  void paint(Canvas canvas, Size size) {
+    // paintbrush
+    var paint = Paint()
+      ..color = Colors.deepPurple
+      ..strokeWidth = 7
+      ..strokeCap = StrokeCap.round;
+
+    Offset center = Offset(size.width, size.height / 2);
+    double radius = size.height / 2;
+    var angle = (math.pi * 2) / 4;
+
+    var path = Path()
+      ..moveTo(radius * math.cos(angle * 1) + center.dx,
+          radius * math.sin(angle * 1) + center.dy)
+      ..lineTo(radius * math.cos(angle * 2) + center.dx,
+          radius * math.sin(angle * 2) + center.dy)
+      ..lineTo(radius * math.cos(angle * 3) + center.dx,
+          radius * math.sin(angle * 3) + center.dy)
+      ..lineTo(radius * math.cos(angle * 1) + center.dx,
+          radius * math.sin(angle * 1) + center.dy);
+
+    canvas.drawPath(path, paint);
+  }
+
+  // This method is called when a new instance of the class is provided.
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // no need to redraw
+    return false;
+  }
+}
+
+class ShapeC extends CustomPainter {
+  // This method is called whenever the object needs to be repainted.
+  @override
+  void paint(Canvas canvas, Size size) {
+    // paintbrush
+    var paint = Paint()
+      ..color = Colors.deepPurple
+      ..strokeWidth = 7
+      ..strokeCap = StrokeCap.round;
+
+    Offset center = Offset(size.width / 2, size.height);
+    double radius = size.width / 2;
+    var angle = (math.pi * 2) / 4;
+
+    var path = Path()
+      ..moveTo(radius * math.cos(angle * 2) + center.dx,
+          radius * math.sin(angle * 2) + center.dy)
+      ..lineTo(radius * math.cos(angle * 3) + center.dx,
+          radius * math.sin(angle * 3) + center.dy)
+      ..lineTo(radius * math.cos(angle * 4) + center.dx,
+          radius * math.sin(angle * 4) + center.dy)
+      ..lineTo(radius * math.cos(angle * 2) + center.dx,
+          radius * math.sin(angle * 2) + center.dy);
+
+    canvas.drawPath(path, paint);
+  }
+
+  // This method is called when a new instance of the class is provided.
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // no need to redraw
+    return false;
+  }
+}
+
+class ShapeD extends CustomPainter {
+  // This method is called whenever the object needs to be repainted.
+  @override
+  void paint(Canvas canvas, Size size) {
+    // paintbrush
+    var paint = Paint()
+      ..color = Colors.deepPurple
+      ..strokeWidth = 7
+      ..strokeCap = StrokeCap.round;
+
+    Offset center = Offset(size.width, size.height);
+    double radius = size.width;
+    var angle = (math.pi * 2) / 4;
+
+    var path = Path()
+      ..moveTo(radius * math.cos(angle * 2) + center.dx,
+          radius * math.sin(angle * 2) + center.dy)
+      ..lineTo(radius * math.cos(angle * 3) + center.dx,
+          radius * math.sin(angle * 3) + center.dy)
+      ..lineTo(center.dx, center.dy)
+      ..lineTo(radius * math.cos(angle * 2) + center.dx,
+          radius * math.sin(angle * 2) + center.dy);
+
+    canvas.drawPath(path, paint);
+  }
+
+  // This method is called when a new instance of the class is provided.
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // no need to redraw
+    return false;
   }
 }
 
@@ -163,7 +334,7 @@ class SquarePainter extends CustomPainter {
 
     Offset center = Offset(size.width / 2, size.height / 2);
     double radius = 100;
-    var path = getSquarePath(center, radius, 4);
+    var path = getPolygonPath(center, radius, 4);
 
     canvas.drawPath(path, paint);
   }
@@ -190,7 +361,7 @@ class TrianglePainter extends CustomPainter {
 
     Offset center = Offset(size.width / 2, size.height / 2);
     double radius = 100;
-    var path = getSquarePath(center, radius, 3);
+    var path = getPolygonPath(center, radius, 3);
 
     canvas.drawPath(path, paint);
   }
@@ -203,7 +374,7 @@ class TrianglePainter extends CustomPainter {
   }
 }
 
-Path getSquarePath(Offset center, double radius, int sides) {
+Path getPolygonPath(Offset center, double radius, int sides) {
   var angle = (math.pi * 2) / sides;
   Offset startingPoint = Offset(radius * math.cos(0.0), radius * math.sin(0.0));
 
