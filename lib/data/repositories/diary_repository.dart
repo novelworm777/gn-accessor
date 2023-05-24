@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../constants/database_collection.dart';
+import '../../domain/models/data_transfer_object.dart';
+import '../../domain/models/diary_domain.dart';
 import '../../utils/services/firestore.dart';
 import '../models/diary_firestore_data.dart';
 
@@ -19,4 +21,29 @@ class DiaryRepository {
                 DiaryPageFirestoreData.fromFirestore(snapshot),
             toFirestore: (model, _) => model.toFirestore(),
           );
+
+  /// Find all diary page data.
+  Future<List<DiaryPageDomain>> findAllWhereEqualTo({
+    required String userId,
+    required Where where,
+    OrderBy orderBy = const OrderBy(),
+  }) async {
+    late QuerySnapshot<DiaryPageFirestoreData> found;
+    // use default order by of firestore
+    if (orderBy.field == 'id') {
+      found = await _diaries(userId: userId)
+          .where(where.field, isEqualTo: where.value)
+          .get();
+    }
+    // use assigned order by
+    else {
+      found = await _diaries(userId: userId)
+          .where(where.field, isEqualTo: where.value)
+          .orderBy(orderBy.field, descending: !orderBy.isAscending)
+          .get();
+    }
+    return found.docs
+        .map((snapshot) => DiaryPageDomain.fromData(snapshot.data()))
+        .toList();
+  }
 }
