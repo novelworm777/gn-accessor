@@ -9,4 +9,5 @@ class Routes {
   static const bodyIndexScreen = '/body-index';
   static const bodyIndexFormScreen = '/body-index-form';
   static const diaryScreen = '/diary';
+  static const diaryPageEditScreen = '/diary-page/edit';
 }
