@@ -59,7 +59,7 @@ class UserUsecase {
       userId: user.id!,
     );
     // create new log
-    _logService.useInvitationCode(
+    await _logService.useInvitationCode(
       userId: user.id!,
       code: invitationCode.code!,
     );
