@@ -50,6 +50,7 @@ class DiamondDecoratedBox extends StatelessWidget {
               width: width,
               height: height,
               color: colour,
+              padding: const EdgeInsets.all(13.0),
               child: child,
             ),
             CustomPaint(
