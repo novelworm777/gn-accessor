@@ -27,12 +27,12 @@ class DiaryPageFirestoreData {
   });
 
   /// Convert [DiaryPageDomain] into [DiaryPageFirestoreData] object.
-  factory DiaryPageFirestoreData.fromData(DiaryPageDomain model) {
+  factory DiaryPageFirestoreData.fromDomain(DiaryPageDomain model) {
     // convert diary sections
     List<DiarySectionFirestoreData> convertedSections = [];
     if (model.sections != null) {
       for (final DiarySectionDomain section in model.sections!) {
-        convertedSections.add(DiarySectionFirestoreData.fromData(section));
+        convertedSections.add(DiarySectionFirestoreData.fromDomain(section));
       }
     }
     // return converted diary page
@@ -115,12 +115,12 @@ class DiarySectionFirestoreData {
   });
 
   /// Convert [DiarySectionDomain] into [DiarySectionFirestoreData] object.
-  factory DiarySectionFirestoreData.fromData(DiarySectionDomain model) {
+  factory DiarySectionFirestoreData.fromDomain(DiarySectionDomain model) {
     // convert diary cells
     List<DiaryCellFirestoreData> convertedCells = [];
     if (model.cells != null) {
       for (final DiaryCellDomain cell in model.cells!) {
-        convertedCells.add(DiaryCellFirestoreData.fromData(cell));
+        convertedCells.add(DiaryCellFirestoreData.fromDomain(cell));
       }
     }
     // return converted diary section
@@ -181,7 +181,7 @@ class DiaryCellFirestoreData {
   });
 
   /// Convert [DiaryCellDomain] into [DiaryCellFirestoreData] object.
-  factory DiaryCellFirestoreData.fromData(DiaryCellDomain model) =>
+  factory DiaryCellFirestoreData.fromDomain(DiaryCellDomain model) =>
       DiaryCellFirestoreData(
         time: model.time,
         text: model.text,

@@ -35,10 +35,22 @@ class LogService {
     required String code,
   }) async {
     String description = "User $userId uses invitation code $code.";
-    return createNewLog(
+    return await createNewLog(
       userId: userId,
       source: LogSource.invitationCode,
       actionType: LogAction.use,
+      description: description,
+    );
+  }
+
+  /// Create a log for when creating diary page.
+  Future<LogDomain> createDiaryPage(
+      {required String userId, required String pageId}) async {
+    String description = "Create a new diary page $pageId";
+    return await createNewLog(
+      userId: userId,
+      source: LogSource.diary,
+      actionType: LogAction.createPage,
       description: description,
     );
   }

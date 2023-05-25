@@ -6,6 +6,25 @@ import '../models/diary_domain.dart';
 class DiaryService {
   final DiaryRepository _repository = DiaryRepository();
 
+  /// Create a diary page.
+  Future<DiaryPageDomain> create({required String userId}) async {
+    // set attributes
+    DateTime now = DateTime.now();
+    DiaryPageDomain newPage = DiaryPageDomain(
+      date: DateTime(now.year, now.month, now.day),
+      sections: [
+        DiarySectionDomain(cells: [DiaryCellDomain()])
+      ],
+      isActive: true,
+      createdAt: now,
+    );
+    // create data
+    return _repository.createOne(
+      userId: userId,
+      data: newPage,
+    );
+  }
+
   /// Get diary pages (non-archived).
   Future<List<DiaryPageDomain>> getPages({required String userId}) async {
     Where where = const Where(field: 'is_active', value: true);

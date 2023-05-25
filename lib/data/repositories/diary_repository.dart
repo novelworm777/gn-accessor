@@ -22,6 +22,20 @@ class DiaryRepository {
             toFirestore: (model, _) => model.toFirestore(),
           );
 
+  /// Create a diary page data.
+  Future<DiaryPageDomain> createOne({
+    required String userId,
+    required DiaryPageDomain data,
+  }) async {
+    final converted = DiaryPageFirestoreData.fromDomain(data);
+    final created = await _diaries(userId: userId).add(converted).then(
+          (snapshot) => snapshot.get(),
+          onError: (error) =>
+              throw FormatException("failed to create diary page: $error"),
+        );
+    return DiaryPageDomain.fromData(created.data()!);
+  }
+
   /// Find all diary page data.
   Future<List<DiaryPageDomain>> findAllWhereEqualTo({
     required String userId,
