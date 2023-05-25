@@ -61,7 +61,7 @@ class UserUsecase {
     // create new log
     await _logService.useInvitationCode(
       userId: user.id!,
-      code: invitationCode.code!,
+      invitationCodeId: invitationCode.id!,
     );
     return user;
   }

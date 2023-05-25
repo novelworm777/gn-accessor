@@ -32,9 +32,9 @@ class LogService {
   /// Create a log for when using invitation code.
   Future<LogDomain> useInvitationCode({
     required String userId,
-    required String code,
+    required String invitationCodeId,
   }) async {
-    String description = "User $userId uses invitation code $code.";
+    String description = "Join using invitation code $invitationCodeId";
     return await createNewLog(
       userId: userId,
       source: LogSource.invitationCode,
