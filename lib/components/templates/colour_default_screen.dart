@@ -8,6 +8,7 @@ class ColourDefaultScreen extends StatelessWidget {
     Key? key,
     required this.colour,
     required this.child,
+    this.floatingButton,
     this.onTapUnfocus = true,
     this.padding = const EdgeInsets.all(33),
     this.resizeToAvoidBottomInset = false,
@@ -15,6 +16,7 @@ class ColourDefaultScreen extends StatelessWidget {
 
   final Widget child;
   final Color colour;
+  final Widget? floatingButton;
   final bool onTapUnfocus;
   final EdgeInsetsGeometry padding;
   final bool resizeToAvoidBottomInset;
@@ -28,12 +30,18 @@ class ColourDefaultScreen extends StatelessWidget {
         },
         child: Scaffold(
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          body: Container(
-            color: colour,
-            height: ScreenSize.height(context),
-            padding: padding,
-            width: ScreenSize.width(context),
-            child: child,
+          body: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Container(
+                color: colour,
+                height: ScreenSize.height(context),
+                padding: padding,
+                width: ScreenSize.width(context),
+                child: child,
+              ),
+              floatingButton ?? Container(),
+            ],
           ),
         ),
       ),
