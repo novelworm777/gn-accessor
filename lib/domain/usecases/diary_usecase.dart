@@ -27,7 +27,6 @@ class DiaryUsecase {
                           'tags': cell.tags,
                         })
                     .toList(),
-                'tags': section.tags,
               })
           .toList(),
     };

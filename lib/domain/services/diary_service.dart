@@ -1,38 +1,72 @@
 import '../../data/repositories/diary_repository.dart';
-import '../models/data_transfer_object.dart';
 import '../models/diary_domain.dart';
 
 /// Service for diary module.
 class DiaryService {
   final DiaryRepository _repository = DiaryRepository();
 
-  /// Create a diary page.
+  /// Create an empty diary.
   Future<DiaryPageDomain> create({required String userId}) async {
+    var page = await _createPage(userId: userId);
+    var cell = await _createCell(userId: userId, pageId: page.id!);
+    return await _addCellToSection(userId: userId, page: page, cell: cell);
+  }
+
+  /// Create a diary page.
+  Future<DiaryPageDomain> _createPage({required String userId}) async {
     // set attributes
-    DateTime now = DateTime.now();
-    DiaryPageDomain newPage = DiaryPageDomain(
+    var now = DateTime.now();
+    var newPage = DiaryPageDomain(
       date: DateTime(now.year, now.month, now.day),
-      sections: [
-        DiarySectionDomain(cells: [DiaryCellDomain()])
-      ],
+      sections: [DiarySectionDomain()],
       isActive: true,
       createdAt: now,
     );
     // create data
-    return _repository.createOne(
+    return _repository.createPage(
       userId: userId,
       data: newPage,
     );
   }
 
+  /// Create a diary cell.
+  Future<DiaryCellDomain> _createCell({
+    required String userId,
+    required String pageId,
+  }) async {
+    // set attributes
+    var newCell = DiaryCellDomain(
+      isActive: true,
+      createdBy: userId,
+    );
+    // create data
+    return await _repository.createCell(
+      userId: userId,
+      pageId: pageId,
+      data: newCell,
+    );
+  }
+
   /// Get diary pages (non-archived).
   Future<List<DiaryPageDomain>> getPages({required String userId}) async {
-    Where where = const Where(field: 'is_active', value: true);
-    OrderBy orderBy = const OrderBy(field: 'date', isAscending: false);
-    return await _repository.findAllWhereEqualTo(
+    return await _repository.findAllPageByActive(userId: userId);
+  }
+
+  /// Add cell to section.
+  Future<DiaryPageDomain> _addCellToSection({
+    required String userId,
+    required DiaryPageDomain page,
+    required DiaryCellDomain cell,
+    int sectionIndex = 0,
+  }) async {
+    // set updated attributes
+    page.sections![sectionIndex].cells?.add(cell);
+    // update data
+    return await _repository.updatePage(
       userId: userId,
-      where: where,
-      orderBy: orderBy,
+      pageId: page.id!,
+      data: page,
+      merge: true,
     );
   }
 }
