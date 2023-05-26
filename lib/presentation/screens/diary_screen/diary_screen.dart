@@ -3,9 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../../components/molecules/diamond_button.dart';
 import '../../../components/organisms/decorated_box.dart';
 import '../../../components/templates/colour_default_screen.dart';
+import '../../../config/route/routes.dart';
 import '../../../domain/usecases/diary_usecase.dart';
+import '../../../utils/helpers/ordinal_number.dart';
 import '../../../utils/helpers/screen_size.dart';
 import '../../models/diary.dart';
 import '../../models/user.dart';
@@ -31,6 +34,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
     _getDiaryPageDates();
   }
 
+  /// Get diary pages from database.
   void _getDiaryPageDates() async {
     final userId = context.read<User>().id;
     final res = await _diaryUsecase.viewDiaryPages(userId: userId);
@@ -43,16 +47,26 @@ class _DiaryScreenState extends State<DiaryScreen> {
   Widget build(BuildContext context) {
     double width = ScreenSize.width(context, ratio: 0.83);
     double height = 50;
+    double size = 42;
 
     return ColourDefaultScreen(
       colour: _primaryColour,
+      floatingWidget: DiamondOutlineButton(
+        buttonColour: _secondaryColour,
+        onPress: () {
+          Navigator.pushNamed(context, Routes.diaryPageEditScreen);
+        },
+        paddingColour: _primaryColour,
+        size: size,
+      ),
       padding: const EdgeInsets.symmetric(vertical: 33.0),
       child: ListView.separated(
         itemBuilder: (BuildContext context, int index) {
           final pageDate = _dates[index];
           String monthDay = DateFormat('MMMMd').format(pageDate.date);
           String year = DateFormat('y').format(pageDate.date);
-          String ordinalNumberSuffix = _nthNumber(pageDate.date.day);
+          String ordinalNumberSuffix =
+              OrdinalNumber.nthNumber(pageDate.date.day);
           return DiamondDecoratedBox(
             colour: _secondaryColour,
             height: height,
@@ -75,19 +89,5 @@ class _DiaryScreenState extends State<DiaryScreen> {
             const SizedBox(height: 13.0),
       ),
     );
-  }
-
-  String _nthNumber(int number) {
-    if (number > 3 && number < 21) return 'th';
-    switch (number % 10) {
-      case 1:
-        return 'st';
-      case 2:
-        return 'nd';
-      case 3:
-        return 'rd';
-      default:
-        return 'th';
-    }
   }
 }
