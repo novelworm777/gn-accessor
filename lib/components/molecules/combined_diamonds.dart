@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gn_accessor/constants/app_constants.dart';
 
+import '../../constants/app_constants.dart';
 import '../atoms/diamond.dart';
 
+/// Top left corner of diamond decorated box.
 class TopLeftBoxCorner extends StatelessWidget {
   const TopLeftBoxCorner({
     Key? key,
@@ -56,6 +57,7 @@ class TopLeftBoxCorner extends StatelessWidget {
   }
 }
 
+/// Top Right corner of diamond decorated box.
 class TopRightBoxCorner extends StatelessWidget {
   const TopRightBoxCorner({
     Key? key,
@@ -109,6 +111,7 @@ class TopRightBoxCorner extends StatelessWidget {
   }
 }
 
+/// Down left corner of diamond decorated box.
 class DownLeftBoxCorner extends StatelessWidget {
   const DownLeftBoxCorner({
     Key? key,
@@ -162,6 +165,7 @@ class DownLeftBoxCorner extends StatelessWidget {
   }
 }
 
+/// Down right corner of diamond decorated box.
 class DownRightBoxCorner extends StatelessWidget {
   const DownRightBoxCorner({
     Key? key,

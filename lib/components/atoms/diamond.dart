@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Draw a diamond.
 class Diamond extends CustomPainter {
   final Color colour;
 
@@ -28,6 +29,7 @@ class Diamond extends CustomPainter {
   }
 }
 
+/// Draw the top half of a diamond.
 class TopHalfDiamond extends CustomPainter {
   final Color colour;
 
@@ -55,6 +57,7 @@ class TopHalfDiamond extends CustomPainter {
   }
 }
 
+/// Draw the down half of a diamond.
 class DownHalfDiamond extends CustomPainter {
   final Color colour;
 
@@ -82,6 +85,7 @@ class DownHalfDiamond extends CustomPainter {
   }
 }
 
+/// Draw the left half of a diamond.
 class LeftHalfDiamond extends CustomPainter {
   final Color colour;
 
@@ -109,6 +113,7 @@ class LeftHalfDiamond extends CustomPainter {
   }
 }
 
+/// Draw the right half of a diamond.
 class RightHalfDiamond extends CustomPainter {
   final Color colour;
 
@@ -136,6 +141,7 @@ class RightHalfDiamond extends CustomPainter {
   }
 }
 
+/// Draw the top left quarter of a diamond.
 class TopLeftQuarterDiamond extends CustomPainter {
   final Color colour;
 
@@ -163,6 +169,7 @@ class TopLeftQuarterDiamond extends CustomPainter {
   }
 }
 
+/// Draw the top right quarter of a diamond.
 class TopRightQuarterDiamond extends CustomPainter {
   final Color colour;
 
@@ -190,6 +197,7 @@ class TopRightQuarterDiamond extends CustomPainter {
   }
 }
 
+/// Draw the down left quarter of a diamond.
 class DownLeftQuarterDiamond extends CustomPainter {
   final Color colour;
 
@@ -217,6 +225,7 @@ class DownLeftQuarterDiamond extends CustomPainter {
   }
 }
 
+/// Draw the down right quarter of a diamond.
 class DownRightQuarterDiamond extends CustomPainter {
   final Color colour;
 
@@ -234,6 +243,36 @@ class DownRightQuarterDiamond extends CustomPainter {
       ..lineTo(size.width, 0.0)
       ..lineTo(0.0, size.height)
       ..lineTo(0.0, 0.0);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+/// Draw a diamond outline.
+class DiamondOutline extends CustomPainter {
+  final Color colour;
+
+  DiamondOutline({required this.colour});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = colour
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+
+    var path = Path()
+      ..moveTo(size.width, size.height / 2)
+      ..lineTo(size.width / 2, size.height)
+      ..lineTo(0.0, size.height / 2)
+      ..lineTo(size.width / 2, 0.0)
+      ..lineTo(size.width, size.height / 2);
 
     canvas.drawPath(path, paint);
   }

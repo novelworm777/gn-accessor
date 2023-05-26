@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../constants/app_constants.dart';
 import '../molecules/combined_diamonds.dart';
 
+/// A box decorated with diamonds at each corner.
 class DiamondDecoratedBox extends StatelessWidget {
   const DiamondDecoratedBox({
     Key? key,
@@ -81,6 +82,7 @@ class DiamondDecoratedBox extends StatelessWidget {
   }
 }
 
+/// Padding between each corner of decorated box.
 class _BoxPadding extends CustomPainter {
   final Color colour;
 
