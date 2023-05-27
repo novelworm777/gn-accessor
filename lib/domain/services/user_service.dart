@@ -10,7 +10,7 @@ class UserService {
     // set new user
     UserDomain newUser = UserDomain(
       uid: uid,
-      joinedAt: DateTime.now().toUtc(),
+      joinedAt: DateTime.now(),
     );
     // create user in db
     return _repository.createOne(data: newUser);

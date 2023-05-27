@@ -137,6 +137,18 @@ class DiaryRepository {
         );
   }
 
+  /// Find a diary cell data.
+  Future<DiaryCellDomain> findCell({
+    required String userId,
+    required String pageId,
+    required String cellId,
+  }) async {
+    return await _cells(userId: userId, pageId: pageId).doc(cellId).get().then(
+          (snapshot) => DiaryCellDomain.fromData(snapshot.data()!),
+          onError: (error) => null,
+        );
+  }
+
   /// Update a diary page data.
   Future<DiaryPageDomain> updatePage({
     required String userId,
@@ -153,5 +165,40 @@ class DiaryRepository {
       userId: userId,
       pageId: pageId,
     );
+  }
+
+  /// Update multiple diary cell data.
+  Future<List<DiaryCellDomain>> updateCells({
+    required String userId,
+    required String pageId,
+    required List<DiaryCellDomain> data,
+  }) async {
+    List<DiaryCellDomain> updatedList = [];
+    for (final cell in data) {
+      final updated = await updateCell(
+        userId: userId,
+        pageId: pageId,
+        cellId: cell.id!,
+        data: cell,
+      );
+      updatedList.add(updated);
+    }
+    return updatedList;
+  }
+
+  /// Update a diary cell data.
+  Future<DiaryCellDomain> updateCell({
+    required String userId,
+    required String pageId,
+    required String cellId,
+    required DiaryCellDomain data,
+    bool merge = true,
+  }) async {
+    final converted = DiaryCellFirestoreData.fromDomain(data);
+    await _cells(userId: userId, pageId: pageId).doc(cellId).set(
+          converted,
+          SetOptions(merge: merge),
+        );
+    return findCell(userId: userId, pageId: pageId, cellId: cellId);
   }
 }

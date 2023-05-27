@@ -52,6 +52,34 @@ class DiaryService {
     return await _repository.findAllPageByActive(userId: userId);
   }
 
+  /// Get diary page by [DiaryPageDomain.id].
+  Future<DiaryPageDomain> _getPageById({
+    required String userId,
+    required String pageId,
+  }) async {
+    return await _repository.findPage(userId: userId, pageId: pageId);
+  }
+
+  /// Change [DiaryPageDomain.date] of a diary page.
+  Future<DiaryPageDomain> changePageDate({
+    required String userId,
+    required String pageId,
+    required DateTime date,
+  }) async {
+    // set updated attributes
+    var page = DiaryPageDomain(
+      date: DateTime(date.year, date.month, date.day),
+      updatedAt: DateTime.now(),
+    );
+    await _changeCellDateOfTime(userId: userId, pageId: pageId, date: date);
+    // update data
+    return await _repository.updatePage(
+      userId: userId,
+      pageId: pageId,
+      data: page,
+    );
+  }
+
   /// Add cell to section.
   Future<DiaryPageDomain> _addCellToSection({
     required String userId,
@@ -67,6 +95,42 @@ class DiaryService {
       pageId: page.id!,
       data: page,
       merge: true,
+    );
+  }
+
+  /// Change the date in [DiaryCellDomain.time].
+  Future<List<DiaryCellDomain>> _changeCellDateOfTime({
+    required String userId,
+    required String pageId,
+    required DateTime date,
+  }) async {
+    // get diary page
+    var page = await _getPageById(userId: userId, pageId: pageId);
+    // set updated attributes
+    List<DiaryCellDomain> updated = [];
+    if (page.sections == null) return [];
+    for (var section in page.sections!) {
+      if (section.cells == null) continue;
+      for (var cell in section.cells!) {
+        if (cell.time != null) {
+          updated.add(DiaryCellDomain(
+            id: cell.id,
+            time: DateTime(
+              page.date!.year,
+              page.date!.month,
+              page.date!.day,
+              cell.time!.hour,
+              cell.time!.minute,
+            ),
+          ));
+        }
+      }
+    }
+    // update data
+    return await _repository.updateCells(
+      userId: userId,
+      pageId: pageId,
+      data: updated,
     );
   }
 }

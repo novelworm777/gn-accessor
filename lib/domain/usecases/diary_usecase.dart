@@ -1,4 +1,3 @@
-import '../models/diary_domain.dart';
 import '../services/diary_service.dart';
 import '../services/log_service.dart';
 
@@ -10,7 +9,7 @@ class DiaryUsecase {
   /// Create a diary page.
   Future<Map<String, dynamic>> createDiaryPage({required String userId}) async {
     // create new diary page
-    DiaryPageDomain page = await _diaryService.create(userId: userId);
+    final page = await _diaryService.create(userId: userId);
     // create new log
     await _logService.createDiaryPage(userId: userId, pageId: page.id!);
     // return as map
@@ -36,7 +35,7 @@ class DiaryUsecase {
   Future<List<Map<String, dynamic>>> viewDiaryPages(
       {required String userId}) async {
     // get diary pages
-    List<DiaryPageDomain> pages = await _diaryService.getPages(userId: userId);
+    final pages = await _diaryService.getPages(userId: userId);
     // return as map
     return pages
         .map<Map<String, dynamic>>((page) => {
@@ -44,5 +43,24 @@ class DiaryUsecase {
               'date': page.date,
             })
         .toList();
+  }
+
+  /// Update a diary page date.
+  Future<Map<String, dynamic>> updateDiaryPageDate({
+    required String userId,
+    required String pageId,
+    required DateTime date,
+  }) async {
+    // update diary page
+    final page = await _diaryService.changePageDate(
+      userId: userId,
+      pageId: pageId,
+      date: date,
+    );
+    // return as map
+    return {
+      'id': page.id,
+      'date': page.date,
+    };
   }
 }
