@@ -91,6 +91,8 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
                                     child: child!,
                                   );
                                 });
+                            // no change
+                            if (newDate == null) return;
                           },
                           child: const Icon(
                             FontAwesomeIcons.calendarDay,
