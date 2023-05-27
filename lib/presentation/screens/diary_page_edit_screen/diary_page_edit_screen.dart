@@ -37,9 +37,7 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
   void _createDiaryPage() async {
     final userId = context.read<User>().id;
     final res = await _diaryUsecase.createDiaryPage(userId: userId);
-    setState(() {
-      page = DiaryPage.fromMap(res);
-    });
+    setState(() => page = DiaryPage.fromMap(res));
   }
 
   @override
@@ -93,6 +91,8 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
                                 });
                             // no change
                             if (newDate == null) return;
+                            // change diary page date
+                            _updateDiaryPageDate(newDate);
                           },
                           child: const Icon(
                             FontAwesomeIcons.calendarDay,
@@ -156,6 +156,17 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
           )
         ],
       ),
+    );
+  }
+
+  /// Update the diary page date in database.
+  void _updateDiaryPageDate(date) async {
+    setState(() => page.date = date);
+    final userId = context.read<User>().id;
+    await _diaryUsecase.updateDiaryPageDate(
+      userId: userId,
+      pageId: page.id,
+      date: date,
     );
   }
 }
