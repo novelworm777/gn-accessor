@@ -21,8 +21,6 @@ class DiaryPageEditScreen extends StatefulWidget {
 }
 
 class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
-  final _primaryColour = const Color(0xFFF9F7FF);
-  final _secondaryColour = const Color(0xFF374259);
   final _diaryUsecase = DiaryUsecase();
 
   late DiaryPage page;
@@ -46,12 +44,16 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const primaryColour = Color(0xFFF9F7FF);
+    const secondaryColour = Color(0xFF374259);
+    const tertiaryColour = Color(0xFF5837D0);
+
     String monthDay = DateFormat('MMMMd').format(page.date);
     String year = DateFormat('y').format(page.date);
     String ordinalNumberSuffix = OrdinalNumber.nthNumber(page.date.day);
 
     return ColourDefaultScreen(
-      colour: _primaryColour,
+      colour: primaryColour,
       padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 33.0),
       child: Column(
         children: <Widget>[
@@ -60,7 +62,7 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
             child: Row(
               children: <Widget>[
                 CustomPaint(
-                  painter: DateUnderline(colour: _secondaryColour),
+                  painter: DateUnderline(colour: secondaryColour),
                   child: Container(
                     padding: const EdgeInsets.only(
                       bottom: 17.0,
@@ -69,16 +71,38 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
                     ),
                     child: Row(
                       children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.calendarDay,
-                          color: _secondaryColour,
-                          size: 21.0,
+                        GestureDetector(
+                          onTap: () async {
+                            // show date picker and pick a date
+                            DateTime? newDate = await showDatePicker(
+                                context: context,
+                                initialDate: page.date,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                                builder: (context, child) {
+                                  return Theme(
+                                    data: ThemeData(
+                                      colorScheme: const ColorScheme.light(
+                                        primary: secondaryColour,
+                                        onPrimary: primaryColour,
+                                        onSurface: tertiaryColour,
+                                      ),
+                                    ),
+                                    child: child!,
+                                  );
+                                });
+                          },
+                          child: const Icon(
+                            FontAwesomeIcons.calendarDay,
+                            color: secondaryColour,
+                            size: 21.0,
+                          ),
                         ),
                         const SizedBox(width: 13.0),
                         Text(
                           '$monthDay$ordinalNumberSuffix, $year',
                           style: GoogleFonts.jetBrainsMono(
-                            color: _secondaryColour,
+                            color: secondaryColour,
                             fontSize: 15.0,
                             fontWeight: FontWeight.w700,
                           ),
@@ -96,7 +120,7 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
               itemBuilder: (BuildContext context, int index) {
                 var section = page.sections[index];
                 return CustomPaint(
-                  painter: SectionOutlineContainer(colour: _secondaryColour),
+                  painter: SectionOutlineContainer(colour: secondaryColour),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: section.cells
@@ -104,13 +128,13 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
                               padding: const EdgeInsets.all(17.0),
                               child: CustomPaint(
                                 painter: CellOutlineContainer(
-                                    colour: _secondaryColour),
+                                    colour: secondaryColour),
                                 child: Container(
                                   padding: const EdgeInsets.all(17.0),
                                   child: Text(
                                     cell.text ?? '...',
                                     style: GoogleFonts.jetBrainsMono(
-                                      color: _secondaryColour.withOpacity(0.3),
+                                      color: secondaryColour.withOpacity(0.3),
                                       fontSize: 15.0,
                                       fontWeight: FontWeight.w500,
                                     ),
