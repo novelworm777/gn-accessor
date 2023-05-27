@@ -92,7 +92,9 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
                             // no change
                             if (newDate == null) return;
                             // change diary page date
-                            _updateDiaryPageDate(newDate);
+                            if (page.date != newDate) {
+                              _updateDiaryPageDate(newDate);
+                            }
                           },
                           child: const Icon(
                             FontAwesomeIcons.calendarDay,
