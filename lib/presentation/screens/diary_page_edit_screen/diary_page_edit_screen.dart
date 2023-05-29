@@ -122,40 +122,28 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
           Expanded(
             child: ListView.separated(
               itemBuilder: (BuildContext context, int index) {
-                var section = page.sections[index];
-                return CustomPaint(
-                  painter: SectionOutlineContainer(colour: secondaryColour),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: section.cells
-                        .map<Widget>((cell) => Padding(
-                              padding: const EdgeInsets.all(17.0),
-                              child: CustomPaint(
-                                painter: CellOutlineContainer(
-                                    colour: secondaryColour),
-                                child: Container(
-                                  padding: const EdgeInsets.all(17.0),
-                                  child: Text(
-                                    cell.text ?? '...',
-                                    style: GoogleFonts.jetBrainsMono(
-                                      color: secondaryColour.withOpacity(0.3),
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ))
-                        .toList(),
-                  ),
-                );
+                var isCell = index < page.sections.length;
+                return isCell
+                    ? CustomPaint(
+                        painter: SectionOutlineContainer(
+                          colour: secondaryColour,
+                        ),
+                        child: _viewSectionCells(
+                          page.sections[index],
+                          secondaryColour,
+                        ),
+                      )
+                    : _AddSectionButton(
+                        colour: secondaryColour,
+                        onPress: _addDiarySection,
+                      );
               },
-              itemCount: page.sections.length,
+              itemCount: page.sections.length + 1,
               scrollDirection: Axis.vertical,
               separatorBuilder: (BuildContext context, int index) =>
                   const SizedBox(height: 13.0),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -163,12 +151,83 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
 
   /// Update the diary page date in database.
   void _updateDiaryPageDate(date) async {
-    setState(() => page.date = date);
     final userId = context.read<User>().id;
     await _diaryUsecase.updateDiaryPageDate(
       userId: userId,
       pageId: page.id,
       date: date,
+    );
+    setState(() => page.date = date);
+  }
+
+  /// Get view of section cells.
+  Widget _viewSectionCells(section, colour) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: section.cells
+          .map<Widget>((cell) => Padding(
+                padding: const EdgeInsets.all(17.0),
+                child: CustomPaint(
+                  painter: CellOutlineContainer(colour: colour),
+                  child: Container(
+                    padding: const EdgeInsets.all(17.0),
+                    child: Text(
+                      cell.text ?? '...',
+                      style: GoogleFonts.jetBrainsMono(
+                        color: colour.withOpacity(0.3),
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ))
+          .toList(),
+    );
+  }
+
+  /// Add diary section in database and local.
+  void _addDiarySection() async {
+    final userId = context.read<User>().id;
+    await _diaryUsecase.addDiarySection(userId: userId, pageId: page.id);
+    setState(() => page.sections.add(DiarySection(cells: [DiaryCell()])));
+  }
+}
+
+/// Button for adding new section.
+class _AddSectionButton extends StatelessWidget {
+  const _AddSectionButton({
+    Key? key,
+    required this.colour,
+    required this.onPress,
+  }) : super(key: key);
+
+  final Color colour;
+  final VoidCallback onPress;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPress,
+      child: Center(
+        child: CustomPaint(
+          painter: AddSectionButtonContainer(colour: colour),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 33.0,
+              vertical: 7.0,
+            ),
+            child: Text(
+              'Add section...',
+              style: GoogleFonts.jetBrainsMono(
+                color: colour,
+                fontSize: 15.0,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -267,6 +326,49 @@ class CellOutlineContainer extends CustomPainter {
       ..moveTo(size.width / 2 - diamondSize / 2, size.height - diamondSize / 2)
       ..lineTo(diamondSize / 2, size.height - diamondSize / 2)
       ..lineTo(diamondSize / 2, diamondSize / 2);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class AddSectionButtonContainer extends CustomPainter {
+  final Color colour;
+
+  AddSectionButtonContainer({required this.colour});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = colour.withOpacity(0.3)
+      ..strokeJoin = StrokeJoin.round
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+
+    var diamondSize = 13.0;
+    var path = Path()
+      ..moveTo(diamondSize / 2, 0.0)
+      ..lineTo(size.width - diamondSize / 2, 0.0)
+      ..lineTo(size.width - diamondSize / 2, size.height / 2 - diamondSize / 2)
+      ..lineTo(size.width - diamondSize, size.height / 2)
+      ..lineTo(size.width - diamondSize / 2, size.height / 2 + diamondSize / 2)
+      ..lineTo(size.width, size.height / 2)
+      ..lineTo(size.width - diamondSize / 2, size.height / 2 - diamondSize / 2)
+      ..moveTo(size.width - diamondSize / 2, size.height / 2 + diamondSize / 2)
+      ..lineTo(size.width - diamondSize / 2, size.height)
+      ..lineTo(diamondSize / 2, size.height)
+      ..lineTo(diamondSize / 2, size.height / 2 + diamondSize / 2)
+      ..lineTo(diamondSize, size.height / 2)
+      ..lineTo(diamondSize / 2, size.height / 2 - diamondSize / 2)
+      ..lineTo(0.0, size.height / 2)
+      ..lineTo(diamondSize / 2, size.height / 2 + diamondSize / 2)
+      ..moveTo(diamondSize / 2, size.height / 2 - diamondSize / 2)
+      ..lineTo(diamondSize / 2, 0.0);
 
     canvas.drawPath(path, paint);
   }

@@ -23,9 +23,39 @@ class DiaryService {
       createdAt: now,
     );
     // create data
-    return _repository.createPage(
+    return await _repository.createPage(
       userId: userId,
       data: newPage,
+    );
+  }
+
+  /// Add a new section into diary page.
+  Future<DiaryPageDomain> addSection({
+    required String userId,
+    required String pageId,
+  }) async {
+    var cell = await _createCell(userId: userId, pageId: pageId);
+    return await _createSection(userId: userId, pageId: pageId, cell: cell);
+  }
+
+  /// Create a diary section.
+  Future<DiaryPageDomain> _createSection({
+    required String userId,
+    required String pageId,
+    required DiaryCellDomain cell,
+  }) async {
+    // get diary page
+    var page = await _getPageById(userId: userId, pageId: pageId);
+    // set updated attributes
+    var newSection = DiarySectionDomain(cells: [cell]);
+    page.sections?.add(newSection);
+    page.updatedAt = DateTime.now();
+    // update data
+    return await _repository.updatePage(
+      userId: userId,
+      pageId: pageId,
+      data: page,
+      merge: false,
     );
   }
 

@@ -63,4 +63,30 @@ class DiaryUsecase {
       'date': page.date,
     };
   }
+
+  /// Add a diary section.
+  Future<Map<String, dynamic>> addDiarySection({
+    required String userId,
+    required String pageId,
+  }) async {
+    // update diary page
+    var page = await _diaryService.addSection(userId: userId, pageId: pageId);
+    // return as map
+    return {
+      'id': page.id,
+      'date': page.date,
+      'sections': page.sections
+          ?.map((section) => {
+                'title': section.title,
+                'cells': section.cells
+                    ?.map((cell) => {
+                          'time': cell.time,
+                          'text': cell.text,
+                          'tags': cell.tags,
+                        })
+                    .toList(),
+              })
+          .toList(),
+    };
+  }
 }
