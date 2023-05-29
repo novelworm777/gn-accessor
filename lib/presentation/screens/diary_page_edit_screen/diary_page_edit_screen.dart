@@ -52,7 +52,7 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
 
     return ColourDefaultScreen(
       colour: primaryColour,
-      padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 33.0),
+      padding: const EdgeInsets.only(left: 13.0, right: 13.0, top: 33.0),
       child: Column(
         children: <Widget>[
           Padding(
@@ -297,22 +297,25 @@ class _AddSectionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPress,
-      child: Center(
-        child: CustomPaint(
-          painter: AddSectionButtonContainer(colour: colour),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 33.0,
-              vertical: 7.0,
-            ),
-            child: Text(
-              'Add section...',
-              style: GoogleFonts.jetBrainsMono(
-                color: colour,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w700,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 33.0),
+      child: GestureDetector(
+        onTap: onPress,
+        child: Center(
+          child: CustomPaint(
+            painter: AddSectionButtonContainer(colour: colour),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 33.0,
+                vertical: 7.0,
+              ),
+              child: Text(
+                'Add section...',
+                style: GoogleFonts.jetBrainsMono(
+                  color: colour,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),
