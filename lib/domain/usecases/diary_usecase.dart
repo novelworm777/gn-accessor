@@ -89,4 +89,35 @@ class DiaryUsecase {
           .toList(),
     };
   }
+
+  /// Add a diary cell.
+  Future<Map<String, dynamic>> addDiaryCell({
+    required String userId,
+    required String pageId,
+    required int sectionIndex,
+  }) async {
+    // update diary page
+    var page = await _diaryService.addCell(
+      userId: userId,
+      pageId: pageId,
+      sectionIndex: sectionIndex,
+    );
+    // return as map
+    return {
+      'id': page.id,
+      'date': page.date,
+      'sections': page.sections
+          ?.map((section) => {
+                'title': section.title,
+                'cells': section.cells
+                    ?.map((cell) => {
+                          'time': cell.time,
+                          'text': cell.text,
+                          'tags': cell.tags,
+                        })
+                    .toList(),
+              })
+          .toList(),
+    };
+  }
 }

@@ -128,9 +128,10 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
                         painter: SectionOutlineContainer(
                           colour: secondaryColour,
                         ),
-                        child: _viewSectionCells(
-                          page.sections[index],
-                          secondaryColour,
+                        child: _viewSectionItems(
+                          section: page.sections[index],
+                          colour: secondaryColour,
+                          addCellOnPress: () => _addDiaryCell(index),
                         ),
                       )
                     : _AddSectionButton(
@@ -160,30 +161,25 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
     setState(() => page.date = date);
   }
 
-  /// Get view of section cells.
-  Widget _viewSectionCells(section, colour) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: section.cells
-          .map<Widget>((cell) => Padding(
-                padding: const EdgeInsets.all(17.0),
-                child: CustomPaint(
-                  painter: CellOutlineContainer(colour: colour),
-                  child: Container(
-                    padding: const EdgeInsets.all(17.0),
-                    child: Text(
-                      cell.text ?? '...',
-                      style: GoogleFonts.jetBrainsMono(
-                        color: colour.withOpacity(0.3),
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-              ))
+  /// View section items.
+  _Section _viewSectionItems({section, colour, addCellOnPress}) {
+    return _Section(
+      addCellButton: _AddCellButton(onPress: addCellOnPress, colour: colour),
+      cells: section.cells
+          .map<_Cell>((cell) => _Cell(cell: cell, colour: colour))
           .toList(),
     );
+  }
+
+  /// Add diary cell in database and local.
+  void _addDiaryCell(sectionIndex) async {
+    final userId = context.read<User>().id;
+    await _diaryUsecase.addDiaryCell(
+      userId: userId,
+      pageId: page.id,
+      sectionIndex: sectionIndex,
+    );
+    setState(() => page.sections[sectionIndex].cells.add(DiaryCell()));
   }
 
   /// Add diary section in database and local.
@@ -191,6 +187,100 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
     final userId = context.read<User>().id;
     await _diaryUsecase.addDiarySection(userId: userId, pageId: page.id);
     setState(() => page.sections.add(DiarySection(cells: [DiaryCell()])));
+  }
+}
+
+/// Diary section container view.
+class _Section extends StatelessWidget {
+  const _Section({
+    Key? key,
+    required this.addCellButton,
+    required this.cells,
+  }) : super(key: key);
+
+  final Widget addCellButton;
+  final List<_Cell> cells;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(17.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[...cells, addCellButton],
+      ),
+    );
+  }
+}
+
+/// Diary cell container view.
+class _Cell extends StatelessWidget {
+  const _Cell({
+    Key? key,
+    required this.cell,
+    required this.colour,
+  }) : super(key: key);
+
+  final DiaryCell cell;
+  final Color colour;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: CellOutlineContainer(colour: colour),
+      child: Container(
+        padding: const EdgeInsets.all(17.0),
+        child: Text(
+          cell.text ?? '...',
+          style: GoogleFonts.jetBrainsMono(
+            color: colour.withOpacity(0.3),
+            fontSize: 15.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Button for adding new cell.
+class _AddCellButton extends StatelessWidget {
+  const _AddCellButton({
+    Key? key,
+    required this.colour,
+    required this.onPress,
+  }) : super(key: key);
+
+  final Color colour;
+  final VoidCallback onPress;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 7.0),
+      child: GestureDetector(
+        onTap: onPress,
+        child: Center(
+          child: CustomPaint(
+            painter: AddCellButtonContainer(colour: colour),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 33.0,
+                vertical: 7.0,
+              ),
+              child: Text(
+                'Add cell...',
+                style: GoogleFonts.jetBrainsMono(
+                  color: colour,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -318,12 +408,6 @@ class CellOutlineContainer extends CustomPainter {
       ..moveTo(diamondSize / 2, diamondSize / 2)
       ..lineTo(size.width, diamondSize / 2)
       ..lineTo(size.width, size.height - diamondSize / 2)
-      ..lineTo(size.width / 2 + diamondSize / 2, size.height - diamondSize / 2)
-      ..lineTo(size.width / 2, size.height)
-      ..lineTo(size.width / 2 - diamondSize / 2, size.height - diamondSize / 2)
-      ..lineTo(size.width / 2, size.height - diamondSize)
-      ..lineTo(size.width / 2 + diamondSize / 2, size.height - diamondSize / 2)
-      ..moveTo(size.width / 2 - diamondSize / 2, size.height - diamondSize / 2)
       ..lineTo(diamondSize / 2, size.height - diamondSize / 2)
       ..lineTo(diamondSize / 2, diamondSize / 2);
 
@@ -345,6 +429,49 @@ class AddSectionButtonContainer extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
       ..color = colour.withOpacity(0.3)
+      ..strokeJoin = StrokeJoin.round
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+
+    var diamondSize = 13.0;
+    var path = Path()
+      ..moveTo(diamondSize / 2, 0.0)
+      ..lineTo(size.width - diamondSize / 2, 0.0)
+      ..lineTo(size.width - diamondSize / 2, size.height / 2 - diamondSize / 2)
+      ..lineTo(size.width - diamondSize, size.height / 2)
+      ..lineTo(size.width - diamondSize / 2, size.height / 2 + diamondSize / 2)
+      ..lineTo(size.width, size.height / 2)
+      ..lineTo(size.width - diamondSize / 2, size.height / 2 - diamondSize / 2)
+      ..moveTo(size.width - diamondSize / 2, size.height / 2 + diamondSize / 2)
+      ..lineTo(size.width - diamondSize / 2, size.height)
+      ..lineTo(diamondSize / 2, size.height)
+      ..lineTo(diamondSize / 2, size.height / 2 + diamondSize / 2)
+      ..lineTo(diamondSize, size.height / 2)
+      ..lineTo(diamondSize / 2, size.height / 2 - diamondSize / 2)
+      ..lineTo(0.0, size.height / 2)
+      ..lineTo(diamondSize / 2, size.height / 2 + diamondSize / 2)
+      ..moveTo(diamondSize / 2, size.height / 2 - diamondSize / 2)
+      ..lineTo(diamondSize / 2, 0.0);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class AddCellButtonContainer extends CustomPainter {
+  final Color colour;
+
+  AddCellButtonContainer({required this.colour});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = colour.withOpacity(0.7)
       ..strokeJoin = StrokeJoin.round
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round

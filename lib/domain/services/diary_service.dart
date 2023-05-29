@@ -59,6 +59,22 @@ class DiaryService {
     );
   }
 
+  /// Add a new cell into diary section.
+  Future<DiaryPageDomain> addCell({
+    required String userId,
+    required String pageId,
+    required int sectionIndex,
+  }) async {
+    var cell = await _createCell(userId: userId, pageId: pageId);
+    var page = await _getPageById(userId: userId, pageId: pageId);
+    return await _addCellToSection(
+      userId: userId,
+      page: page,
+      cell: cell,
+      sectionIndex: sectionIndex,
+    );
+  }
+
   /// Create a diary cell.
   Future<DiaryCellDomain> _createCell({
     required String userId,
