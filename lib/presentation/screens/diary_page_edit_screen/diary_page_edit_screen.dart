@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gn_accessor/components/atoms/diamond.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -129,7 +131,7 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
                           colour: secondaryColour,
                         ),
                         child: _viewSectionItems(
-                          section: page.sections[index],
+                          sectionIndex: index,
                           colour: secondaryColour,
                           addCellOnPress: () => _addDiaryCell(index),
                         ),
@@ -162,13 +164,55 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
   }
 
   /// View section items.
-  _Section _viewSectionItems({section, colour, addCellOnPress}) {
+  _Section _viewSectionItems({sectionIndex, colour, addCellOnPress}) {
+    var section = page.sections[sectionIndex];
+    var cells = <_Cell>[];
+    for (var index = 0; index < section.cells.length; index++) {
+      var cell = _Cell(
+        cell: section.cells[index],
+        colour: colour,
+        onLongPress: () => _showActionPopup(
+          onDeleteCell: () => _removeDiaryCell(sectionIndex, index),
+        ),
+      );
+      cells.add(cell);
+    }
     return _Section(
       addCellButton: _AddCellButton(onPress: addCellOnPress, colour: colour),
-      cells: section.cells
-          .map<_Cell>((cell) => _Cell(cell: cell, colour: colour))
-          .toList(),
+      cells: cells,
     );
+  }
+
+  /// Show popup for actions.
+  void _showActionPopup({onDeleteCell}) {
+    SmartDialog.show(
+      builder: (_) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _ActionButton(
+              text: 'Delete cell',
+              onPress: onDeleteCell,
+            ),
+          ],
+        );
+      },
+      clickMaskDismiss: true,
+      maskColor: Colors.white.withOpacity(0.93),
+    );
+  }
+
+  /// Remove diary cell in database and local.
+  void _removeDiaryCell(sectionIndex, cellIndex) async {
+    final userId = context.read<User>().id;
+    var res = await _diaryUsecase.removeDiaryCell(
+      userId: userId,
+      pageId: page.id,
+      sectionIndex: sectionIndex,
+      cellIndex: cellIndex,
+    );
+    print(res);
+    setState(() => page.sections[sectionIndex].cells.removeAt(cellIndex));
   }
 
   /// Add diary cell in database and local.
@@ -187,6 +231,59 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
     final userId = context.read<User>().id;
     await _diaryUsecase.addDiarySection(userId: userId, pageId: page.id);
     setState(() => page.sections.add(DiarySection(cells: [DiaryCell()])));
+  }
+}
+
+/// Action button view.
+class _ActionButton extends StatelessWidget {
+  const _ActionButton({
+    Key? key,
+    required this.text,
+    required this.onPress,
+  }) : super(key: key);
+
+  final String text;
+  final VoidCallback onPress;
+
+  @override
+  Widget build(BuildContext context) {
+    const primaryColour = Color(0xFFF9F7FF);
+    const secondaryColour = Color(0xFF374259);
+
+    return GestureDetector(
+      onTap: onPress,
+      child: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(3.0)),
+          color: secondaryColour,
+        ),
+        padding: const EdgeInsets.all(13.0),
+        width: 250.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            CustomPaint(
+              painter: Diamond(colour: primaryColour),
+              child: const SizedBox(
+                height: 21.0,
+                width: 21.0,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 13.0),
+              child: Text(
+                text,
+                style: GoogleFonts.jetBrainsMono(
+                  color: primaryColour,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -219,23 +316,28 @@ class _Cell extends StatelessWidget {
     Key? key,
     required this.cell,
     required this.colour,
+    required this.onLongPress,
   }) : super(key: key);
 
   final DiaryCell cell;
   final Color colour;
+  final VoidCallback onLongPress;
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: CellOutlineContainer(colour: colour),
-      child: Container(
-        padding: const EdgeInsets.all(17.0),
-        child: Text(
-          cell.text ?? '...',
-          style: GoogleFonts.jetBrainsMono(
-            color: colour.withOpacity(0.3),
-            fontSize: 15.0,
-            fontWeight: FontWeight.w500,
+    return GestureDetector(
+      onLongPress: onLongPress,
+      child: CustomPaint(
+        painter: CellOutlineContainer(colour: colour),
+        child: Container(
+          padding: const EdgeInsets.all(17.0),
+          child: Text(
+            cell.text ?? '...',
+            style: GoogleFonts.jetBrainsMono(
+              color: colour.withOpacity(0.3),
+              fontSize: 15.0,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),

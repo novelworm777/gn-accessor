@@ -120,4 +120,37 @@ class DiaryUsecase {
           .toList(),
     };
   }
+
+  /// Remove a diary cell.
+  Future<Map<String, dynamic>> removeDiaryCell({
+    required String userId,
+    required String pageId,
+    required int sectionIndex,
+    required int cellIndex,
+  }) async {
+    // update diary page
+    var page = await _diaryService.removeCell(
+      userId: userId,
+      pageId: pageId,
+      sectionIndex: sectionIndex,
+      cellIndex: cellIndex,
+    );
+    // return as map
+    return {
+      'id': page.id,
+      'date': page.date,
+      'sections': page.sections
+          ?.map((section) => {
+                'title': section.title,
+                'cells': section.cells
+                    ?.map((cell) => {
+                          'time': cell.time,
+                          'text': cell.text,
+                          'tags': cell.tags,
+                        })
+                    .toList(),
+              })
+          .toList(),
+    };
+  }
 }

@@ -179,4 +179,41 @@ class DiaryService {
       data: updated,
     );
   }
+
+  /// Remove a diary cell from section.
+  Future<DiaryPageDomain> removeCell({
+    required String userId,
+    required String pageId,
+    required int sectionIndex,
+    required int cellIndex,
+  }) async {
+    // get page
+    var page = await _getPageById(userId: userId, pageId: pageId);
+    // set updated attributes
+    var cell = page.sections![sectionIndex].cells!.removeAt(cellIndex);
+    page.updatedAt = DateTime.now();
+    // delete cell data
+    _deleteCell(userId: userId, pageId: pageId, cellId: cell.id!);
+    // update page data
+    return await _repository.updatePage(
+      userId: userId,
+      pageId: pageId,
+      data: page,
+      merge: false,
+    );
+  }
+
+  /// Delete a diary cell.
+  void _deleteCell({
+    required String userId,
+    required String pageId,
+    required String cellId,
+  }) async {
+    // delete data
+    return _repository.deleteCell(
+      userId: userId,
+      pageId: pageId,
+      cellId: cellId,
+    );
+  }
 }

@@ -201,4 +201,13 @@ class DiaryRepository {
         );
     return findCell(userId: userId, pageId: pageId, cellId: cellId);
   }
+
+  /// Delete a diary cell data.
+  void deleteCell({
+    required String userId,
+    required String pageId,
+    required String cellId,
+  }) async {
+    await _cells(userId: userId, pageId: pageId).doc(cellId).delete();
+  }
 }
