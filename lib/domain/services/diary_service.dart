@@ -180,6 +180,30 @@ class DiaryService {
     );
   }
 
+  /// Remove a diary section from page.
+  Future<DiaryPageDomain> removeSection({
+    required String userId,
+    required String pageId,
+    required int sectionIndex,
+  }) async {
+    // get page
+    var page = await _getPageById(userId: userId, pageId: pageId);
+    // set updated attributes
+    var section = page.sections!.removeAt(sectionIndex);
+    page.updatedAt = DateTime.now();
+    // delete cell data
+    for (var cell in section.cells!) {
+      _deleteCell(userId: userId, pageId: pageId, cellId: cell.id!);
+    }
+    // update page data
+    return await _repository.updatePage(
+      userId: userId,
+      pageId: pageId,
+      data: page,
+      merge: false,
+    );
+  }
+
   /// Remove a diary cell from section.
   Future<DiaryPageDomain> removeCell({
     required String userId,

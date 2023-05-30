@@ -172,7 +172,14 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
         cell: section.cells[index],
         colour: colour,
         onLongPress: () => _showActionPopup(
-          onDeleteCell: () => _removeDiaryCell(sectionIndex, index),
+          onDeleteCell: () {
+            _removeDiaryCell(sectionIndex, index);
+            SmartDialog.dismiss();
+          },
+          onDeleteSection: () {
+            _removeDiarySection(sectionIndex);
+            SmartDialog.dismiss();
+          },
         ),
       );
       cells.add(cell);
@@ -184,7 +191,7 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
   }
 
   /// Show popup for actions.
-  void _showActionPopup({onDeleteCell}) {
+  void _showActionPopup({onDeleteCell, onDeleteSection}) {
     SmartDialog.show(
       builder: (_) {
         return Column(
@@ -193,6 +200,11 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
             _ActionButton(
               text: 'Delete cell',
               onPress: onDeleteCell,
+            ),
+            const SizedBox(height: 13.0),
+            _ActionButton(
+              text: 'Delete section',
+              onPress: onDeleteSection,
             ),
           ],
         );
@@ -205,14 +217,24 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
   /// Remove diary cell in database and local.
   void _removeDiaryCell(sectionIndex, cellIndex) async {
     final userId = context.read<User>().id;
-    var res = await _diaryUsecase.removeDiaryCell(
+    await _diaryUsecase.removeDiaryCell(
       userId: userId,
       pageId: page.id,
       sectionIndex: sectionIndex,
       cellIndex: cellIndex,
     );
-    print(res);
     setState(() => page.sections[sectionIndex].cells.removeAt(cellIndex));
+  }
+
+  /// Remove diary section in database and local.
+  void _removeDiarySection(sectionIndex) async {
+    final userId = context.read<User>().id;
+    await _diaryUsecase.removeDiarySection(
+      userId: userId,
+      pageId: page.id,
+      sectionIndex: sectionIndex,
+    );
+    setState(() => page.sections.removeAt(sectionIndex));
   }
 
   /// Add diary cell in database and local.
