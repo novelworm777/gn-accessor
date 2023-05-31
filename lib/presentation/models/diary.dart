@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 /// Diary page dates presentation model.
 class DiaryPageDate {
   final String id;
@@ -60,11 +62,13 @@ class DiarySection {
 
 /// Diary cell presentation model.
 class DiaryCell {
+  UniqueKey name;
   DateTime? time;
   String? text;
   List<String>? tags;
 
   DiaryCell({
+    required this.name,
     this.time,
     this.text,
     this.tags,
@@ -72,6 +76,7 @@ class DiaryCell {
 
   /// Convert [Map] into [DiaryCell] object.
   factory DiaryCell.fromMap(Map<String, dynamic> map) => DiaryCell(
+        name: UniqueKey(),
         time: map['time'],
         text: map['text'],
         tags: map['tags'] ?? [],

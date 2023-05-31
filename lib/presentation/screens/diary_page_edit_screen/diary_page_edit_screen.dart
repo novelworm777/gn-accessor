@@ -177,7 +177,6 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
       var cell = _Cell(
         cell: section.cells[index],
         colour: colour,
-        index: index,
         onChangeText: (value) {
           _updateDiaryCellText(sectionIndex, index, value);
         },
@@ -268,14 +267,18 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
       pageId: page.id,
       sectionIndex: sectionIndex,
     );
-    setState(() => page.sections[sectionIndex].cells.add(DiaryCell()));
+    setState(() => page.sections[sectionIndex].cells.add(DiaryCell(
+          name: UniqueKey(),
+        )));
   }
 
   /// Add diary section in database and local.
   void _addDiarySection() async {
     final userId = context.read<User>().id;
     await _diaryUsecase.addDiarySection(userId: userId, pageId: page.id);
-    setState(() => page.sections.add(DiarySection(cells: [DiaryCell()])));
+    setState(() => page.sections.add(DiarySection(cells: [
+          DiaryCell(name: UniqueKey()),
+        ])));
   }
 }
 
@@ -361,14 +364,12 @@ class _Cell extends StatelessWidget {
     Key? key,
     required this.cell,
     required this.colour,
-    required this.index,
     required this.onChangeText,
     required this.onLongPress,
   }) : super(key: key);
 
   final DiaryCell cell;
   final Color colour;
-  final int index;
   final void Function(dynamic) onChangeText;
   final VoidCallback onLongPress;
 
@@ -403,7 +404,7 @@ class _Cell extends StatelessWidget {
                   focusedBorder: InputBorder.none,
                 ),
                 maxLines: null,
-                name: nameFormat('cell', index, 'text'),
+                name: '${cell.name}-text',
                 onChanged: onChangeText,
                 style: GoogleFonts.jetBrainsMono(
                   color: colour,
