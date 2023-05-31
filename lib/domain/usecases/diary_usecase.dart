@@ -121,6 +121,26 @@ class DiaryUsecase {
     };
   }
 
+  /// Update a diary cell text.
+  Future<Map<String, dynamic>> updateDiaryCellText({
+    required String userId,
+    required String pageId,
+    required int sectionIndex,
+    required int cellIndex,
+    required String text,
+  }) async {
+    // update diary cell
+    var cell = await _diaryService.changeText(
+      userId: userId,
+      pageId: pageId,
+      sectionIndex: sectionIndex,
+      cellIndex: cellIndex,
+      text: text,
+    );
+    // return as map
+    return {'text': cell.text};
+  }
+
   /// Remove a diary section.
   Future<Map<String, dynamic>> removeDiarySection({
     required String userId,

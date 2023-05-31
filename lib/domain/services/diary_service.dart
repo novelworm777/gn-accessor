@@ -126,6 +126,22 @@ class DiaryService {
     );
   }
 
+  /// Change [DiaryPageDomain.updatedAt] of a diary page.
+  Future<DiaryPageDomain> _setPageUpdateTime({
+    required String userId,
+    required String pageId,
+    DateTime? updatedAt,
+  }) async {
+    // set updated attributes
+    var page = DiaryPageDomain(updatedAt: updatedAt ?? DateTime.now());
+    // update data
+    return await _repository.updatePage(
+      userId: userId,
+      pageId: pageId,
+      data: page,
+    );
+  }
+
   /// Add cell to section.
   Future<DiaryPageDomain> _addCellToSection({
     required String userId,
@@ -177,6 +193,28 @@ class DiaryService {
       userId: userId,
       pageId: pageId,
       data: updated,
+    );
+  }
+
+  /// Change [DiaryCellDomain.text] of a diary cell.
+  Future<DiaryCellDomain> changeText({
+    required String userId,
+    required String pageId,
+    required int sectionIndex,
+    required int cellIndex,
+    required String text,
+  }) async {
+    // set update time of page
+    var page = await _setPageUpdateTime(userId: userId, pageId: pageId);
+    // set updated attributes
+    var cell = DiaryCellDomain(text: text);
+    // update data
+    var cellId = page.sections![sectionIndex].cells![cellIndex].id;
+    return await _repository.updateCell(
+      userId: userId,
+      pageId: pageId,
+      cellId: cellId!,
+      data: cell,
     );
   }
 

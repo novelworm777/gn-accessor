@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gn_accessor/components/atoms/diamond.dart';
@@ -24,6 +25,7 @@ class DiaryPageEditScreen extends StatefulWidget {
 
 class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
   final _diaryUsecase = DiaryUsecase();
+  final _formKey = GlobalKey<FormBuilderState>();
 
   late DiaryPage page;
 
@@ -55,6 +57,7 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
     return ColourDefaultScreen(
       colour: primaryColour,
       padding: const EdgeInsets.only(left: 13.0, right: 13.0, top: 33.0),
+      resizeToAvoidBottomInset: true,
       child: Column(
         children: <Widget>[
           Padding(
@@ -121,30 +124,33 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
             ),
           ),
           const SizedBox(height: 13.0),
-          Expanded(
-            child: ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                var isCell = index < page.sections.length;
-                return isCell
-                    ? CustomPaint(
-                        painter: SectionOutlineContainer(
+          FormBuilder(
+            key: _formKey,
+            child: Expanded(
+              child: ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  var isCell = index < page.sections.length;
+                  return isCell
+                      ? CustomPaint(
+                          painter: SectionOutlineContainer(
+                            colour: secondaryColour,
+                          ),
+                          child: _viewSectionItems(
+                            sectionIndex: index,
+                            colour: secondaryColour,
+                            addCellOnPress: () => _addDiaryCell(index),
+                          ),
+                        )
+                      : _AddSectionButton(
                           colour: secondaryColour,
-                        ),
-                        child: _viewSectionItems(
-                          sectionIndex: index,
-                          colour: secondaryColour,
-                          addCellOnPress: () => _addDiaryCell(index),
-                        ),
-                      )
-                    : _AddSectionButton(
-                        colour: secondaryColour,
-                        onPress: _addDiarySection,
-                      );
-              },
-              itemCount: page.sections.length + 1,
-              scrollDirection: Axis.vertical,
-              separatorBuilder: (BuildContext context, int index) =>
-                  const SizedBox(height: 13.0),
+                          onPress: _addDiarySection,
+                        );
+                },
+                itemCount: page.sections.length + 1,
+                scrollDirection: Axis.vertical,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(height: 13.0),
+              ),
             ),
           ),
         ],
@@ -171,6 +177,10 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
       var cell = _Cell(
         cell: section.cells[index],
         colour: colour,
+        index: index,
+        onChangeText: (value) {
+          _updateDiaryCellText(sectionIndex, index, value);
+        },
         onLongPress: () => _showActionPopup(
           onDeleteCell: () {
             _removeDiaryCell(sectionIndex, index);
@@ -188,6 +198,19 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
       addCellButton: _AddCellButton(onPress: addCellOnPress, colour: colour),
       cells: cells,
     );
+  }
+
+  /// Update the diary cell text in database and local.
+  void _updateDiaryCellText(sectionIndex, cellIndex, text) async {
+    final userId = context.read<User>().id;
+    await _diaryUsecase.updateDiaryCellText(
+      userId: userId,
+      pageId: page.id,
+      sectionIndex: sectionIndex,
+      cellIndex: cellIndex,
+      text: text,
+    );
+    setState(() => page.sections[sectionIndex].cells[cellIndex].text = text);
   }
 
   /// Show popup for actions.
@@ -338,11 +361,15 @@ class _Cell extends StatelessWidget {
     Key? key,
     required this.cell,
     required this.colour,
+    required this.index,
+    required this.onChangeText,
     required this.onLongPress,
   }) : super(key: key);
 
   final DiaryCell cell;
   final Color colour;
+  final int index;
+  final void Function(dynamic) onChangeText;
   final VoidCallback onLongPress;
 
   @override
@@ -351,21 +378,55 @@ class _Cell extends StatelessWidget {
       onLongPress: onLongPress,
       child: CustomPaint(
         painter: CellOutlineContainer(colour: colour),
-        child: Container(
-          padding: const EdgeInsets.all(17.0),
-          child: Text(
-            cell.text ?? '...',
-            style: GoogleFonts.jetBrainsMono(
-              color: colour.withOpacity(0.3),
-              fontSize: 15.0,
-              fontWeight: FontWeight.w500,
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(21.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 7.0),
+                child: CustomPaint(
+                  painter: Diamond(colour: colour),
+                  child: const SizedBox(height: 20.0, width: 20.0 * 0.8),
+                ),
+              ),
+              FormBuilderTextField(
+                cursorColor: colour,
+                decoration: InputDecoration(
+                  isDense: true,
+                  hintText: '...',
+                  hintStyle: GoogleFonts.jetBrainsMono(
+                    color: colour.withOpacity(0.3),
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                ),
+                maxLines: null,
+                name: nameFormat('cell', index, 'text'),
+                onChanged: onChangeText,
+                style: GoogleFonts.jetBrainsMono(
+                  color: colour,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 7.0),
+                child: CustomPaint(
+                  painter: Diamond(colour: colour),
+                  child: const SizedBox(height: 20.0, width: 20.0 * 0.8),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
+
+String nameFormat(object, index, field) => '$object-$index-$field';
 
 /// Button for adding new cell.
 class _AddCellButton extends StatelessWidget {
