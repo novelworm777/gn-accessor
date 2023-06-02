@@ -10,4 +10,5 @@ class Routes {
   static const bodyIndexFormScreen = '/body-index-form';
   static const diaryScreen = '/diary';
   static const diaryPageEditScreen = '/diary-page/edit';
+  static const diaryPageViewScreen = '/diary-page';
 }
