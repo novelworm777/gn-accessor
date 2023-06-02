@@ -45,7 +45,7 @@ class DiaryService {
     required DiaryCellDomain cell,
   }) async {
     // get diary page
-    var page = await _getPageById(userId: userId, pageId: pageId);
+    var page = await getPageById(userId: userId, pageId: pageId);
     // set updated attributes
     var newSection = DiarySectionDomain(cells: [cell]);
     page.sections?.add(newSection);
@@ -66,7 +66,7 @@ class DiaryService {
     required int sectionIndex,
   }) async {
     var cell = await _createCell(userId: userId, pageId: pageId);
-    var page = await _getPageById(userId: userId, pageId: pageId);
+    var page = await getPageById(userId: userId, pageId: pageId);
     return await _addCellToSection(
       userId: userId,
       page: page,
@@ -99,7 +99,7 @@ class DiaryService {
   }
 
   /// Get diary page by [DiaryPageDomain.id].
-  Future<DiaryPageDomain> _getPageById({
+  Future<DiaryPageDomain> getPageById({
     required String userId,
     required String pageId,
   }) async {
@@ -167,7 +167,7 @@ class DiaryService {
     required DateTime date,
   }) async {
     // get diary page
-    var page = await _getPageById(userId: userId, pageId: pageId);
+    var page = await getPageById(userId: userId, pageId: pageId);
     // set updated attributes
     List<DiaryCellDomain> updated = [];
     if (page.sections == null) return [];
@@ -225,7 +225,7 @@ class DiaryService {
     required int sectionIndex,
   }) async {
     // get page
-    var page = await _getPageById(userId: userId, pageId: pageId);
+    var page = await getPageById(userId: userId, pageId: pageId);
     // set updated attributes
     var section = page.sections!.removeAt(sectionIndex);
     page.updatedAt = DateTime.now();
@@ -250,7 +250,7 @@ class DiaryService {
     required int cellIndex,
   }) async {
     // get page
-    var page = await _getPageById(userId: userId, pageId: pageId);
+    var page = await getPageById(userId: userId, pageId: pageId);
     // set updated attributes
     var cell = page.sections![sectionIndex].cells!.removeAt(cellIndex);
     page.updatedAt = DateTime.now();

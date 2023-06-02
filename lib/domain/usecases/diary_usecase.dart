@@ -45,6 +45,35 @@ class DiaryUsecase {
         .toList();
   }
 
+  /// Get a diary page.
+  Future<Map<String, dynamic>> viewDiaryPage({
+    required String userId,
+    required String pageId,
+  }) async {
+    // get diary page
+    final page = await _diaryService.getPageById(
+      userId: userId,
+      pageId: pageId,
+    );
+    // return as map
+    return {
+      'id': page.id,
+      'date': page.date,
+      'sections': page.sections
+          ?.map((section) => {
+                'title': section.title,
+                'cells': section.cells
+                    ?.map((cell) => {
+                          'time': cell.time,
+                          'text': cell.text,
+                          'tags': cell.tags,
+                        })
+                    .toList(),
+              })
+          .toList(),
+    };
+  }
+
   /// Update a diary page date.
   Future<Map<String, dynamic>> updateDiaryPageDate({
     required String userId,

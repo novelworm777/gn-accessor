@@ -62,23 +62,31 @@ class _DiaryScreenState extends State<DiaryScreen> {
       padding: const EdgeInsets.symmetric(vertical: 33.0),
       child: ListView.separated(
         itemBuilder: (BuildContext context, int index) {
-          final pageDate = _dates[index];
-          String monthDay = DateFormat('MMMMd').format(pageDate.date);
-          String year = DateFormat('y').format(pageDate.date);
-          String ordinalNumberSuffix =
-              OrdinalNumber.nthNumber(pageDate.date.day);
-          return DiamondDecoratedBox(
-            colour: _secondaryColour,
-            height: height,
-            width: width,
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(
-                '$monthDay$ordinalNumberSuffix, $year',
-                style: GoogleFonts.jetBrainsMono(
-                  color: _primaryColour,
-                  fontSize: 17.0,
-                  fontWeight: FontWeight.w300,
+          final page = _dates[index];
+          String monthDay = DateFormat('MMMMd').format(page.date);
+          String year = DateFormat('y').format(page.date);
+          String ordinalNumberSuffix = OrdinalNumber.nthNumber(page.date.day);
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                Routes.diaryPageViewScreen,
+                arguments: page.id,
+              );
+            },
+            child: DiamondDecoratedBox(
+              colour: _secondaryColour,
+              height: height,
+              width: width,
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  '$monthDay$ordinalNumberSuffix, $year',
+                  style: GoogleFonts.jetBrainsMono(
+                    color: _primaryColour,
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
               ),
             ),

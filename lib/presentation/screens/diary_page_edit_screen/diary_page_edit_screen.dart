@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../../components/atoms/underline.dart';
 import '../../../components/templates/colour_default_screen.dart';
 import '../../../domain/usecases/diary_usecase.dart';
 import '../../../utils/helpers/ordinal_number.dart';
@@ -65,7 +66,7 @@ class _DiaryPageEditScreenState extends State<DiaryPageEditScreen> {
             child: Row(
               children: <Widget>[
                 CustomPaint(
-                  painter: DateUnderline(colour: secondaryColour),
+                  painter: DiamondUnderline(colour: secondaryColour),
                   child: Container(
                     padding: const EdgeInsets.only(
                       bottom: 17.0,
@@ -508,38 +509,6 @@ class _AddSectionButton extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class DateUnderline extends CustomPainter {
-  final Color colour;
-
-  DateUnderline({required this.colour});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = colour
-      ..strokeJoin = StrokeJoin.round
-      ..strokeWidth = 3
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
-
-    var diamondSize = 13.0;
-    var path = Path()
-      ..moveTo(0.0, size.height - diamondSize / 2)
-      ..lineTo(size.width - diamondSize, size.height - diamondSize / 2)
-      ..lineTo(size.width - diamondSize / 2, size.height - diamondSize)
-      ..lineTo(size.width, size.height - diamondSize / 2)
-      ..lineTo(size.width - diamondSize / 2, size.height)
-      ..lineTo(size.width - diamondSize, size.height - diamondSize / 2);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
   }
 }
 
